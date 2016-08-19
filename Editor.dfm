@@ -16,7 +16,7 @@ object MainEditor: TMainEditor
   TextHeight = 13
   object PageContainer: TPanel
     Left = 8
-    Top = 264
+    Top = 266
     Width = 745
     Height = 377
     Color = clWhite
@@ -30,7 +30,6 @@ object MainEditor: TMainEditor
     Height = 25
     Caption = 'Button1'
     TabOrder = 1
-    OnClick = Button1Click
   end
   object Menu: TMainMenu
     Left = 912

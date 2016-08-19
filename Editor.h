@@ -23,7 +23,6 @@ __published:	// Von der IDE verwaltete Komponenten
 	TPanel *PageContainer;
 	TButton *Button1;
 	void __fastcall Exit1Click(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
 private:	// Benutzer-Deklarationen
     void LoadPage();
 public:		// Benutzer-Deklarationen
