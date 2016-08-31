@@ -8,9 +8,9 @@
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
-	Header::Header(TPanel* parent)
+	Header::Header(TControl* parent)
 		: Element{parent}
-		, underline_{new TPanel}
+		, underline_{new TPanel(parent)}
 	{
 		control_->Left = 1;
 		control_->Color = clWhite;

@@ -131,6 +131,12 @@
         <None Include="..\SimpleUtil\value_ptr\value_ptr.hpp">
             <BuildOrder>16</BuildOrder>
         </None>
+        <CppCompile Include="About.cpp">
+            <Form>AboutForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>About.h</DependentOn>
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
         <CppCompile Include="controller.cpp">
             <DependentOn>controller.h</DependentOn>
             <BuildOrder>17</BuildOrder>
@@ -185,6 +191,7 @@
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <FormResources Include="Editor.dfm"/>
+        <FormResources Include="About.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

@@ -24,15 +24,18 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *SaveArticle1;
 	TMenuItem *N1;
 	TMenuItem *Exit1;
-	TPanel *PageContainer;
 	TMenuItem *Autosave1;
 	TMenuItem *SaveArticleAs1;
-	TRichEdit *TestHeader;
 	TButton *Button1;
 	TPanel *Line;
+	TMenuItem *Help1;
+	TMenuItem *About1;
+	TScrollBox *PageContainer;
+	TRichEdit *TestHeader;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall TestHeaderEnter(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall About1Click(TObject *Sender);
 private:	// Benutzer-Deklarationen
 	void LoadPage();
 

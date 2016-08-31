@@ -17,7 +17,7 @@ namespace WikiElements
 	class Header : public Element <Header, TRichEdit, WikiMarkup::Components::ExportableHeader>
 	{
 	public:
-		Header(TPanel* parent);
+		Header(TControl* parent);
 
 	private:
 		std::unique_ptr <TPanel> underline_;

@@ -16,10 +16,10 @@ namespace WikiElements
 	class Element : public BasicElement
 	{
 	public:
-		Element(TPanel* parent)
+		Element(TControl* parent)
 			: control_{new UnderlyingUiElement(parent)}
 		{
-			control_->Parent = parent;
+			//control_->Parent = parent;
 		}
 
 		void setStyle(std::string const& style)

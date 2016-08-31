@@ -7,7 +7,7 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-PageController::PageController(TPanel* viewport)
+PageController::PageController(TScrollBox* viewport)
 	: viewport_(viewport)
 {
 
