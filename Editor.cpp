@@ -4,7 +4,7 @@
 #pragma hdrstop
 
 #include "Editor.h"
-#include "component_export.hpp"
+//#include "component_export.hpp"
 
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -12,6 +12,7 @@ TMainEditor *MainEditor;
 //---------------------------------------------------------------------------
 __fastcall TMainEditor::TMainEditor(TComponent* Owner)
 	: TForm(Owner)
+	, controller_{PageContainer}
 {
 }
 //---------------------------------------------------------------------------
@@ -25,5 +26,19 @@ void TMainEditor::LoadPage()
 	ShowMessage("Test");
 }
 //---------------------------------------------------------------------------
+void __fastcall TMainEditor::TestHeaderEnter(TObject *Sender)
+{
+    // Enter
+}
+//---------------------------------------------------------------------------
 
+void __fastcall TMainEditor::Button1Click(TObject *Sender)
+{
+	/*TestEdit->OnClick = [](TObject* Sender) {
+		ShowMessage("Bam");
+	};
+	*/
+	controller_.test();
+}
+//---------------------------------------------------------------------------
 

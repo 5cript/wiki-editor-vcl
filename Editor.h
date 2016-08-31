@@ -10,6 +10,10 @@
 #include <Vcl.Menus.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Ribbon.hpp>
+#include <Vcl.RibbonLunaStyleActnCtrls.hpp>
+//---------------------------------------------------------------------------
+#include "controller.h"
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -21,10 +25,18 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *N1;
 	TMenuItem *Exit1;
 	TPanel *PageContainer;
+	TMenuItem *Autosave1;
+	TMenuItem *SaveArticleAs1;
+	TRichEdit *TestHeader;
 	TButton *Button1;
+	TPanel *Line;
 	void __fastcall Exit1Click(TObject *Sender);
+	void __fastcall TestHeaderEnter(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
 private:	// Benutzer-Deklarationen
-    void LoadPage();
+	void LoadPage();
+
+	PageController controller_;
 public:		// Benutzer-Deklarationen
 	__fastcall TMainEditor(TComponent* Owner);
 };
