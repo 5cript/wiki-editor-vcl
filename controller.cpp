@@ -17,6 +17,8 @@ void PageController::test()
 {
 	using namespace WikiElements;
 
-	elements_.push_back(std::unique_ptr <Header>(new Header(viewport_)));
+	auto* head = new Header(viewport_);
+	elements_.push_back(std::unique_ptr <Header>(head));
+    head->setStyle("a{}");
 }
 //---------------------------------------------------------------------------

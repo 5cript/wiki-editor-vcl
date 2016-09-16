@@ -8,7 +8,7 @@
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
-	Header::Header(TControl* parent)
+	Header::Header(ElementContainer* parent)
 		: Element{parent}
 		, underline_{new TPanel(parent)}
 	{
@@ -19,7 +19,11 @@ namespace WikiElements
 		control_->Top = 1;
 		control_->BorderStyle = bsNone;
 
-
 	}
+//---------------------------------------------------------------------------
+	void Header::styleChanged(WretchedCss::StyleSheet const& style)
+	{
+		int a = 0;
+    }
 //---------------------------------------------------------------------------
 }

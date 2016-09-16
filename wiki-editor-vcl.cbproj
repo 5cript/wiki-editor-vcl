@@ -43,9 +43,9 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <ILINK_AdditionalOptions>-lwiki-client-static</ILINK_AdditionalOptions>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <IncludePath>ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
+        <IncludePath>..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1031</VerInfo_Locale>
-        <ILINK_LibraryPath>ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib</AllPackageLibs>
@@ -122,6 +122,276 @@
         <None Include="..\dll\dll\load_function.hpp">
             <BuildOrder>99</BuildOrder>
         </None>
+        <None Include="..\SimpleJSON\parse\jsd.hpp">
+            <BuildOrder>76</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_array.hpp">
+            <BuildOrder>77</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_atomic.hpp">
+            <BuildOrder>78</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_check.hpp">
+            <BuildOrder>79</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_container.hpp">
+            <BuildOrder>80</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_convenience.hpp">
+            <BuildOrder>81</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_core.hpp">
+            <BuildOrder>82</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_enum.hpp">
+            <BuildOrder>147</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\parse\jsd_fundamental.cpp">
+            <BuildOrder>83</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\parse\jsd_fundamental.hpp">
+            <BuildOrder>84</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_fusion_adapted_struct.hpp">
+            <BuildOrder>85</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\parse\jsd_generic_parser.cpp">
+            <BuildOrder>86</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\parse\jsd_generic_parser.hpp">
+            <BuildOrder>87</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_map.hpp">
+            <BuildOrder>88</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_object.hpp">
+            <BuildOrder>89</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_optional.hpp">
+            <BuildOrder>90</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\parse\jsd_options.cpp">
+            <BuildOrder>91</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\parse\jsd_options.hpp">
+            <BuildOrder>92</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_pair.hpp">
+            <BuildOrder>93</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_renamed.hpp">
+            <BuildOrder>94</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_set.hpp">
+            <BuildOrder>95</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_shared_ptr.hpp">
+            <BuildOrder>96</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_smart_ptr.hpp">
+            <BuildOrder>97</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\parse\jsd_string.cpp">
+            <BuildOrder>98</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\parse\jsd_string.hpp">
+            <BuildOrder>99</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_unique_ptr.hpp">
+            <BuildOrder>100</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\parse\jsd_unordered_map.hpp">
+            <BuildOrder>101</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\container_traits.hpp">
+            <BuildOrder>23</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\integer_of_size.hpp">
+            <BuildOrder>24</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\iterator_traits.hpp">
+            <BuildOrder>25</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss.hpp">
+            <BuildOrder>26</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_array.hpp">
+            <BuildOrder>27</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_atomic.hpp">
+            <BuildOrder>28</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_bidirectional.hpp">
+            <BuildOrder>29</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_bitset.hpp">
+            <BuildOrder>30</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_check.hpp">
+            <BuildOrder>31</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_container.hpp">
+            <BuildOrder>32</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_convenience.hpp">
+            <BuildOrder>33</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_core.hpp">
+            <BuildOrder>34</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_deque.hpp">
+            <BuildOrder>35</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_enum.hpp">
+            <BuildOrder>146</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_error.cpp">
+            <BuildOrder>36</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_error.hpp">
+            <BuildOrder>37</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_extended.hpp">
+            <BuildOrder>38</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_forward.hpp">
+            <BuildOrder>39</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_forward_list.hpp">
+            <BuildOrder>40</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_fundamental.cpp">
+            <BuildOrder>41</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_fundamental.hpp">
+            <BuildOrder>42</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_fusion_adapted_struct.hpp">
+            <BuildOrder>43</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_fusion_vector.hpp">
+            <BuildOrder>44</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_iterator.hpp">
+            <BuildOrder>45</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_list.hpp">
+            <BuildOrder>46</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_map.hpp">
+            <BuildOrder>47</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_mutex.hpp">
+            <BuildOrder>48</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_object.cpp">
+            <BuildOrder>49</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_object.hpp">
+            <BuildOrder>50</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_optional.hpp">
+            <BuildOrder>51</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_options.cpp">
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_options.hpp">
+            <BuildOrder>53</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_pair.hpp">
+            <BuildOrder>54</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_pointer.cpp">
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_pointer.hpp">
+            <BuildOrder>56</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_queue.hpp">
+            <BuildOrder>57</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_random_access.hpp">
+            <BuildOrder>58</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_renamed.hpp">
+            <BuildOrder>59</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_set.hpp">
+            <BuildOrder>60</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_shared_ptr.hpp">
+            <BuildOrder>61</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_smart_ptr.hpp">
+            <BuildOrder>62</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_stack.hpp">
+            <BuildOrder>63</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_string.cpp">
+            <BuildOrder>64</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_string.hpp">
+            <BuildOrder>65</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_tuple.hpp">
+            <BuildOrder>66</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_undefine.hpp">
+            <BuildOrder>67</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_unique_ptr.hpp">
+            <BuildOrder>68</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_unordered_map.hpp">
+            <BuildOrder>69</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_valarray.hpp">
+            <BuildOrder>70</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_vector.hpp">
+            <BuildOrder>71</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\stringify\jss_void.cpp">
+            <BuildOrder>72</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\stringify\jss_void.hpp">
+            <BuildOrder>73</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\jss_weak_ptr.hpp">
+            <BuildOrder>74</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\stringify\map_commons.hpp">
+            <BuildOrder>75</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\utility\array.cpp">
+            <BuildOrder>110</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\utility\array.hpp">
+            <BuildOrder>111</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\utility\base64.cpp">
+            <BuildOrder>112</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\utility\base64.hpp">
+            <BuildOrder>113</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\utility\beauty_stream.cpp">
+            <BuildOrder>114</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\utility\beauty_stream.hpp">
+            <BuildOrder>115</BuildOrder>
+        </None>
+        <CppCompile Include="..\SimpleJSON\utility\object.cpp">
+            <BuildOrder>116</BuildOrder>
+        </CppCompile>
+        <None Include="..\SimpleJSON\utility\object.hpp">
+            <BuildOrder>117</BuildOrder>
+        </None>
+        <None Include="..\SimpleJSON\utility\tmp_util\type_of_size.hpp">
+            <BuildOrder>148</BuildOrder>
+        </None>
         <None Include="..\SimpleUtil\value_ptr\cloneable.hpp">
             <BuildOrder>14</BuildOrder>
         </None>
@@ -136,6 +406,10 @@
             <FormType>dfm</FormType>
             <DependentOn>About.h</DependentOn>
             <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="constants.cpp">
+            <DependentOn>constants.h</DependentOn>
+            <BuildOrder>150</BuildOrder>
         </CppCompile>
         <CppCompile Include="controller.cpp">
             <DependentOn>controller.h</DependentOn>
@@ -155,30 +429,10 @@
             <DependentOn>page.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
-        <None Include="stub\exportable_comment_stub.hpp">
-            <BuildOrder>6</BuildOrder>
-        </None>
-        <None Include="stub\exportable_header_stub.hpp">
-            <BuildOrder>8</BuildOrder>
-        </None>
-        <None Include="stub\exportable_horizontal_line_stub.hpp">
-            <BuildOrder>9</BuildOrder>
-        </None>
-        <None Include="stub\exportable_link_stub.hpp">
-            <BuildOrder>10</BuildOrder>
-        </None>
-        <None Include="stub\exportable_list_stub.hpp">
-            <BuildOrder>11</BuildOrder>
-        </None>
-        <None Include="stub\exportable_preformatted_text_stub.hpp">
-            <BuildOrder>12</BuildOrder>
-        </None>
-        <None Include="stub\exportable_table_stub.hpp">
-            <BuildOrder>13</BuildOrder>
-        </None>
-        <None Include="stub\exportable_text_stub.hpp">
-            <BuildOrder>14</BuildOrder>
-        </None>
+        <CppCompile Include="style_parser.cpp">
+            <DependentOn>style_parser.h</DependentOn>
+            <BuildOrder>149</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\element.cpp">
             <DependentOn>ui_elements\element.h</DependentOn>
             <BuildOrder>20</BuildOrder>
@@ -190,6 +444,141 @@
         <CppCompile Include="wiki-editor-vcl.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_comment.cpp">
+            <BuildOrder>102</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_comment.hpp">
+            <BuildOrder>14</BuildOrder>
+        </None>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_component.hpp">
+            <BuildOrder>15</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_header.cpp">
+            <BuildOrder>103</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_header.hpp">
+            <BuildOrder>16</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_horizontal_line.cpp">
+            <BuildOrder>104</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_horizontal_line.hpp">
+            <BuildOrder>17</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_link.cpp">
+            <BuildOrder>105</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_link.hpp">
+            <BuildOrder>18</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_list.cpp">
+            <BuildOrder>106</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_list.hpp">
+            <BuildOrder>19</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_preformatted_text.cpp">
+            <BuildOrder>107</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_preformatted_text.hpp">
+            <BuildOrder>20</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_table.cpp">
+            <BuildOrder>108</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_table.hpp">
+            <BuildOrder>21</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_text.cpp">
+            <BuildOrder>109</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_text.hpp">
+            <BuildOrder>22</BuildOrder>
+        </None>
+        <None Include="..\wretched-css\rule_set\rule\property\known_properties.hpp">
+            <BuildOrder>128</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\property.cpp">
+            <BuildOrder>129</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\property.hpp">
+            <BuildOrder>130</BuildOrder>
+        </None>
+        <None Include="..\wretched-css\rule_set\rule\property\value.hpp">
+            <BuildOrder>131</BuildOrder>
+        </None>
+        <None Include="..\wretched-css\rule_set\rule\property\valueifier.hpp">
+            <BuildOrder>132</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\value\color.cpp">
+            <BuildOrder>133</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\value\color.hpp">
+            <BuildOrder>134</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\value\dimensionless.cpp">
+            <BuildOrder>135</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\value\dimensionless.hpp">
+            <BuildOrder>136</BuildOrder>
+        </None>
+        <None Include="..\wretched-css\rule_set\rule\property\value\keyword.hpp">
+            <BuildOrder>137</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\value\numerical.cpp">
+            <BuildOrder>138</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\value\numerical.hpp">
+            <BuildOrder>139</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\value\point.cpp">
+            <BuildOrder>140</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\value\point.hpp">
+            <BuildOrder>141</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\value\string.cpp">
+            <BuildOrder>142</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\value\string.hpp">
+            <BuildOrder>143</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\property\value\url.cpp">
+            <BuildOrder>144</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\property\value\url.hpp">
+            <BuildOrder>145</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\rule.cpp">
+            <BuildOrder>124</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\rule.hpp">
+            <BuildOrder>125</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule\selector.cpp">
+            <BuildOrder>126</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule\selector.hpp">
+            <BuildOrder>127</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\rule_set\rule_set.cpp">
+            <BuildOrder>122</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\rule_set\rule_set.hpp">
+            <BuildOrder>123</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\style.cpp">
+            <BuildOrder>118</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\style.hpp">
+            <BuildOrder>119</BuildOrder>
+        </None>
+        <CppCompile Include="..\wretched-css\style_sheet.cpp">
+            <BuildOrder>120</BuildOrder>
+        </CppCompile>
+        <None Include="..\wretched-css\style_sheet.hpp">
+            <BuildOrder>121</BuildOrder>
+        </None>
         <FormResources Include="Editor.dfm"/>
         <FormResources Include="About.dfm"/>
         <BuildConfiguration Include="Release">
@@ -252,6 +641,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
+                <DeployFile LocalName=".\Win32\Debug\wiki-editor-vcl.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>wiki-editor-vcl.tds</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
@@ -294,12 +689,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -650,27 +1060,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
