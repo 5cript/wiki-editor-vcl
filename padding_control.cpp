@@ -1,8 +1,9 @@
 //---------------------------------------------------------------------------
-#pragma once
+
+#pragma hdrstop
+
+#include "padding_control.h"
 //---------------------------------------------------------------------------
-namespace WikiEditorConstants
-{
-	constexpr const wchar_t* const CssParserLibrary = L"wretched-css.dll";
-}
+
 //---------------------------------------------------------------------------
+#pragma package(smart_init)

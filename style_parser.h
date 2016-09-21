@@ -1,8 +1,11 @@
 //---------------------------------------------------------------------------
 #pragma once
 //---------------------------------------------------------------------------
+
 #include "dll/dll/library.hpp"
 #include "wretched-css/style_sheet.hpp"
+
+#include <cctype>
 
 /*
 DLL_DECLARE_INTERFACE
@@ -25,16 +28,19 @@ public:
 
 	std::string cssToJson(std::string const& css);
 	std::string jsonToCss(std::string const& json);
+    std::string selectorToJson(std::string const& selector);
 
 private:
 	WretchedCssLibrary();
 
+private:
+	LibraryLoader::Library library_;
+
+private:
 	std::function <void(char*)> free_buffer_;
 	std::function <void(const char*, char**)> css_to_json_;
 	std::function <void(const char*, char**)> json_to_css_;
-
-private:
-	LibraryLoader::Library library_;
+	std::function <int32_t(const char*, char**)> selector_to_json_;
 };
 //---------------------------------------------------------------------------
 class StyleParser
@@ -42,6 +48,7 @@ class StyleParser
 public:
 	StyleParser();
 
-	WretchedCss::StyleSheet parseStyleSheet(std::string const& style);
+	WretchedCss::StyleSheet parseStyleSheet(std::string const& style) const;
+	std::string parseSelector(std::string const& selector) const;
 };
 //---------------------------------------------------------------------------

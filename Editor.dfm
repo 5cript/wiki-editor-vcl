@@ -20,6 +20,12 @@ object MainEditor: TMainEditor
     Width = 75
     Height = 25
     Caption = 'Button1'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 0
     OnClick = Button1Click
   end
@@ -31,36 +37,14 @@ object MainEditor: TMainEditor
     Color = clWhite
     ParentColor = False
     TabOrder = 1
-    object TestHeader: TRichEdit
-      Left = 11
-      Top = 17
-      Width = 185
-      Height = 27
-      BevelEdges = []
-      BorderStyle = bsNone
-      Font.Charset = ANSI_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -15
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      Lines.Strings = (
-        'TestEdit')
-      ParentFont = False
-      TabOrder = 0
-      Zoom = 100
-      OnEnter = TestHeaderEnter
-    end
-    object Line: TPanel
-      Left = 11
-      Top = 43
-      Width = 609
-      Height = 1
-      BevelEdges = []
-      BevelOuter = bvNone
-      Color = clGray
-      ParentBackground = False
-      TabOrder = 1
-    end
+  end
+  object Edit1: TEdit
+    Left = 488
+    Top = 414
+    Width = 121
+    Height = 21
+    TabOrder = 2
+    Text = 'Edit1'
   end
   object Menu: TMainMenu
     Left = 912

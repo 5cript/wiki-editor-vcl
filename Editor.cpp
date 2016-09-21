@@ -15,6 +15,7 @@ __fastcall TMainEditor::TMainEditor(TComponent* Owner)
 	: TForm(Owner)
 	, controller_{PageContainer}
 {
+	controller_.addSection();
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::Exit1Click(TObject *Sender)
@@ -46,4 +47,5 @@ void __fastcall TMainEditor::About1Click(TObject *Sender)
 	AboutForm->ShowModal();
 }
 //---------------------------------------------------------------------------
+
 

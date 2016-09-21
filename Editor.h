@@ -27,11 +27,10 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *Autosave1;
 	TMenuItem *SaveArticleAs1;
 	TButton *Button1;
-	TPanel *Line;
 	TMenuItem *Help1;
 	TMenuItem *About1;
 	TScrollBox *PageContainer;
-	TRichEdit *TestHeader;
+	TEdit *Edit1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall TestHeaderEnter(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
