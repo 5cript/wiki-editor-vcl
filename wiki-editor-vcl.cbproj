@@ -467,6 +467,10 @@
             <DependentOn>ui_elements\header.h</DependentOn>
             <BuildOrder>19</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\text.cpp">
+            <DependentOn>ui_elements\text.h</DependentOn>
+            <BuildOrder>162</BuildOrder>
+        </CppCompile>
         <CppCompile Include="utilities.cpp">
             <BuildOrder>159</BuildOrder>
         </CppCompile>
