@@ -5,6 +5,7 @@ object MainEditor: TMainEditor
   ClientHeight = 466
   ClientWidth = 764
   Color = clBtnFace
+  DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -34,8 +35,10 @@ object MainEditor: TMainEditor
     Top = 8
     Width = 729
     Height = 400
+    DoubleBuffered = True
     Color = clWhite
     ParentColor = False
+    ParentDoubleBuffered = False
     TabOrder = 1
   end
   object Edit1: TEdit
@@ -45,6 +48,33 @@ object MainEditor: TMainEditor
     Height = 21
     TabOrder = 2
     Text = 'Edit1'
+  end
+  object RichEdit1: TRichEdit
+    Left = 240
+    Top = 424
+    Width = 185
+    Height = 89
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    Lines.Strings = (
+      'RichEdit1')
+    ParentFont = False
+    TabOrder = 3
+    Zoom = 100
+  end
+  object Panel1: TPanel
+    Left = 8
+    Top = 414
+    Width = 185
+    Height = 22
+    BevelOuter = bvNone
+    Caption = 'Panel1'
+    Color = clNavy
+    ParentBackground = False
+    TabOrder = 4
   end
   object Menu: TMainMenu
     Left = 912

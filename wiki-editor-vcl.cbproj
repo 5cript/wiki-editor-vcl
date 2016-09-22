@@ -436,6 +436,10 @@
             <DependentOn>forward_declarations.h</DependentOn>
             <BuildOrder>157</BuildOrder>
         </CppCompile>
+        <CppCompile Include="literals.cpp">
+            <DependentOn>literals.h</DependentOn>
+            <BuildOrder>164</BuildOrder>
+        </CppCompile>
         <PCHCompile Include="main.h">
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
@@ -456,16 +460,21 @@
         <None Include="section.h">
             <BuildOrder>158</BuildOrder>
         </None>
+        <CppCompile Include="style_applicator.cpp">
+            <DependentOn>style_applicator.h</DependentOn>
+            <BuildOrder>163</BuildOrder>
+        </CppCompile>
         <CppCompile Include="style_parser.cpp">
             <DependentOn>style_parser.h</DependentOn>
             <BuildOrder>149</BuildOrder>
         </CppCompile>
-        <DelphiCompile Include="SystemCppException.pas">
-            <BuildOrder>151</BuildOrder>
-        </DelphiCompile>
         <CppCompile Include="ui_elements\header.cpp">
             <DependentOn>ui_elements\header.h</DependentOn>
             <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="ui_elements\horizontal_line.cpp">
+            <DependentOn>ui_elements\horizontal_line.h</DependentOn>
+            <BuildOrder>164</BuildOrder>
         </CppCompile>
         <CppCompile Include="ui_elements\text.cpp">
             <DependentOn>ui_elements\text.h</DependentOn>
@@ -618,8 +627,8 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="Editor.dfm"/>
         <FormResources Include="About.dfm"/>
+        <FormResources Include="Editor.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -734,12 +743,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1090,27 +1114,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

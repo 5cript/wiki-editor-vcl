@@ -1,8 +1,7 @@
 //---------------------------------------------------------------------------
 #pragma once
 
-#include "element.h"
-#include "section.h"
+#include "../element.h"
 
 // Model / Data
 // #include "stub/exportable_header_stub.hpp"
@@ -27,6 +26,8 @@ namespace WikiElements
 		void setText(std::string const& text);
 		std::string const& getText() const;
 
+		void realignAfter(BasicElement* element) const override;
+
         BoundingBox getBoundingBox() const override;
 
 	protected:
@@ -34,10 +35,11 @@ namespace WikiElements
 
 	private:
 		void __fastcall onTextChange(TObject* Sender);
+		void __fastcall onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
 
 	private:
 		std::unique_ptr <TPanel> underline_;
-		Section* parentSection_;
+        unsigned int deleteCounter_;
 	};
 }
 //---------------------------------------------------------------------------

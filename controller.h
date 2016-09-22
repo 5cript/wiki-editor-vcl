@@ -17,6 +17,11 @@ public:
 
 	void test();
 
+	/**
+	 * 	Realigns all sections in order, which realign their elements.
+	 */
+	void realign();
+
 	void setStyle(std::string const& style);
 	void setStyle(boost::filesystem::path const& styleFile);
 	std::string getStyleString() const;

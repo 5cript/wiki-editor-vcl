@@ -4,13 +4,7 @@
 
 #include "header.h"
 
-#include "wretched-css/rule_set/rule/property/value/keyword.hpp"
-#include "wretched-css/rule_set/rule/property/value/numerical.hpp"
-#include "wretched-css/rule_set/rule/property/value/dimensionless.hpp"
-#include "wretched-css/rule_set/rule/property/value/string.hpp"
-#include "wretched-css/rule_set/rule/property/value/url.hpp"
-#include "wretched-css/rule_set/rule/property/value/point.hpp"
-#include "wretched-css/rule_set/rule/property/value/color.hpp"
+#include "style_applicator.h"
 
 #include <boost/lexical_cast.hpp>
 //---------------------------------------------------------------------------
@@ -19,9 +13,9 @@ namespace WikiElements
 {
 //---------------------------------------------------------------------------
 	Header::Header(ElementContainer* parent, Section* parentSection)
-		: Element{parent}
+		: Element{parent, parentSection}
 		, underline_{new TPanel(parent)}
-		, parentSection_{parentSection}
+		, deleteCounter_{0}
 	{
 		setText(data_.data);
 
@@ -33,7 +27,9 @@ namespace WikiElements
 		control_->Top = parentSection->getMostBottom() + sectionSplitPadding;
 		control_->BorderStyle = bsNone;
 		control_->OnChange = this->onTextChange;
+		control_->OnKeyUp = this->onKeyUp;
 
+		underline_->Top = control_->Top + control_->Height + 3;
 		underline_->Height = 1;
 		underline_->Left = leftSectionPadding;
 		underline_->Color = clGray;
@@ -45,7 +41,27 @@ namespace WikiElements
 	void __fastcall Header::onTextChange(TObject* Sender)
 	{
 		data_.data = UTF8String(control_->Text).c_str();
+	}
+//---------------------------------------------------------------------------
+	void __fastcall Header::onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
+	{
+		if (data_.data.empty() && (Key == vkBack || Key == vkDelete))
+		{
+			deleteCounter_++;
+			//if (deleteCounter_ > 2)
+			//	remove();
+		}
+		else if (!data_.data.empty())
+		{
+			deleteCounter_ = 0;
+        }
     }
+//---------------------------------------------------------------------------
+	void Header::realignAfter(BasicElement* element) const
+	{
+		Element::realignAfter(element);
+		underline_->Top = control_->Top + control_->Height + 3;
+	}
 //---------------------------------------------------------------------------
 	void Header::setLevel(int level)
 	{
@@ -64,42 +80,28 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	std::string const& Header::getText() const
 	{
-		return UTF8String(control_->Text).c_str();
+		return std::string{UTF8String(control_->Text).c_str()};
     }
 //---------------------------------------------------------------------------
 	void Header::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
 	{
-		std::string soughtSelector = ".header";
-		if (data_.level > 1)
-			soughtSelector += " h" + boost::lexical_cast <std::string> (data_.level);
-		auto maybeStyle = style.select(parser.parseSelector(soughtSelector));
-		if (maybeStyle)
-		{
-			auto rule = maybeStyle.get().getCombined();
+		auto hierarchy = StyleHierarchy{};
+		hierarchy << "body"
+				  << ".header"
+				  << ".header h"_s + boost::lexical_cast <std::string> (data_.level)
+		;
 
-			auto* property = rule["font-size"];
-			if (property != nullptr && !property->values.empty())
+		readStyles(
+			&*control_,
+			style,
+			hierarchy,
 			{
-            	// 1em default
-				unsigned int fontSize = /* style.getPxPerEm() */ 2;
-
-				auto* value = static_cast <WretchedCss::ValueTypes::NumericValue*> (property->values[0].get());
-				if (value->unit == WretchedCss::ValueTypes::Unit::em)
-					fontSize = style.getPxPerEm() * value->value;
-				else if (value->unit == WretchedCss::ValueTypes::Unit::px)
-					fontSize = value->value;
-
-				control_->Font->Size = fontSize;
-				control_->Height = fontSize + 5;
+				readFontStyles <control_type>,
+				readBackgroundStyles <control_type>
 			}
+		);
 
-			if ((property = rule["font-weight"]) != nullptr && !property->values.empty())
-			{
-				auto* value = static_cast <WretchedCss::ValueTypes::StringValue*> (property->values[0].get());
-				if (value->value == "bold")
-					control_->Font->Style = control_->Font->Style << fsBold;
-			}
-		}
+		control_->Height = control_->Font->Size + 5;
 
 		if (data_.level == 1 || data_.level == 2)
 		{

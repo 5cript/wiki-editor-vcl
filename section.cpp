@@ -4,6 +4,7 @@
 
 #include "section.h"
 #include "controller.h"
+#include "element.h"
 
 #include <algorithm>
 #include <limits>
@@ -38,6 +39,48 @@ BoundingBox Section::getBoundingBox() const
 	}
 
 	return overallBox;
+}
+//---------------------------------------------------------------------------
+void Section::realign()
+{
+	for (auto i = children_.begin(); i + 1 < children_.end(); ++i)
+	{
+		auto next = i + 1;
+        (*next)->realignAfter(i->get());
+    }
+}
+//---------------------------------------------------------------------------
+WikiElements::BasicElement* Section::getPredecessor(WikiElements::BasicElement* reference)
+{
+	auto child = findChild(reference);
+	if (child == std::end(children_) || child == std::begin(children_))
+		return nullptr;
+	else
+		return &*(*(child - 1));
+}
+//---------------------------------------------------------------------------
+WikiElements::BasicElement* Section::getSuccessor(WikiElements::BasicElement* reference)
+{
+	auto child = findChild(reference);
+	if (child == std::end(children_) || (child + 1) == std::end(children_))
+		return nullptr;
+	else
+		return &*(*(child + 1));
+}
+//---------------------------------------------------------------------------
+Section::children_list_type::iterator Section::findChild(WikiElements::BasicElement* element)
+{
+	children_list_type::iterator child = std::begin(children_);
+    for (; child != std::end(children_); ++child)
+		if (&*(*child) == element)
+			break;
+
+	return child;
+}
+//---------------------------------------------------------------------------
+void Section::causePageRealign()
+{
+    parent_->realign();
 }
 //---------------------------------------------------------------------------
 long Section::getMostBottom() const

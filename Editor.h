@@ -31,6 +31,8 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *About1;
 	TScrollBox *PageContainer;
 	TEdit *Edit1;
+	TRichEdit *RichEdit1;
+	TPanel *Panel1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall TestHeaderEnter(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);

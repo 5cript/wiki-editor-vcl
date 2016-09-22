@@ -1,6 +1,13 @@
 //---------------------------------------------------------------------------
 #pragma once
 
+// Include all necessary css stuff
+#include "wretched-css/style_sheet.hpp"
+
+#include <boost/optional.hpp>
+
+#include <string>
+
 struct BoundingBox
 {
 	long top;

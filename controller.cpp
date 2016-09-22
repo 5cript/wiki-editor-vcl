@@ -4,6 +4,8 @@
 
 #include "controller.h"
 #include "ui_elements/header.h"
+#include "ui_elements/text.h"
+#include "ui_elements/horizontal_line.h"
 
 #include <Vcl.Dialogs.hpp>
 
@@ -28,19 +30,35 @@ void PageController::test()
 {
 	using namespace WikiElements;
 
-	auto* head = sections_.back().addElement <Header>();
-	head->setLevel(rand() % 6 + 1);
-	head->setText("Test");
-
-	setStyle(boost::filesystem::path("D:/Development_IWS/wiki-project/wiki-vcl-css/header/header.css"));
+	setStyle(boost::filesystem::path("D:/Development_IWS/wiki-project/wiki-vcl-css/compiled.css"));
 
 	try
 	{
+		auto* head = sections_.back().addElement <Header>();
+		head->setLevel(rand() % 6 + 1);
+		head->setText("Test");
 		head->setStyle(style_);
+
+		auto* text = sections_.back().addElement <Text>();
+		text->setStyle(style_);
+
+		auto* hline = sections_.back().addElement <HorizontalLine>();
+        hline->setStyle(style_);
+
+		// finally
+		sections_.back().realign();
 	}
 	catch (std::exception const& exc)
 	{
         ShowMessage((std::string{"Error during css parsing process: "} + exc.what()).c_str());
+    }
+}
+//---------------------------------------------------------------------------
+void PageController::realign()
+{
+	for (auto& i : sections_)
+	{
+		i.realign();
     }
 }
 //---------------------------------------------------------------------------
