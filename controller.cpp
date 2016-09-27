@@ -30,10 +30,11 @@ void PageController::test()
 {
 	using namespace WikiElements;
 
-	setStyle(boost::filesystem::path("D:/Development_IWS/wiki-project/wiki-vcl-css/compiled.css"));
-
 	try
 	{
+		//setStyle(boost::filesystem::path("D:/Development_IWS/wiki-project/wiki-vcl-css/compiled.css"));
+		setStyle(boost::filesystem::path("../../../wiki-vcl-css/compiled.css"));
+
 		auto* head = sections_.back().addElement <Header>();
 		head->setLevel(rand() % 6 + 1);
 		head->setText("Test");
@@ -75,6 +76,9 @@ void PageController::setStyle(std::string const& style)
 void PageController::setStyle(boost::filesystem::path const& styleFile)
 {
 	std::ifstream reader(styleFile.string(), std::ios_base::binary);
+	if (!reader.good())
+		throw std::invalid_argument("style file not found");
+
 	style_.clear();
 	char buffer[4096];
 	do {

@@ -28,7 +28,8 @@ public:
 
 	std::string cssToJson(std::string const& css);
 	std::string jsonToCss(std::string const& json);
-    std::string selectorToJson(std::string const& selector);
+	std::string selectorToJson(std::string const& selector);
+	std::string getLastError();
 
 private:
 	WretchedCssLibrary();
@@ -41,6 +42,7 @@ private:
 	std::function <void(const char*, char**)> css_to_json_;
 	std::function <void(const char*, char**)> json_to_css_;
 	std::function <int32_t(const char*, char**)> selector_to_json_;
+	std::function <void(char**)> get_last_error_;
 };
 //---------------------------------------------------------------------------
 class StyleParser

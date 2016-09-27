@@ -2,8 +2,8 @@ object MainEditor: TMainEditor
   Left = 0
   Top = 0
   Caption = 'Media Wiki Editor 0.1'
-  ClientHeight = 466
-  ClientWidth = 764
+  ClientHeight = 617
+  ClientWidth = 1014
   Color = clBtnFace
   DoubleBuffered = True
   Font.Charset = DEFAULT_CHARSET
@@ -75,6 +75,26 @@ object MainEditor: TMainEditor
     Color = clNavy
     ParentBackground = False
     TabOrder = 4
+  end
+  object DrawGrid1: TDrawGrid
+    Left = 760
+    Top = 414
+    Width = 345
+    Height = 129
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goEditing]
+    TabOrder = 5
+    OnDrawCell = DrawGrid1DrawCell
+    OnGetEditMask = DrawGrid1GetEditMask
+    OnGetEditText = DrawGrid1GetEditText
+  end
+  object StringGrid1: TStringGrid
+    Left = 743
+    Top = 216
+    Width = 320
+    Height = 120
+    Color = clHighlight
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSizing, goEditing]
+    TabOrder = 6
   end
   object Menu: TMainMenu
     Left = 912

@@ -50,4 +50,24 @@ void __fastcall TMainEditor::About1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
+void __fastcall TMainEditor::DrawGrid1GetEditMask(TObject *Sender, int ACol, int ARow,
+          UnicodeString &Value)
+{
+	Value = L"Hello";
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainEditor::DrawGrid1GetEditText(TObject *Sender, int ACol, int ARow,
+          UnicodeString &Value)
+{
+    Value = L"Such Wow";
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainEditor::DrawGrid1DrawCell(TObject *Sender, int ACol, int ARow,
+          TRect &Rect, TGridDrawState State)
+{
+    // ...
+}
+//---------------------------------------------------------------------------
 

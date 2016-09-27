@@ -14,6 +14,7 @@
 #include <Vcl.RibbonLunaStyleActnCtrls.hpp>
 //---------------------------------------------------------------------------
 #include "controller.h"
+#include <Vcl.Grids.hpp>
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -33,10 +34,18 @@ __published:	// Von der IDE verwaltete Komponenten
 	TEdit *Edit1;
 	TRichEdit *RichEdit1;
 	TPanel *Panel1;
+	TDrawGrid *DrawGrid1;
+	TStringGrid *StringGrid1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall TestHeaderEnter(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
+	void __fastcall DrawGrid1GetEditMask(TObject *Sender, int ACol, int ARow, UnicodeString &Value);
+	void __fastcall DrawGrid1GetEditText(TObject *Sender, int ACol, int ARow, UnicodeString &Value);
+	void __fastcall DrawGrid1DrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
+          TGridDrawState State);
+
+
 private:	// Benutzer-Deklarationen
 	void LoadPage();
 

@@ -476,6 +476,10 @@
             <DependentOn>ui_elements\horizontal_line.h</DependentOn>
             <BuildOrder>164</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\table.cpp">
+            <DependentOn>ui_elements\table.h</DependentOn>
+            <BuildOrder>165</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\text.cpp">
             <DependentOn>ui_elements\text.h</DependentOn>
             <BuildOrder>162</BuildOrder>
@@ -627,8 +631,8 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="About.dfm"/>
         <FormResources Include="Editor.dfm"/>
+        <FormResources Include="About.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

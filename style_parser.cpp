@@ -12,6 +12,7 @@ WretchedCssLibrary::WretchedCssLibrary()
 	, css_to_json_{library_.get <void(const char*, char**)>("css_to_json")}
 	, json_to_css_{library_.get <void(const char*, char**)>("json_to_css")}
 	, selector_to_json_{library_.get <int32_t(const char*, char**)>("selector_to_json")}
+	, get_last_error_{library_.get <void(char**)>("get_last_error")}
 {
 /*
 	library_.loadSymbols();
@@ -23,10 +24,28 @@ WretchedCssLibrary::WretchedCssLibrary()
 */
 }
 //---------------------------------------------------------------------------
+std::string WretchedCssLibrary::getLastError()
+{
+	char* buffer;
+	get_last_error_(&buffer);
+	if (buffer != nullptr)
+	{
+		std::string error = {buffer};
+		free_buffer_(buffer);
+		return error;
+	}
+	return {};
+}
+//---------------------------------------------------------------------------
 std::string WretchedCssLibrary::cssToJson(std::string const& css)
 {
 	char* buffer;
 	css_to_json_(css.c_str(), &buffer);
+	if (buffer == nullptr)
+	{
+		throw std::invalid_argument (std::string{"style could not be parsed: "} + getLastError());
+	}
+
 	std::string json = {buffer}; // noexcept, or bad_alloc
 	free_buffer_(buffer);
 
@@ -37,6 +56,9 @@ std::string WretchedCssLibrary::jsonToCss(std::string const& json)
 {
 	char* buffer;
 	json_to_css_(json.c_str(), &buffer);
+	if (buffer == nullptr)
+		throw std::invalid_argument (std::string{"style could not be parsed: "} + getLastError());
+
 	std::string css = {buffer}; // noexcept, or bad_alloc
 	free_buffer_(buffer);
 
@@ -47,6 +69,9 @@ std::string WretchedCssLibrary::selectorToJson(std::string const& selector)
 {
 	char* buffer;
 	selector_to_json_(selector.c_str(), &buffer);
+	if (buffer == nullptr)
+		throw std::invalid_argument (std::string{"style could not be parsed: "} + getLastError());
+
     std::string selectorJson = {buffer};
 	free_buffer_(buffer);
 
@@ -59,7 +84,7 @@ StyleParser::StyleParser()
 //---------------------------------------------------------------------------
 WretchedCss::StyleSheet StyleParser::parseStyleSheet(std::string const& style) const
 {
-    auto json = WretchedCssLibrary::getInstance().cssToJson(style);
+	auto json = WretchedCssLibrary::getInstance().cssToJson(style);
 
 	WretchedCss::RuleSet rules;
 	try
