@@ -48,7 +48,7 @@
         <ILINK_LibraryPath>..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;VirtualTreesR.lib;NiceGridXE.lib;xmlrtl.lib</AllPackageLibs>
         <ProjectType>CppVCLApplication</ProjectType>
         <SanitizedProjectName>wiki-editor-vcl</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
@@ -96,13 +96,13 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <LinkPackageStatics>vclribbon.lib</LinkPackageStatics>
+        <LinkPackageStatics>vclribbon.lib;VirtualTreesR.lib;NiceGridXE.lib</LinkPackageStatics>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -476,6 +476,10 @@
             <DependentOn>ui_elements\horizontal_line.h</DependentOn>
             <BuildOrder>164</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\spacer.cpp">
+            <DependentOn>ui_elements\spacer.h</DependentOn>
+            <BuildOrder>167</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\table.cpp">
             <DependentOn>ui_elements\table.h</DependentOn>
             <BuildOrder>165</BuildOrder>
@@ -747,27 +751,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1118,12 +1107,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

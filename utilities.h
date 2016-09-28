@@ -21,6 +21,9 @@ struct BoundingBox
 		, right{right}
 		, bottom{bottom}
 	{
-    }
+	}
+
+	long height() const { return bottom - top; }
+	long width() const { return right - left; }
 };
 //---------------------------------------------------------------------------

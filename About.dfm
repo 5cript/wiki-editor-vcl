@@ -3,7 +3,7 @@ object AboutForm: TAboutForm
   Top = 0
   Caption = 'About'
   ClientHeight = 542
-  ClientWidth = 506
+  ClientWidth = 504
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -106,6 +106,7 @@ object AboutForm: TAboutForm
       'wiki-vcl-css')
     ParentFont = False
     ReadOnly = True
+    ScrollBars = ssVertical
     TabOrder = 1
     Zoom = 100
   end

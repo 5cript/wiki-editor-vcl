@@ -20,6 +20,9 @@ namespace WikiElements
 
 		virtual BoundingBox getBoundingBox() const = 0;
 		virtual void realignAfter(BasicElement* element) const = 0;
+		virtual void realignAfter(int position) const = 0;
+		virtual void moveDown(int pixels) = 0;
+		virtual void moveUp(int pixels) = 0;
 	};
 
 	using ElementContainer = TScrollBox;
@@ -39,6 +42,7 @@ namespace WikiElements
 			, data_{}
 		{
 			control_->Parent = parent;
+			control_->OnDragOver = onDragOver;
 		}
 
 		void setStyle(std::string const& style)
@@ -50,6 +54,11 @@ namespace WikiElements
 		void realignAfter(BasicElement* element) const override
 		{
 			control_->Top = element->getBoundingBox().bottom + sectionSplitPadding;
+		}
+
+		void realignAfter(int position) const override
+		{
+			control_->Top = position + sectionSplitPadding;
 		}
 
 		void remove()
@@ -67,6 +76,16 @@ namespace WikiElements
 			};
 		}
 
+		virtual void moveDown(int pixels)
+		{
+			control_->Top += pixels;
+		}
+
+		virtual void moveUp(int pixels)
+		{
+			control_->Top -= pixels;
+		}
+
 	protected:
 		DataElement* getDataHandle()
 		{
@@ -74,6 +93,11 @@ namespace WikiElements
 		}
 
 		virtual void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) = 0;
+
+		void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept)
+		{
+			parentSection_->onDragOver(Sender, Source, X + control_->Left,Y + control_->Top, State, Accept);
+        }
 
     protected:
 		Section* parentSection_;

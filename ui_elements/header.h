@@ -8,7 +8,7 @@
 #include "wiki-markup/components/exportable_components/exportable_header.hpp"
 
 // View
-#include <Vcl.ComCtrls.hpp> // TRichEdit
+#include <Vcl.ComCtrls.hpp>
 
 // STL
 #include <memory>
@@ -27,6 +27,7 @@ namespace WikiElements
 		std::string const& getText() const;
 
 		void realignAfter(BasicElement* element) const override;
+		void realignAfter(int position) const override;
 
         BoundingBox getBoundingBox() const override;
 

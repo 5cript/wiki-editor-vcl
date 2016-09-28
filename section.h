@@ -31,7 +31,7 @@ public:
 	/**
 	 * 	Realigns all elements in this section
 	 */
-	void realign();
+	void realign(long previousSectionEnd = 0);
 
 	/**
 	 *  Calls parent_->realign();
@@ -84,7 +84,31 @@ public:
 	 */
 	WikiElements::BasicElement* getSuccessor(WikiElements::BasicElement* reference);
 
+	/**
+	 *  Are the coordinates within this section?
+	 */
+	bool isWithin(int x, int y) const;
+
+	/**
+	 *	Determine where the drop will end up and create an indicator there.
+	 */
+	BoundingBox placeDropIndicator(int x, int y);
+
+	/**
+	 *	Spaces out elements for drop.
+	 */
+	void makeSpaceForDrop();
+
+	/**
+	 *	Returns a pair of elements which will enclose the indicator.
+	 */
+	std::pair <WikiElements::BasicElement*,
+			   WikiElements::BasicElement*> getDropEnclosingElements(int x, int y);
+
 	TScrollBox* getViewport() const;
+
+public:
+    void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 
 private:
 	children_list_type::iterator findChild(WikiElements::BasicElement* element);

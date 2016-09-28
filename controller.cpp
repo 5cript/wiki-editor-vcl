@@ -6,6 +6,7 @@
 #include "ui_elements/header.h"
 #include "ui_elements/text.h"
 #include "ui_elements/horizontal_line.h"
+#include "ui_elements/table.h"
 
 #include <Vcl.Dialogs.hpp>
 
@@ -16,6 +17,7 @@
 
 PageController::PageController(TScrollBox* viewport)
 	: viewport_(viewport)
+	, dropTarget_{new TPanel{viewport_}}
 	, sections_{}
 	, style_{}
 {
@@ -44,7 +46,10 @@ void PageController::test()
 		text->setStyle(style_);
 
 		auto* hline = sections_.back().addElement <HorizontalLine>();
-        hline->setStyle(style_);
+		hline->setStyle(style_);
+
+		auto* table = sections_.back().addElement <Table>();
+        table->setStyle(style_);
 
 		// finally
 		sections_.back().realign();
@@ -55,11 +60,83 @@ void PageController::test()
     }
 }
 //---------------------------------------------------------------------------
-void PageController::realign()
+void PageController::initializeViewport()
+{
+	dropTarget_->Height = 10;
+	dropTarget_->BorderStyle = bsSingle;
+	dropTarget_->ParentBackground = false;
+	dropTarget_->BevelOuter = bvNone;
+	dropTarget_->Color = TColor(0x00EEEE);
+	dropTarget_->Visible = false;
+	dropTarget_->Parent = viewport_;
+	dropTarget_->Left = leftSectionPadding;
+	dropTarget_->Top = 0;
+	dropTarget_->Width = viewport_->Width - leftSectionPadding;
+    dropTarget_->OnDragOver = DropIndicatorDragOver;
+}
+//---------------------------------------------------------------------------
+void PageController::startDragDrop()
+{
+	for (auto& section : sections_)
+	{
+		section.realign();
+        section.makeSpaceForDrop();
+    }
+}
+//---------------------------------------------------------------------------
+void __fastcall PageController::DropIndicatorDragOver(
+	TObject *Sender,
+	TObject *Source,
+	int X,
+	int Y,
+	TDragState State,
+	bool &Accept
+)
+{
+	Accept = true;
+}
+//---------------------------------------------------------------------------
+void PageController::renderDropTarget(int x, int y)
+{
+	dropTarget_->Visible = true;
+	auto* section = getSectionUnder(x, y);
+	if (sections_.empty() || !section)
+	{
+		dropTarget_->Top = y;
+		dropTarget_->Color = TColor(0x00EEEE);
+	}
+	else
+	{
+		auto box = section->placeDropIndicator(x, y);
+		dropTarget_->Top = box.top;
+		dropTarget_->Color = TColor(0x00EE00);
+    }
+}
+//---------------------------------------------------------------------------
+void PageController::endDragDrop()
+{
+	dropTarget_->Visible = false;
+	realign();
+}
+//---------------------------------------------------------------------------
+Section* PageController::getSectionUnder(int x, int y)
 {
 	for (auto& i : sections_)
 	{
-		i.realign();
+		if (i.isWithin(x, y))
+			return &i;
+	}
+	return nullptr;
+}
+//---------------------------------------------------------------------------
+void PageController::realign()
+{
+	if (!sections_.empty())
+        sections_.front().realign(generalTopPadding);
+
+	for (auto i = std::begin(sections_) + 1; i < std::end(sections_); ++i)
+	{
+		i->realign((i-1)->getBoundingBox().bottom);
     }
 }
 //---------------------------------------------------------------------------

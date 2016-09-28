@@ -63,6 +63,12 @@ namespace WikiElements
 		underline_->Top = control_->Top + control_->Height + 3;
 	}
 //---------------------------------------------------------------------------
+	void Header::realignAfter(int position) const
+	{
+		Element::realignAfter(position);
+		underline_->Top = control_->Top + control_->Height + 3;
+	}
+//---------------------------------------------------------------------------
 	void Header::setLevel(int level)
 	{
         data_.level = level;

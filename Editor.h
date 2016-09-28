@@ -15,6 +15,10 @@
 //---------------------------------------------------------------------------
 #include "controller.h"
 #include <Vcl.Grids.hpp>
+#include "VirtualTrees.hpp"
+#include "NiceGrid.hpp"
+#include <Vcl.Buttons.hpp>
+#include <Vcl.Imaging.jpeg.hpp>
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -27,24 +31,26 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *Exit1;
 	TMenuItem *Autosave1;
 	TMenuItem *SaveArticleAs1;
-	TButton *Button1;
 	TMenuItem *Help1;
 	TMenuItem *About1;
+	TButton *Button1;
+	TGridPanel *EditorGrid;
 	TScrollBox *PageContainer;
-	TEdit *Edit1;
-	TRichEdit *RichEdit1;
 	TPanel *Panel1;
-	TDrawGrid *DrawGrid1;
-	TStringGrid *StringGrid1;
+	TCategoryPanelGroup *CategoryPanelGroup1;
+	TCategoryPanel *CategoryPanel1;
+	TImage *Penguins;
+	TLabel *Label1;
 	void __fastcall Exit1Click(TObject *Sender);
-	void __fastcall TestHeaderEnter(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
-	void __fastcall DrawGrid1GetEditMask(TObject *Sender, int ACol, int ARow, UnicodeString &Value);
-	void __fastcall DrawGrid1GetEditText(TObject *Sender, int ACol, int ARow, UnicodeString &Value);
-	void __fastcall DrawGrid1DrawCell(TObject *Sender, int ACol, int ARow, TRect &Rect,
-          TGridDrawState State);
-
+	void __fastcall FormResize(TObject *Sender);
+	void __fastcall PageContainerDragDrop(TObject *Sender, TObject *Source, int X, int Y);
+	void __fastcall PageContainerDragOver(TObject *Sender, TObject *Source, int X, int Y,
+		  TDragState State, bool &Accept);
+	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y);
+	void __fastcall ElementStartDrag(TObject *Sender, TDragObject *&DragObject);
 
 private:	// Benutzer-Deklarationen
 	void LoadPage();
