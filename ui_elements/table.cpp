@@ -13,9 +13,11 @@
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
-	Table::Table(ElementContainer* parent, Section* parentSection)
-		: Element{parent, parentSection}
+	Table::Table(Section* parentSection)
+		: Element{parentSection}
 	{
+    	auto* parent = parentSection->getLayout()->getControl();
+
 		control_->Left = leftSectionPadding;
 		// control_->Color = clWhite;
 		control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;

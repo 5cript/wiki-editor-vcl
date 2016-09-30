@@ -18,7 +18,7 @@ namespace WikiElements
 	class Header : public Element <Header, TEdit, WikiMarkup::Components::ExportableHeader>
 	{
 	public:
-		Header(ElementContainer* parent, Section* parentSection);
+		Header(Section* parentSection);
 
 		void setLevel(int level);
 		int getLevel() const;

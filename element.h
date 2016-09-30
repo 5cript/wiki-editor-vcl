@@ -4,10 +4,12 @@
 #include <memory>
 #include <Vcl.ExtCtrls.hpp>
 
-#include "../section.h"
-#include "../padding_control.h"
-#include "../utilities.h"
-#include "../style_parser.h"
+#include "section.h"
+#include "padding_control.h"
+#include "utilities.h"
+#include "style_parser.h"
+#include "viewport.h"
+#include "layout.h"
 
 #include "wretched-css/style_sheet.hpp"
 //---------------------------------------------------------------------------
@@ -23,9 +25,9 @@ namespace WikiElements
 		virtual void realignAfter(int position) const = 0;
 		virtual void moveDown(int pixels) = 0;
 		virtual void moveUp(int pixels) = 0;
+		virtual long getHeight() const = 0;
+		virtual long getWidth() const = 0;
 	};
-
-	using ElementContainer = TScrollBox;
 
 	template <typename Derivative, typename UnderlyingUiElement, typename DataElement>
 	class Element : public BasicElement
@@ -36,12 +38,14 @@ namespace WikiElements
 		using this_type = Derivative;
 
 	public:
-		Element(ElementContainer* parent, Section* parentSection)
+		Element(Section* parentSection)
 			: parentSection_{parentSection}
-			, control_{new UnderlyingUiElement(parent)}
+			, control_{new UnderlyingUiElement(parentSection->getLayout()->getControl())}
 			, data_{}
 		{
-			control_->Parent = parent;
+			control_->Parent = parentSection->getLayout()->getControl();
+			control_->AlignWithMargins = true;
+			control_->Align = alTop;
 			control_->OnDragOver = onDragOver;
 		}
 
@@ -59,6 +63,16 @@ namespace WikiElements
 		void realignAfter(int position) const override
 		{
 			control_->Top = position + sectionSplitPadding;
+		}
+
+		long getHeight() const
+		{
+			return control_->Height;
+		}
+
+		long getWidth() const
+		{
+			return control_->Width;
 		}
 
 		void remove()
@@ -85,6 +99,11 @@ namespace WikiElements
 		{
 			control_->Top -= pixels;
 		}
+
+		UnderlyingUiElement* getControl()
+		{
+            return &*control_;
+        }
 
 	protected:
 		DataElement* getDataHandle()

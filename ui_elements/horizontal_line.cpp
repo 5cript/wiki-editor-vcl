@@ -10,20 +10,22 @@
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
-	HorizontalLine::HorizontalLine(ElementContainer* parent, Section* parentSection)
-		: Element{parent, parentSection}
+	HorizontalLine::HorizontalLine(Section* parentSection)
+		: Element{parentSection}
 	{
-		control_->Top = parentSection->getMostBottom() + sectionSplitPadding;
-		control_->Height = 1;
-		control_->Left = leftSectionPadding;
+    	auto* parent = parentSection->getLayout()->getControl();
+
+		// Style
 		control_->ParentBackground = false;
 		control_->Color = clGray;
-        control_->Font->Color = clRed;
-		control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
-		control_->Parent = parent;
 		control_->BorderStyle = bsNone;
 		control_->BevelOuter = bvNone;
-		control_->Repaint();
+
+		// Positioning and Size
+		//control_->Top = parentSection->getMostBottom() + sectionSplitPadding;
+		//control_->Left = leftSectionPadding;
+		control_->Height = 1;
+		//control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
 	}
 //---------------------------------------------------------------------------
 	void HorizontalLine::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)

@@ -7,6 +7,7 @@
 #include "ui_elements/text.h"
 #include "ui_elements/horizontal_line.h"
 #include "ui_elements/table.h"
+#include "ui_elements/drop_target.h"
 
 #include <Vcl.Dialogs.hpp>
 
@@ -15,9 +16,9 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
-PageController::PageController(TScrollBox* viewport)
+PageController::PageController(ViewportContainer* viewport)
 	: viewport_(viewport)
-	, dropTarget_{new TPanel{viewport_}}
+	//, dropTarget_{new TPanel{viewport_}}
 	, sections_{}
 	, style_{}
 {
@@ -38,7 +39,8 @@ void PageController::test()
 		setStyle(boost::filesystem::path("../../../wiki-vcl-css/compiled.css"));
 
 		auto* head = sections_.back().addElement <Header>();
-		head->setLevel(rand() % 6 + 1);
+		//head->setLevel(rand() % 6 + 1);
+		head->setLevel(1);
 		head->setText("Test");
 		head->setStyle(style_);
 
@@ -48,11 +50,15 @@ void PageController::test()
 		auto* hline = sections_.back().addElement <HorizontalLine>();
 		hline->setStyle(style_);
 
+
+		auto* text2 = sections_.back().addElement <Text>();
+		text2->setStyle(style_);
+
 		auto* table = sections_.back().addElement <Table>();
-        table->setStyle(style_);
+		table->setStyle(style_);
 
 		// finally
-		sections_.back().realign();
+		realign();
 	}
 	catch (std::exception const& exc)
 	{
@@ -62,6 +68,7 @@ void PageController::test()
 //---------------------------------------------------------------------------
 void PageController::initializeViewport()
 {
+	/*
 	dropTarget_->Height = 10;
 	dropTarget_->BorderStyle = bsSingle;
 	dropTarget_->ParentBackground = false;
@@ -72,7 +79,8 @@ void PageController::initializeViewport()
 	dropTarget_->Left = leftSectionPadding;
 	dropTarget_->Top = 0;
 	dropTarget_->Width = viewport_->Width - leftSectionPadding;
-    dropTarget_->OnDragOver = DropIndicatorDragOver;
+	dropTarget_->OnDragOver = DropIndicatorDragOver;
+	*/
 }
 //---------------------------------------------------------------------------
 void PageController::startDragDrop()
@@ -80,7 +88,6 @@ void PageController::startDragDrop()
 	for (auto& section : sections_)
 	{
 		section.realign();
-        section.makeSpaceForDrop();
     }
 }
 //---------------------------------------------------------------------------
@@ -98,6 +105,7 @@ void __fastcall PageController::DropIndicatorDragOver(
 //---------------------------------------------------------------------------
 void PageController::renderDropTarget(int x, int y)
 {
+	/*
 	dropTarget_->Visible = true;
 	auto* section = getSectionUnder(x, y);
 	if (sections_.empty() || !section)
@@ -110,37 +118,49 @@ void PageController::renderDropTarget(int x, int y)
 		auto box = section->placeDropIndicator(x, y);
 		dropTarget_->Top = box.top;
 		dropTarget_->Color = TColor(0x00EE00);
-    }
+	}
+	*/
 }
 //---------------------------------------------------------------------------
 void PageController::endDragDrop()
 {
-	dropTarget_->Visible = false;
+	//dropTarget_->Visible = false;
 	realign();
 }
 //---------------------------------------------------------------------------
 Section* PageController::getSectionUnder(int x, int y)
 {
+	/*
 	for (auto& i : sections_)
 	{
 		if (i.isWithin(x, y))
 			return &i;
 	}
+	*/
 	return nullptr;
 }
 //---------------------------------------------------------------------------
 void PageController::realign()
 {
+	int totalHeight = 0;
+
 	if (!sections_.empty())
-        sections_.front().realign(generalTopPadding);
+	{
+		sections_.front().realign(generalTopPadding);
+		totalHeight += sections_.front().getAccumulativeHeight();
+	}
 
 	for (auto i = std::begin(sections_) + 1; i < std::end(sections_); ++i)
 	{
 		i->realign((i-1)->getBoundingBox().bottom);
-    }
+		totalHeight += i->getAccumulativeHeight();
+	}
+
+	viewport_->Height = totalHeight + 10;
+	viewport_->Realign();
 }
 //---------------------------------------------------------------------------
-TScrollBox* PageController::getViewport() const
+ViewportContainer* PageController::getViewport() const
 {
 	return viewport_;
 }

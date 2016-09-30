@@ -38,12 +38,15 @@ object MainEditor: TMainEditor
       end
       item
         Column = 1
-        Control = Panel1
+        Control = PropertyView
         Row = 0
       end>
     RowCollection = <
       item
         Value = 100.000000000000000000
+      end
+      item
+        SizeStyle = ssAuto
       end>
     TabOrder = 0
     object PageContainer: TScrollBox
@@ -58,21 +61,36 @@ object MainEditor: TMainEditor
       ParentColor = False
       ParentDoubleBuffered = False
       TabOrder = 0
-      OnDragDrop = PageContainerDragDrop
-      OnDragOver = PageContainerDragOver
-      ExplicitLeft = 0
+      object Viewport: TGridPanel
+        Left = 0
+        Top = 0
+        Width = 300
+        Height = 339
+        ColumnCollection = <
+          item
+            Value = 100.000000000000000000
+          end>
+        ControlCollection = <>
+        RowCollection = <
+          item
+            SizeStyle = ssAuto
+            Value = 100.000000000000000000
+          end>
+        TabOrder = 0
+        VerticalAlignment = taAlignTop
+        OnDragOver = ViewportDragOver
+      end
     end
-    object Panel1: TPanel
+    object PropertyView: TPanel
       Left = 481
       Top = 1
       Width = 265
       Height = 629
       Align = alClient
-      Caption = 'Panel1'
       TabOrder = 1
-      ExplicitLeft = 613
-      ExplicitTop = 59
-      ExplicitHeight = 454
+      DesignSize = (
+        265
+        629)
       object Label1: TLabel
         Left = 18
         Top = 22
@@ -89,6 +107,25 @@ object MainEditor: TMainEditor
         TabOrder = 0
         OnClick = Button1Click
       end
+      object Button2: TButton
+        Left = 6
+        Top = 72
+        Width = 75
+        Height = 25
+        Caption = 'Button2'
+        TabOrder = 1
+        OnClick = Button2Click
+      end
+      object Button3: TButton
+        Left = 6
+        Top = 103
+        Width = 75
+        Height = 25
+        Anchors = []
+        Caption = 'Button3'
+        TabOrder = 2
+        OnClick = Button3Click
+      end
     end
   end
   object CategoryPanelGroup1: TCategoryPanelGroup
@@ -102,8 +139,6 @@ object MainEditor: TMainEditor
     HeaderFont.Name = 'Tahoma'
     HeaderFont.Style = []
     TabOrder = 1
-    ExplicitLeft = 8
-    ExplicitTop = 8
     object CategoryPanel1: TCategoryPanel
       Top = 0
       Caption = '$UiElements'

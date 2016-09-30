@@ -4,6 +4,7 @@
 
 #include "section.h"
 #include "element.h"
+#include "viewport.h"
 
 #include <vector>
 #include <boost/filesystem.hpp>
@@ -11,7 +12,7 @@
 class PageController
 {
 public:
-	PageController(TScrollBox* viewport);
+	PageController(ViewportContainer* viewport);
 
 	/**
 	 *	The controller can be created before the viewport.
@@ -33,6 +34,8 @@ public:
 	 */
 	void renderDropTarget(int x, int y);
 
+	Section* getSectionUnder(int x, int y);
+
 	/**
 	 *  Starts drag and drop mechanism
 	 */
@@ -47,18 +50,13 @@ public:
 	void setStyle(boost::filesystem::path const& styleFile);
 	std::string getStyleString() const;
 
-	TScrollBox* getViewport() const;
+	ViewportContainer* getViewport() const;
 
 private: // vcl events
 	void __fastcall DropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 
 private:
-	Section* getSectionUnder(int x, int y);
-
-
-private:
-	TScrollBox* viewport_;
-	std::unique_ptr <TPanel> dropTarget_;
+	ViewportContainer* viewport_;
 	std::vector <Section> sections_;
 	std::string style_;
 };

@@ -9,10 +9,12 @@
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
-	Text::Text(ElementContainer* parent, Section* parentSection)
-		: Element{parent, parentSection}
+	Text::Text(Section* parentSection)
+		: Element{parentSection}
 		, deleteCounter_{0}
 	{
+    	auto* parent = parentSection->getLayout()->getControl();
+
 		// setText(data_.data);
 
 		// control_->Font->Name = "Courier";
@@ -25,6 +27,7 @@ namespace WikiElements
 		control_->OnChange = this->onTextChange;
 		control_->OnKeyUp = this->onKeyUp;
 		control_->ScrollBars = ssNone;
+        control_->WantTabs = true;
 	}
 //---------------------------------------------------------------------------
 	void Text::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
@@ -53,9 +56,11 @@ namespace WikiElements
 		control_->Height = (control_->Lines->Count + 1) * (control_->Font->Size + 5);
 
 		if (previousHeight != control_->Height)
+		{
 			parentSection_->causePageRealign();
+		}
 
-        data_.data = UTF8String(control_->Text).c_str();;
+        data_.data = UTF8String(control_->Text).c_str();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Text::onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)

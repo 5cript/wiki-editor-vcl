@@ -18,7 +18,7 @@ namespace WikiElements
 	class HorizontalLine : public Element <HorizontalLine, TPanel, WikiMarkup::Components::ExportableHorizontalLine>
 	{
 	public:
-		HorizontalLine(ElementContainer* parent, Section* parentSection);
+		HorizontalLine(Section* parentSection);
 
 	protected:
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);

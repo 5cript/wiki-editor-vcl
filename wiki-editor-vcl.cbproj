@@ -436,6 +436,16 @@
             <DependentOn>forward_declarations.h</DependentOn>
             <BuildOrder>157</BuildOrder>
         </CppCompile>
+        <CppCompile Include="layout.cpp">
+            <DependentOn>layout.h</DependentOn>
+            <BuildOrder>167</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="LayoutTest.cpp">
+            <Form>TestForm</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>LayoutTest.h</DependentOn>
+            <BuildOrder>168</BuildOrder>
+        </CppCompile>
         <CppCompile Include="literals.cpp">
             <DependentOn>literals.h</DependentOn>
             <BuildOrder>164</BuildOrder>
@@ -468,6 +478,10 @@
             <DependentOn>style_parser.h</DependentOn>
             <BuildOrder>149</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\drop_target.cpp">
+            <DependentOn>ui_elements\drop_target.h</DependentOn>
+            <BuildOrder>170</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\header.cpp">
             <DependentOn>ui_elements\header.h</DependentOn>
             <BuildOrder>19</BuildOrder>
@@ -494,6 +508,10 @@
         <None Include="utilities.h">
             <BuildOrder>160</BuildOrder>
         </None>
+        <CppCompile Include="viewport.cpp">
+            <DependentOn>viewport.h</DependentOn>
+            <BuildOrder>169</BuildOrder>
+        </CppCompile>
         <CppCompile Include="wiki-editor-vcl.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -635,8 +653,9 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="Editor.dfm"/>
+        <FormResources Include="LayoutTest.dfm"/>
         <FormResources Include="About.dfm"/>
+        <FormResources Include="Editor.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

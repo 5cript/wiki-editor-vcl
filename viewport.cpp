@@ -2,6 +2,6 @@
 
 #pragma hdrstop
 
-#include "padding_control.h"
+#include "viewport.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

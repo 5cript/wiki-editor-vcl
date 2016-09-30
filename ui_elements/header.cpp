@@ -12,30 +12,43 @@
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
-	Header::Header(ElementContainer* parent, Section* parentSection)
-		: Element{parent, parentSection}
-		, underline_{new TPanel(parent)}
+	Header::Header(Section* parentSection)
+		: Element{parentSection}
+		, underline_{new TPanel(parentSection->getLayout()->getControl())}
 		, deleteCounter_{0}
 	{
-		setText(data_.data);
+        auto* parent = parentSection->getLayout()->getControl();
+		//applyDefaultMargins(wrapper_->Margins);
 
-		// control_->Font->Name = "Courier";
-		control_->Left = leftSectionPadding;
+		setText(data_.data);
+		//underline_->Parent = parent;
+
+		// Style
 		control_->Color = clWhite;
-		control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
-		control_->Height = 10;
-		control_->Top = parentSection->getMostBottom() + sectionSplitPadding;
 		control_->BorderStyle = bsNone;
+
+		underline_->Color = clGray;
+		underline_->Hide();
+		underline_->Width = 1000; // FIXME: get this dynamic.
+
+		// Events
 		control_->OnChange = this->onTextChange;
 		control_->OnKeyUp = this->onKeyUp;
 
-		underline_->Top = control_->Top + control_->Height + 3;
-		underline_->Height = 1;
-		underline_->Left = leftSectionPadding;
-		underline_->Color = clGray;
-		underline_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
-		underline_->Parent = parent;
-		underline_->Hide();
+		// Positioning
+		control_->Left = 0;
+		control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
+
+		// control_->Font->Name = "Courier";
+		//control_->Left = leftSectionPadding;
+		//control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
+		//control_->Height = 10;
+		//control_->Top = parentSection->getMostBottom() + sectionSplitPadding;
+
+		//underline_->Top = control_->Top + control_->Height + 3;
+		//underline_->Height = 1;
+		//underline_->Left = leftSectionPadding;
+		//underline_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Header::onTextChange(TObject* Sender)

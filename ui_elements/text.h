@@ -18,7 +18,7 @@ namespace WikiElements
 	class Text : public Element <Text, TRichEdit, WikiMarkup::Components::ExportableText>
 	{
 	public:
-		Text(ElementContainer* parent, Section* parentSection);
+		Text(Section* parentSection);
 
 	protected:
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);

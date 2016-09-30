@@ -18,7 +18,7 @@ namespace WikiElements
 	class Spacer : public Element <Spacer, TPanel, int>
 	{
 	public:
-		Spacer(ElementContainer* parent, Section* parentSection);
+		Spacer(Section* parentSection);
 
 	protected:
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);

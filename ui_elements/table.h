@@ -18,7 +18,7 @@ namespace WikiElements
 	class Table : public Element <Table, TStringGrid, WikiMarkup::Components::ExportableTable>
 	{
 	public:
-		Table(ElementContainer* parent, Section* parentSection);
+		Table(Section* parentSection);
 
 	protected: // wimu events
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);

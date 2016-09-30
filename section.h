@@ -4,6 +4,8 @@
 #include "padding_control.h"
 #include "forward_declarations.h"
 #include "utilities.h"
+#include "layout.h"
+#include "viewport.h"
 
 #include <Vcl.ExtCtrls.hpp>
 
@@ -22,6 +24,11 @@ public:
 	 *  Get the bounding box of this section. Includes all elements.
 	 */
 	BoundingBox getBoundingBox() const;
+
+	/**
+	 * 	Returns the sum of all heights control elements' heights.
+	 */
+	long getAccumulativeHeight() const;
 
 	/**
 	 *  Get control that is the furthest down (Top + Height)
@@ -44,7 +51,7 @@ public:
 	template <typename T>
 	T* addElement()
 	{
-		auto* elem = new T(getViewport(), this);
+		auto* elem = new T(this);
 		try
 		{
 			children_.push_back(std::unique_ptr <T> {elem});
@@ -85,27 +92,24 @@ public:
 	WikiElements::BasicElement* getSuccessor(WikiElements::BasicElement* reference);
 
 	/**
-	 *  Are the coordinates within this section?
-	 */
-	bool isWithin(int x, int y) const;
-
-	/**
 	 *	Determine where the drop will end up and create an indicator there.
 	 */
-	BoundingBox placeDropIndicator(int x, int y);
+	void moveDropIndicatorToMouse();
 
 	/**
-	 *	Spaces out elements for drop.
+	 * 	Move element down a spot.
+	 *	Will do nothing, if element is already in that spot.
 	 */
-	void makeSpaceForDrop();
+	void moveDown(WikiElements::BasicElement* element);
 
 	/**
-	 *	Returns a pair of elements which will enclose the indicator.
+	 * 	Move element up a spot
+	 *	Will do nothing, if element is already in that spot.
 	 */
-	std::pair <WikiElements::BasicElement*,
-			   WikiElements::BasicElement*> getDropEnclosingElements(int x, int y);
+	void moveUp(WikiElements::BasicElement* element);
 
-	TScrollBox* getViewport() const;
+	ViewportContainer* getViewport() const;
+	Layout* getLayout();
 
 public:
     void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
@@ -115,6 +119,8 @@ private:
 
 private:
 	PageController* parent_;
+	Layout layout_;
 	children_list_type children_;
+	WikiElements::DropTarget* dropTarget_;
 };
 //---------------------------------------------------------------------------

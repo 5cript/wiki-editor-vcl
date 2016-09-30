@@ -7,8 +7,8 @@
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
-	Spacer::Spacer(ElementContainer* parent, Section* parentSection)
-		: Element{parent, parentSection}
+	Spacer::Spacer(Section* parentSection)
+		: Element{parentSection}
 	{
 
 	}

@@ -6,29 +6,39 @@
 #include "controller.h"
 #include "element.h"
 
+#include "ui_elements/drop_target.h"
+
 #include <algorithm>
 #include <limits>
 //---------------------------------------------------------------------------
 Section::Section(PageController* parent)
 	: parent_{parent}
+	, layout_{parent_->getViewport()}
 	, children_{}
+	, dropTarget_{nullptr}
 {
+	layout_.getControl()->OnDragOver = onDragOver;
 
+	dropTarget_ = addElement <WikiElements::DropTarget>();
 }
 //---------------------------------------------------------------------------
-TScrollBox* Section::getViewport() const
+ViewportContainer* Section::getViewport() const
 {
 	return parent_->getViewport();
 }
 //---------------------------------------------------------------------------
 BoundingBox Section::getBoundingBox() const
 {
+	if (children_.empty())
+		return {0, 0, 0, 0};
+
 	auto overallBox = BoundingBox{
 		std::numeric_limits <decltype(BoundingBox::top)>::max(),
 		std::numeric_limits <decltype(BoundingBox::left)>::max(),
 		0,
 		0
 	};
+
 	for (auto const& i : children_)
 	{
 		auto childBox = i->getBoundingBox();
@@ -41,79 +51,85 @@ BoundingBox Section::getBoundingBox() const
 	return overallBox;
 }
 //---------------------------------------------------------------------------
-bool Section::isWithin(int x, int y) const
-{
-	auto box = getBoundingBox();
-	return
-		(x > box.left) &&
-		(y > box.top) &&
-		(x < box.right) &&
-		(y < box.bottom)
-	;
-}
-//---------------------------------------------------------------------------
 void __fastcall Section::onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept)
 {
 	auto* control = dynamic_cast <TControl*> (Sender);
-	parent_->renderDropTarget(control->Top + X, Y);
+	//parent_->renderDropTarget(control->Top + X, Y);
+	moveDropIndicatorToMouse();
     Accept = true;
 }
 //---------------------------------------------------------------------------
-BoundingBox Section::placeDropIndicator(int x, int y)
+void Section::moveDropIndicatorToMouse()
 {
-	if (children_.empty())
-		return {0, 0, 0, 0};
-
-	auto element = std::begin(children_);
-	for (; element < std::end(children_); ++element)
-		if (y < ((*element)->getBoundingBox().top + (*element)->getBoundingBox().height() / 2))
-			break;
-
-	if (element == std::end(children_))
-		return {children_.back()->getBoundingBox().bottom, 0, 0, 0};
+	auto y = Mouse->CursorPos.Y;
+	auto top = dropTarget_->getControl()->ClientToScreen(Point(0,0)).Y;
+	if (top < y)
+		while (top < y - 20)
+		{
+			moveDown(dropTarget_);
+			if (top == dropTarget_->getControl()->ClientToScreen(Point(0,0)).Y)
+				break;
+			top = dropTarget_->getControl()->ClientToScreen(Point(0,0)).Y;
+		}
 	else
-        return {(*element)->getBoundingBox().top - 13, 0, 0, 0};
+		while (y < top - 20)
+		{
+			moveUp(dropTarget_);
+			if (top == dropTarget_->getControl()->ClientToScreen(Point(0,0)).Y)
+				break;
+			top = dropTarget_->getControl()->ClientToScreen(Point(0,0)).Y;
+		}
 }
 //---------------------------------------------------------------------------
-void Section::makeSpaceForDrop()
+long Section::getAccumulativeHeight() const
 {
-	int counter = 1;
-	for (auto element = std::begin(children_); element < std::end(children_); ++element)
-	{
-		(*element)->moveDown(counter * 15);
-		++counter;
-    }
-}
-//---------------------------------------------------------------------------
-std::pair <WikiElements::BasicElement*, WikiElements::BasicElement*>
-Section::getDropEnclosingElements(int x, int y)
-{
-	if (children_.empty())
-		return {nullptr, nullptr};
+	long totalHeight = 10;
 
-	std::pair <WikiElements::BasicElement*,WikiElements::BasicElement*> result;
-	int loopCount = 0;
-	for (auto& element : children_)
-	{
-		if (y < (element->getBoundingBox().top + element->getBoundingBox().height() / 2))
-			break;
-		loopCount++;
-	}
-	return {
-		(loopCount - 1) > 0 ? &*children_[loopCount - 1] : nullptr,
-		(loopCount != children_.size()) ? &*children_[loopCount] : nullptr
-	};
+	for (auto const& i : children_)
+		totalHeight += i->getHeight();
+
+	totalHeight += (
+		layout_.getControl()->Margins->Bottom +
+		layout_.getControl()->Margins->Top
+	) * children_.size();
+
+	return totalHeight;
 }
 //---------------------------------------------------------------------------
 void Section::realign(long previousSectionEnd)
 {
+	parent_->getViewport()->Realign();
+    auto h = getAccumulativeHeight();
+	layout_.resize(getAccumulativeHeight());
+	/*
 	if (!children_.empty())
-        children_.front()->realignAfter(previousSectionEnd + sectionSplitPadding);
+		children_.front()->realignAfter(previousSectionEnd + sectionSplitPadding);
 
 	for (auto i = children_.begin(); i + 1 < children_.end(); ++i)
 	{
 		auto next = i + 1;
-        (*next)->realignAfter(i->get());
+		(*next)->realignAfter(i->get());
+	}
+	*/
+}
+//---------------------------------------------------------------------------
+void Section::moveDown(WikiElements::BasicElement* element)
+{
+	auto iter = findChild(element);
+	if (iter != std::end(children_) && iter != std::begin(children_) + (children_.size() - 1))
+	{
+		std::iter_swap(iter, iter + 1);
+		layout_.swap(iter - std::begin(children_), iter - std::begin(children_) + 1);
+	}
+}
+//---------------------------------------------------------------------------
+void Section::moveUp(WikiElements::BasicElement* element)
+{
+	auto iter = findChild(element);
+	if (iter != std::begin(children_) && iter != std::end(children_))
+	{
+		std::iter_swap(iter, iter - 1);
+		layout_.swap(iter - std::begin(children_), iter - std::begin(children_) - 1);
     }
 }
 //---------------------------------------------------------------------------
@@ -153,6 +169,11 @@ void Section::causePageRealign()
 long Section::getMostBottom() const
 {
     return getBoundingBox().bottom + generalBottomPadding;
+}
+//---------------------------------------------------------------------------
+Layout* Section::getLayout()
+{
+    return &layout_;
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
