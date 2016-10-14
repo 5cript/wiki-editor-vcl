@@ -134,7 +134,7 @@ object TestForm: TTestForm
     object Edit2: TEdit
       AlignWithMargins = True
       Left = 4
-      Top = 53
+      Top = 50
       Width = 193
       Height = 21
       Align = alTop
@@ -145,7 +145,7 @@ object TestForm: TTestForm
     object Edit3: TEdit
       AlignWithMargins = True
       Left = 4
-      Top = 102
+      Top = 96
       Width = 193
       Height = 21
       Align = alTop

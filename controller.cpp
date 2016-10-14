@@ -8,6 +8,7 @@
 #include "ui_elements/horizontal_line.h"
 #include "ui_elements/table.h"
 #include "ui_elements/drop_target.h"
+#include "debug.h"
 
 #include <Vcl.Dialogs.hpp>
 
@@ -87,6 +88,7 @@ void PageController::startDragDrop()
 {
 	for (auto& section : sections_)
 	{
+		section.startDragDrop();
 		section.realign();
     }
 }
@@ -103,46 +105,70 @@ void __fastcall PageController::DropIndicatorDragOver(
 	Accept = true;
 }
 //---------------------------------------------------------------------------
-void PageController::renderDropTarget(int x, int y)
+std::pair <Section*, int> PageController::endDragDrop()
 {
-	/*
-	dropTarget_->Visible = true;
-	auto* section = getSectionUnder(x, y);
-	if (sections_.empty() || !section)
+	std::pair <Section*, int> result = {
+		getSectionUnderCursor(),
+		-1
+	};
+
+	for (auto& section : sections_)
 	{
-		dropTarget_->Top = y;
-		dropTarget_->Color = TColor(0x00EEEE);
+		auto pos = section.endDragDrop();
+
+		if (&section == result.first)
+			result.second = pos;
 	}
-	else
-	{
-		auto box = section->placeDropIndicator(x, y);
-		dropTarget_->Top = box.top;
-		dropTarget_->Color = TColor(0x00EE00);
-	}
-	*/
+	realign();
+
+	return result;
 }
 //---------------------------------------------------------------------------
-void PageController::endDragDrop()
+Section* PageController::getSectionUnderCursor()
 {
-	//dropTarget_->Visible = false;
-	realign();
+	auto clientPoint = viewport_->ScreenToClient(Mouse->CursorPos);
+	for (auto& section : sections_)
+	{
+		if (section.isWithin(clientPoint.X, clientPoint.Y))
+			return &section;
+	}
+	return nullptr;
 }
 //---------------------------------------------------------------------------
 Section* PageController::getSectionUnder(int x, int y)
 {
-	/*
 	for (auto& i : sections_)
 	{
-		if (i.isWithin(x, y))
+		auto fixed = viewport_->ScreenToClient(TPoint{x, y});
+		if (i.isWithin(fixed.X, fixed.Y))
 			return &i;
 	}
-	*/
 	return nullptr;
+}
+//---------------------------------------------------------------------------
+WikiElements::BasicElement* PageController::addHeader(Section* section, int pos)
+{
+	if (section == nullptr)
+		return nullptr;
+
+	auto* head = section->addElement <WikiElements::Header>(pos);
+	if (!style_.empty())
+		head->setStyle(style_);
+	realign();
+	return head;
+}
+//---------------------------------------------------------------------------
+WikiElements::BasicElement* PageController::addHeader(std::pair <Section*, int> const& parameters)
+{
+    addHeader(parameters.first, parameters.second);
 }
 //---------------------------------------------------------------------------
 void PageController::realign()
 {
 	int totalHeight = 0;
+
+	for (auto& i : sections_)
+    	i.realign();
 
 	if (!sections_.empty())
 	{

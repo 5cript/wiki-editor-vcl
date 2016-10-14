@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include <typeinfo>
 #include <Vcl.ExtCtrls.hpp>
 
 #include "section.h"
@@ -27,6 +28,8 @@ namespace WikiElements
 		virtual void moveUp(int pixels) = 0;
 		virtual long getHeight() const = 0;
 		virtual long getWidth() const = 0;
+		virtual TControl* getBasicControl() = 0;
+		virtual std::string getDataTypeName() const = 0;
 	};
 
 	template <typename Derivative, typename UnderlyingUiElement, typename DataElement>
@@ -103,6 +106,16 @@ namespace WikiElements
 		UnderlyingUiElement* getControl()
 		{
             return &*control_;
+		}
+
+		TControl* getBasicControl() override
+		{
+            return getControl();
+		}
+
+		std::string getDataTypeName() const override
+		{
+            return {typeid(DataElement).name()};
         }
 
 	protected:

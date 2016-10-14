@@ -3,6 +3,7 @@
 #pragma hdrstop
 
 #include "layout.h"
+#include "debug.h"
 
 #include <stdexcept>
 //---------------------------------------------------------------------------
@@ -18,7 +19,7 @@ Layout::Layout(ViewportContainer* parent)
 	gridPanel_.reset(new TGridPanel(parent));
 	gridPanel_->Parent = parent_;
 
-    // Clear all unwanted columns
+	// Clear all unwanted columns
 	gridPanel_->RowCollection->Clear();
 	while (gridPanel_->ColumnCollection->Count > 1)
 		gridPanel_->ColumnCollection->Delete(0);
@@ -60,6 +61,44 @@ void Layout::swap(int lhs, int rhs)
 	gridPanel_->ControlCollection->ControlItems[0][lhs]->Control =
 		gridPanel_->ControlCollection->ControlItems[0][rhs]->Control;
 	gridPanel_->ControlCollection->ControlItems[0][rhs]->Control = lhsControl;
+}
+//---------------------------------------------------------------------------
+void Layout::moveControl(TControl* control, int position)
+{
+	bool found = false;
+	int from = 0;
+	for (; from != gridPanel_->ControlCount; ++from)
+		if (gridPanel_->ControlCollection->ControlItems[0][from]->Control == control)
+		{
+			found = true;
+			break;
+		}
+
+	if (!found)
+		throw std::invalid_argument("control not in grid");
+
+	//swap(from, position);
+
+	if (position == from)
+		return;
+
+	// swap upwards
+	if (from > position)
+		for (int i = from; i > position; --i)
+		{
+			swap(i - 1, i);
+		}
+	// swap downwards
+	else
+		for (int i = from; i < position; ++i)
+		{
+			swap(i, i + 1);
+		}
+}
+//---------------------------------------------------------------------------
+void Layout::update()
+{
+    gridPanel_->UpdateControlsColumn(0);
 }
 //---------------------------------------------------------------------------
 void Layout::realign()

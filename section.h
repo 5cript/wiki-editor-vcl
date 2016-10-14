@@ -16,6 +16,8 @@ class Section
 {
 public:
 	using children_list_type = std::vector <std::unique_ptr <WikiElements::BasicElement>>;
+	using child_type = WikiElements::BasicElement;
+	using child_pointer_type = child_type*;
 
 public:
 	Section(PageController* parent);
@@ -24,6 +26,11 @@ public:
 	 *  Get the bounding box of this section. Includes all elements.
 	 */
 	BoundingBox getBoundingBox() const;
+
+	/**
+	 *  Returns whether the coordinate is within this section relative to the viewport.
+	 */
+	bool isWithin(int x, int y) const;
 
 	/**
 	 * 	Returns the sum of all heights control elements' heights.
@@ -49,17 +56,22 @@ public:
 	 * 	Add an element to the section. It will be created in place and initialized.
 	 */
 	template <typename T>
-	T* addElement()
+	T* addElement(int position = -1)
 	{
 		auto* elem = new T(this);
 		try
 		{
-			children_.push_back(std::unique_ptr <T> {elem});
+			if (position < 0)
+				children_.push_back(std::unique_ptr <T> {elem});
+			else
+				children_.insert(children_.begin() + position, std::unique_ptr <T> {elem});
+
+			synchronizeLayout();
 		}
 		catch (std::bad_alloc const& exc)
 		{
-            delete elem;
-        }
+			delete elem;
+		}
 		return elem;
 	}
 
@@ -71,9 +83,22 @@ public:
 		if (child != std::end(children_))
 		{
 			children_.erase(child);
+            layout_.update();
 			causePageRealign();
 		}
 	}
+
+	/**
+	 *  Starts drag and drop mechanism
+	 */
+	void startDragDrop();
+
+	/**
+	 *  Hides the drop target bar.
+	 *
+	 *	@return Returns the index where the indicator was.
+	 */
+	int endDragDrop();
 
 	/**
 	 *  Returns the object which is before the given one in orthograpic (top, down) order.
@@ -99,14 +124,22 @@ public:
 	/**
 	 * 	Move element down a spot.
 	 *	Will do nothing, if element is already in that spot.
+	 *
+	 *	@return Element that previously was were 'element' is now.
+	 *          Will return nullptr, if 'element' is not part of this section.
+	 *			Will return 'element', if 'element' was already the last element.
 	 */
-	void moveDown(WikiElements::BasicElement* element);
+	WikiElements::BasicElement* moveDown(WikiElements::BasicElement* element);
 
 	/**
 	 * 	Move element up a spot
 	 *	Will do nothing, if element is already in that spot.
+	 *
+	 *	@return Element that previously was were 'element' is now.
+	 *          Will return nullptr, if 'element' is not part of this section.
+	 *			Will return 'element', if 'element' was already the first element.
 	 */
-	void moveUp(WikiElements::BasicElement* element);
+	WikiElements::BasicElement* moveUp(WikiElements::BasicElement* element);
 
 	ViewportContainer* getViewport() const;
 	Layout* getLayout();
@@ -116,6 +149,7 @@ public:
 
 private:
 	children_list_type::iterator findChild(WikiElements::BasicElement* element);
+	void synchronizeLayout();
 
 private:
 	PageController* parent_;

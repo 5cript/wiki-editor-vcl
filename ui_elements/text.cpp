@@ -74,6 +74,12 @@ namespace WikiElements
 		else if (!data_.data.empty())
 		{
 			deleteCounter_ = 0;
+		}
+		if (Key == vkReturn)
+		{
+			control_->SelStart = 0;
+			control_->Perform(EM_SCROLLCARET, 0, 0);
+			control_->SelStart = control_->Text.Length();
         }
     }
 //---------------------------------------------------------------------------

@@ -17,6 +17,8 @@ public:
 	void resize(int height);
 	void realign();
 	void swap(int lhs, int rhs);
+	void moveControl(TControl* control, int position);
+	void update();
 
 private:
 	ViewportContainer* parent_;

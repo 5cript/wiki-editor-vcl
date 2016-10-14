@@ -120,7 +120,7 @@ namespace WikiElements
 			}
 		);
 
-		control_->Height = control_->Font->Size + 5;
+		control_->Height = control_->Font->Size + 8;
 
 		if (data_.level == 1 || data_.level == 2)
 		{

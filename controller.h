@@ -30,11 +30,17 @@ public:
 	void realign();
 
 	/**
-	 *	Renders a bar where the element will be inserted to.
+	 *	Returns the section under the coordinates, relative to the viewport.
 	 */
-	void renderDropTarget(int x, int y);
-
 	Section* getSectionUnder(int x, int y);
+
+	/**
+	 *  Returns the section directly under the cursor.
+	 */
+	Section* getSectionUnderCursor();
+
+	WikiElements::BasicElement* addHeader(Section* section, int pos = -1);
+	WikiElements::BasicElement* addHeader(std::pair <Section*, int> const& parameters);
 
 	/**
 	 *  Starts drag and drop mechanism
@@ -43,8 +49,11 @@ public:
 
 	/**
 	 *  Hides the drop target bar.
+	 *
+	 *  @return Returns a pair of a section pointer and the position the
+	 *			drop indicator was at. For insertion of new items.
 	 */
-	void endDragDrop();
+	std::pair <Section*, int> endDragDrop();
 
 	void setStyle(std::string const& style);
 	void setStyle(boost::filesystem::path const& styleFile);

@@ -2,7 +2,7 @@ object MainEditor: TMainEditor
   Left = 0
   Top = 0
   Caption = 'Media Wiki Editor 0.1'
-  ClientHeight = 647
+  ClientHeight = 729
   ClientWidth = 1014
   Color = clBtnFace
   DoubleBuffered = True
@@ -65,7 +65,7 @@ object MainEditor: TMainEditor
         Left = 0
         Top = 0
         Width = 300
-        Height = 339
+        Height = 529
         ColumnCollection = <
           item
             Value = 100.000000000000000000
@@ -126,12 +126,29 @@ object MainEditor: TMainEditor
         TabOrder = 2
         OnClick = Button3Click
       end
+      object Log: TRichEdit
+        Left = 6
+        Top = 134
+        Width = 251
+        Height = 179
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        Lines.Strings = (
+          'Log')
+        ParentFont = False
+        ScrollBars = ssVertical
+        TabOrder = 3
+        Zoom = 100
+      end
     end
   end
   object CategoryPanelGroup1: TCategoryPanelGroup
     Left = 0
     Top = 0
-    Height = 647
+    Height = 729
     VertScrollBar.Tracking = True
     HeaderFont.Charset = DEFAULT_CHARSET
     HeaderFont.Color = clWindowText
@@ -139,6 +156,7 @@ object MainEditor: TMainEditor
     HeaderFont.Name = 'Tahoma'
     HeaderFont.Style = []
     TabOrder = 1
+    ExplicitHeight = 647
     object CategoryPanel1: TCategoryPanel
       Top = 0
       Caption = '$UiElements'

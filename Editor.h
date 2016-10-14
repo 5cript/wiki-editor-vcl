@@ -15,8 +15,6 @@
 //---------------------------------------------------------------------------
 #include "controller.h"
 #include <Vcl.Grids.hpp>
-#include "VirtualTrees.hpp"
-#include "NiceGrid.hpp"
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 //---------------------------------------------------------------------------
@@ -44,6 +42,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	TButton *Button2;
 	TButton *Button3;
 	TGridPanel *Viewport;
+	TRichEdit *Log;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);

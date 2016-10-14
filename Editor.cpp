@@ -6,6 +6,7 @@
 #include "Editor.h"
 #include "About.h"
 #include "LayoutTest.h"
+#include "debug.h"
 //#include "component_export.hpp"
 
 #pragma package(smart_init)
@@ -54,11 +55,13 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 {
 	controller_.initializeViewport();
 	controller_.addSection();
+    SetLog(Log);
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y)
 {
-	controller_.endDragDrop();
+	auto dropTarget = controller_.endDragDrop();
+	controller_.addHeader(dropTarget);
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::ElementStartDrag(TObject *Sender, TDragObject *&DragObject)
