@@ -1,0 +1,50 @@
+{
+	"locales": {
+		"languages": {
+			"de_DE": {
+				"mappings": {
+					"$File": "Datei",
+					"$Help": "Hilfe",
+					"$OpenArticle": "Artikel Öffnen",
+					"$SaveArticleAs": "Artikel Speichern Unter",
+					"$SaveArticle": "Artikel Speichern",
+					"$Autosave": "Autospeichern Aktiv",
+					"$Exit": "Beenden",
+					"$Licensing": "Lizenzinformation",
+					"$Debug": "ENTFERNE_MICH",
+					"$Select": "Element Auswählen",
+					"$UiElements": "Wiki Elemente",
+					"$UiTextElements": "Wiki Text Elemente",
+					"$HeaderType": "Überschrift Art",
+					"$HeaderLayer2": "Überschrift 2",
+					"$HeaderLayer3": "Überschrift 3",
+					"$HeaderLayer4": "Überschrift 4",
+					"$HeaderLayer5": "Überschrift 5",
+					"$HeaderLayer6": "Überschrift 6"
+				}
+			},
+			"en_US": {
+				"mappings": {
+					"$File": "File",
+					"$Help": "Help",
+					"$OpenArticle": "Open Article",
+					"$SaveArticleAs": "Save Article As",
+					"$SaveArticle": "Save Article",
+					"$Autosave": "Autosave Active",
+					"$Exit": "Exit",
+					"$Licensing": "Licensing Information",
+					"$Debug": "REMOVE_ME",
+					"$Select": "Select Element",
+					"$UiElements": "Wiki Elements",
+					"$UiTextElements": "Wiki Text Elements",
+					"$HeaderType": "Header Type",
+					"$HeaderLayer2": "Header 2",
+					"$HeaderLayer3": "Header 3",
+					"$HeaderLayer4": "Header 4",
+					"$HeaderLayer5": "Header 5",
+					"$HeaderLayer6": "Header 6"
+				}
+			}
+		}
+	}
+}
