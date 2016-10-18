@@ -22,7 +22,9 @@ PageController::PageController(ViewportContainer* viewport)
 	//, dropTarget_{new TPanel{viewport_}}
 	, sections_{}
 	, style_{}
+	, selectionCallback_{}
 {
+	viewport_->OnClick = onViewportClick;
 }
 //---------------------------------------------------------------------------
 void PageController::addSection()
@@ -93,7 +95,7 @@ void PageController::startDragDrop()
     }
 }
 //---------------------------------------------------------------------------
-void __fastcall PageController::DropIndicatorDragOver(
+void __fastcall PageController::dropIndicatorDragOver(
 	TObject *Sender,
 	TObject *Source,
 	int X,
@@ -144,6 +146,16 @@ Section* PageController::getSectionUnder(int x, int y)
 			return &i;
 	}
 	return nullptr;
+}
+//---------------------------------------------------------------------------
+WikiElements::BasicElement* PageController::getElementUnderCursor()
+{
+	auto clientPoint = viewport_->ScreenToClient(Mouse->CursorPos);
+	auto* section = getSectionUnderCursor();
+	if (section == nullptr)
+		return nullptr;
+
+	return section->getElementUnder(clientPoint.X, clientPoint.Y);
 }
 //---------------------------------------------------------------------------
 WikiElements::BasicElement* PageController::addHeader(Section* section, int pos)
@@ -213,5 +225,33 @@ void PageController::setStyle(boost::filesystem::path const& styleFile)
 std::string PageController::getStyleString() const
 {
 	return style_;
+}
+//---------------------------------------------------------------------------
+void PageController::startSelectionMode(std::function <void(WikiElements::BasicElement*)> const& cb)
+{
+	selectionCallback_ = cb;
+}
+//---------------------------------------------------------------------------
+void PageController::stopSelectionMode(WikiElements::BasicElement* element)
+{
+	if (selectionCallback_)
+	{
+		selectionCallback_(element);
+		selectionCallback_ = {};
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall PageController::onViewportClick(TObject* Sender)
+{
+	if (isInSelectionMode())
+	{
+		selectionCallback_(nullptr);
+		stopSelectionMode();
+    }
+}
+//---------------------------------------------------------------------------
+bool PageController::isInSelectionMode() const
+{
+	return selectionCallback_;
 }
 //---------------------------------------------------------------------------

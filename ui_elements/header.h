@@ -29,18 +29,21 @@ namespace WikiElements
 		void realignAfter(BasicElement* element) const override;
 		void realignAfter(int position) const override;
 
-        BoundingBox getBoundingBox() const override;
+		BoundingBox getBoundingBox() const override;
 
 	protected:
+		void initializeOptionsFrame() override;
+
+	protected: // events
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);
 
-	private:
+	private: // vcl events
 		void __fastcall onTextChange(TObject* Sender);
 		void __fastcall onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
 
 	private:
 		std::unique_ptr <TPanel> underline_;
-        unsigned int deleteCounter_;
+		unsigned int deleteCounter_;
 	};
 }
 //---------------------------------------------------------------------------

@@ -17,6 +17,7 @@
 #include <Vcl.Grids.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
+#include <Vcl.AppEvnts.hpp>
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -31,33 +32,42 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *SaveArticleAs1;
 	TMenuItem *Help1;
 	TMenuItem *About1;
-	TButton *Button1;
 	TGridPanel *EditorGrid;
 	TScrollBox *PageContainer;
-	TPanel *PropertyView;
+	TPanel *PropertyControlPane;
 	TCategoryPanelGroup *CategoryPanelGroup1;
 	TCategoryPanel *CategoryPanel1;
 	TImage *Penguins;
-	TLabel *Label1;
-	TButton *Button2;
-	TButton *Button3;
 	TGridPanel *Viewport;
 	TRichEdit *Log;
+	TMenuItem *Debug1;
+	TMenuItem *AddTestElements1;
+	TMenuItem *estFormShowModal1;
+	TMenuItem *controlleraddSection1;
+	TMenuItem *loadCursor1;
+	TPanel *PropertyView;
+	TBitBtn *StartComponentSelect;
+	TMenuItem *initLocals1;
+	TApplicationEvents *AppEvents;
 	void __fastcall Exit1Click(TObject *Sender);
-	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y);
 	void __fastcall ElementStartDrag(TObject *Sender, TDragObject *&DragObject);
-	void __fastcall Button2Click(TObject *Sender);
-	void __fastcall Button3Click(TObject *Sender);
 	void __fastcall ViewportDragOver(TObject *Sender, TObject *Source, int X, int Y,
           TDragState State, bool &Accept);
+	void __fastcall AddTestElements1Click(TObject *Sender);
+	void __fastcall estFormShowModal1Click(TObject *Sender);
+	void __fastcall controlleraddSection1Click(TObject *Sender);
+	void __fastcall StartComponentSelectClick(TObject *Sender);
+	void __fastcall initLocals1Click(TObject *Sender);
+	void __fastcall AppEventsMessage(tagMSG &Msg, bool &Handled);
 
 
 private:	// Benutzer-Deklarationen
 	void LoadPage();
+    void TranslateWindow();
 
 	PageController controller_;
 public:		// Benutzer-Deklarationen

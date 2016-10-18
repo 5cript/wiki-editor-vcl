@@ -4,6 +4,7 @@
 
 #include "header.h"
 
+#include "frames/header_options.h"
 #include "style_applicator.h"
 
 #include <boost/lexical_cast.hpp>
@@ -139,6 +140,11 @@ namespace WikiElements
 			control_->Width + control_->Left,
 			(data_.level > 2)?(control_->Height + control_->Top):(underline_->Height + underline_->Top)
 		};
+	}
+//---------------------------------------------------------------------------
+	void Header::initializeOptionsFrame()
+	{
+        optionsFrame_.reset(new THeaderOptionsFrame(nullptr));
     }
 //---------------------------------------------------------------------------
 }

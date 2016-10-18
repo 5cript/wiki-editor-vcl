@@ -4,6 +4,7 @@
 #include <memory>
 #include <typeinfo>
 #include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Forms.hpp>
 
 #include "section.h"
 #include "padding_control.h"
@@ -30,6 +31,7 @@ namespace WikiElements
 		virtual long getWidth() const = 0;
 		virtual TControl* getBasicControl() = 0;
 		virtual std::string getDataTypeName() const = 0;
+        virtual TFrame* getOptionsFrame() = 0;
 	};
 
 	template <typename Derivative, typename UnderlyingUiElement, typename DataElement>
@@ -45,11 +47,13 @@ namespace WikiElements
 			: parentSection_{parentSection}
 			, control_{new UnderlyingUiElement(parentSection->getLayout()->getControl())}
 			, data_{}
+			, optionsFrame_{}
 		{
 			control_->Parent = parentSection->getLayout()->getControl();
 			control_->AlignWithMargins = true;
 			control_->Align = alTop;
 			control_->OnDragOver = onDragOver;
+            control_->OnClick = onClick;
 		}
 
 		void setStyle(std::string const& style)
@@ -116,7 +120,16 @@ namespace WikiElements
 		std::string getDataTypeName() const override
 		{
             return {typeid(DataElement).name()};
-        }
+		}
+
+		TFrame* getOptionsFrame() override
+		{
+			if (!optionsFrame_)
+				initializeOptionsFrame();
+			if (!optionsFrame_)
+				return nullptr;
+			return &*optionsFrame_;
+		}
 
 	protected:
 		DataElement* getDataHandle()
@@ -129,12 +142,24 @@ namespace WikiElements
 		void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept)
 		{
 			parentSection_->onDragOver(Sender, Source, X + control_->Left,Y + control_->Top, State, Accept);
+		}
+
+		void __fastcall onClick(TObject* Sender)
+		{
+			parentSection_->onElementClick(Sender, this);
+        }
+
+		virtual void initializeOptionsFrame()
+		{
+			// this function is only initialized, so an option frame is not
+            // required by any control. It is eligible to have components without it.
         }
 
     protected:
 		Section* parentSection_;
 		std::unique_ptr <UnderlyingUiElement> control_;
 		DataElement data_;
+		std::unique_ptr <TFrame> optionsFrame_;
     };
 };
 //---------------------------------------------------------------------------

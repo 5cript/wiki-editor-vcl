@@ -75,6 +75,10 @@ public:
 		return elem;
 	}
 
+	/**
+	 *  Removes the given element from the section. It will be deleted and this will
+	 *  invalidate the element!! Do not use the element after calling this.
+	 */
 	template <typename T>
 	void removeElement(T* element)
 	{
@@ -123,9 +127,9 @@ public:
 
 	/**
 	 * 	Move element down a spot.
-	 *	Will do nothing, if element is already in that spot.
+	 *	Will do nothing, if element is already in the lowest spot.
 	 *
-	 *	@return Element that previously was were 'element' is now.
+	 *	@return Element that previously was, where 'element' is now.
 	 *          Will return nullptr, if 'element' is not part of this section.
 	 *			Will return 'element', if 'element' was already the last element.
 	 */
@@ -133,19 +137,43 @@ public:
 
 	/**
 	 * 	Move element up a spot
-	 *	Will do nothing, if element is already in that spot.
+	 *	Will do nothing, if element is already in the highest spot.
 	 *
-	 *	@return Element that previously was were 'element' is now.
+	 *	@return Element that previously was, where 'element' is now.
 	 *          Will return nullptr, if 'element' is not part of this section.
 	 *			Will return 'element', if 'element' was already the first element.
 	 */
 	WikiElements::BasicElement* moveUp(WikiElements::BasicElement* element);
 
+	/**
+	 * 	Returns a pointer to the viewport control object.
+	 */
 	ViewportContainer* getViewport() const;
+
+	/**
+	 *	Returns a pointer to the layout object that is responsible for ordering
+	 *	and displaying the elements in a correct fashion.
+	 */
 	Layout* getLayout();
 
+	/**
+	 *	Returns the element that is under the given coordinates, or nullptr if
+	 *	there is none there. The coordinates shall be relative to the viewport.
+	 */
+	WikiElements::BasicElement* getElementUnder(int x, int y);
+
+	/**
+	 * 	Returns a pointer to the controller for this section.
+	 */
+	PageController* getController();
+
+	/**
+	 * 	Called by elements.
+	 */
+	void __fastcall onElementClick(TObject* Sender, WikiElements::BasicElement* element);
+
 public:
-    void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
+	void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 
 private:
 	children_list_type::iterator findChild(WikiElements::BasicElement* element);

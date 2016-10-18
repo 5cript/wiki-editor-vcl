@@ -214,6 +214,22 @@ WikiElements::BasicElement* Section::moveUp(WikiElements::BasicElement* element)
 		return element;
 }
 //---------------------------------------------------------------------------
+WikiElements::BasicElement* Section::getElementUnder(int x, int y)
+{
+	for (auto& child : children_)
+	{
+		auto box = child->getBoundingBox();
+		if ((x >= box.left) &&
+			(x <= box.right) &&
+			(y >= box.top) &&
+			(y <= box.bottom))
+		{
+            return &*child;
+        }
+	}
+	return nullptr;
+}
+//---------------------------------------------------------------------------
 WikiElements::BasicElement* Section::getPredecessor(WikiElements::BasicElement* reference)
 {
 	auto child = findChild(reference);
@@ -278,6 +294,19 @@ void Section::synchronizeLayout()
 	{
         layout_.moveControl(children_[i]->getBasicControl(), i);
     }
+}
+//---------------------------------------------------------------------------
+PageController* Section::getController()
+{
+    return parent_;
+}
+//---------------------------------------------------------------------------
+void __fastcall Section::onElementClick(TObject* Sender, WikiElements::BasicElement* element)
+{
+	if (parent_->isInSelectionMode())
+	{
+		parent_->stopSelectionMode(element);
+	}
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

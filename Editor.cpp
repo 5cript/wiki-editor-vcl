@@ -6,8 +6,12 @@
 #include "Editor.h"
 #include "About.h"
 #include "LayoutTest.h"
+#include "localization.h"
 #include "debug.h"
+#include "constants.h"
 //#include "component_export.hpp"
+
+#include <functional>
 
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -30,11 +34,6 @@ void TMainEditor::LoadPage()
 	ShowMessage("Test");
 }
 //---------------------------------------------------------------------------
-void __fastcall TMainEditor::Button1Click(TObject *Sender)
-{
-   	controller_.test();
-}
-//---------------------------------------------------------------------------
 void __fastcall TMainEditor::About1Click(TObject *Sender)
 {
 	AboutForm->ShowModal();
@@ -53,9 +52,19 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormCreate(TObject *Sender)
 {
+    // Controller
 	controller_.initializeViewport();
 	controller_.addSection();
-    SetLog(Log);
+
+	// Logging
+	SetLog(Log);
+
+	// Cursor
+	Screen->Cursors[WikiEditorConstants::crosshairCursor] = LoadCursor(HInstance, L"Crosshair");
+
+	// Translation
+	Translator::getInstance().loadLanguageFile("locale.json");
+	TranslateWindow();
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y)
@@ -69,16 +78,6 @@ void __fastcall TMainEditor::ElementStartDrag(TObject *Sender, TDragObject *&Dra
     controller_.startDragDrop();
 }
 //---------------------------------------------------------------------------
-void __fastcall TMainEditor::Button2Click(TObject *Sender)
-{
-	TestForm->ShowModal();
-}
-//---------------------------------------------------------------------------
-void __fastcall TMainEditor::Button3Click(TObject *Sender)
-{
-	controller_.addSection();
-}
-//---------------------------------------------------------------------------
 void __fastcall TMainEditor::ViewportDragOver(TObject *Sender, TObject *Source, int X,
           int Y, TDragState State, bool &Accept)
 {
@@ -87,8 +86,95 @@ void __fastcall TMainEditor::ViewportDragOver(TObject *Sender, TObject *Source, 
 		Accept = true;
 		auto* section = controller_.getSectionUnder(X, Y);
 		//controller_.renderDropTarget(X, Y);
-		Label1->Caption = IntToStr(Y) + " " + BoolToStr(section != nullptr, true);
+		//Label1->Caption = IntToStr(Y) + " " + BoolToStr(section != nullptr, true);
 	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::AddTestElements1Click(TObject *Sender)
+{
+	controller_.test();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::estFormShowModal1Click(TObject *Sender)
+{
+	TestForm->ShowModal();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::controlleraddSection1Click(TObject *Sender)
+{
+	controller_.addSection();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
+{
+	if (!controller_.isInSelectionMode())
+	{
+		Screen->Cursor = static_cast <TCursor> (WikiEditorConstants::crosshairCursor);
+		controller_.startSelectionMode([this](WikiElements::BasicElement* element){
+			if (element == nullptr)
+			{
+			}
+			Screen->Cursor = crDefault;
+		});
+	}
+	else
+	{
+		controller_.stopSelectionMode();
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::initLocals1Click(TObject *Sender)
+{
+	//
+	Translator::getInstance().saveLanguageFile("locale.json");
+}
+//---------------------------------------------------------------------------
+void TMainEditor::TranslateWindow()
+{
+	auto translate = [this](String str) -> String {
+		auto& translator = Translator::getInstance();
+		str = StringReplace(str, "&", "", TReplaceFlags{} << rfReplaceAll << rfIgnoreCase);
+		return UTF8ToString(translator.translate(AnsiString(str).c_str()).c_str());
+	};
+
+	// Menu
+	std::function <void(TMenuItem*)> translateMenuItem;
+	translateMenuItem = [this, &translateMenuItem, &translate](TMenuItem* item){
+		for (int i = 0; i < item->Count; ++i)
+		{
+			item->operator[](i)->Caption = translate(item->operator[](i)->Caption);
+			translateMenuItem(item->operator[](i));
+        }
+	};
+	translateMenuItem(Menu->Items);
+
+	// All Objects that have captions:
+	for(int i = 0; i < ComponentCount; i++)
+	{
+		auto* control = dynamic_cast <TBitBtn*> (Components[i]);
+		if (!control)
+			continue;
+
+		if (control->Caption.SubString(0, 1) == "$")
+		{
+			control->Caption = translate(control->Caption);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainEditor::AppEventsMessage(tagMSG &Msg, bool &Handled)
+{
+	switch (Msg.message)
+	{
+		case (WM_KEYUP):
+		{
+			if (Msg.wParam == vkEscape && controller_.isInSelectionMode())
+			{
+				controller_.stopSelectionMode();
+			}
+		}
+    }
 }
 //---------------------------------------------------------------------------
 

@@ -7,6 +7,8 @@
 #include "viewport.h"
 
 #include <vector>
+#include <functional>
+
 #include <boost/filesystem.hpp>
 //---------------------------------------------------------------------------
 class PageController
@@ -20,8 +22,14 @@ public:
 	 */
 	void initializeViewport();
 
+	/**
+	 *	Adds a section to the page
+	 */
 	void addSection();
 
+	/**
+	 *  Function for testing purposes only. Do not use. Will be removed later.
+	 */
 	void test();
 
 	/**
@@ -35,11 +43,26 @@ public:
 	Section* getSectionUnder(int x, int y);
 
 	/**
+	 *	Returns the element that is under the cursor, or nullptr if
+	 *	there is none there.
+	 *
+	 *	@return Element under cursor or nullptr.
+	 */
+	WikiElements::BasicElement* getElementUnderCursor();
+
+	/**
 	 *  Returns the section directly under the cursor.
 	 */
 	Section* getSectionUnderCursor();
 
+	/**
+	 * 	Add a header to a specific section at the specified position.
+	 */
 	WikiElements::BasicElement* addHeader(Section* section, int pos = -1);
+
+	/**
+	 * 	Add a header to a specific section at the specified position (using a pair).
+	 */
 	WikiElements::BasicElement* addHeader(std::pair <Section*, int> const& parameters);
 
 	/**
@@ -55,18 +78,49 @@ public:
 	 */
 	std::pair <Section*, int> endDragDrop();
 
+	/**
+	 *  Sets the css style from a string. (utf-8 buffer)
+	 */
 	void setStyle(std::string const& style);
+
+	/**
+	 *	Sets the css style from a string.
+	 */
 	void setStyle(boost::filesystem::path const& styleFile);
+
+	/**
+	 *  Returns the current css style as a string.
+	 */
 	std::string getStyleString() const;
 
+	/**
+	 * 	Returns a pointer to the viewport control object.
+	 */
 	ViewportContainer* getViewport() const;
 
+	/**
+	 *  Start mode for selecting elements.
+	 */
+	void startSelectionMode(std::function <void(WikiElements::BasicElement*)> const& cb);
+
+	/**
+	 *  Leave mode for selecting elements.
+	 */
+	void stopSelectionMode(WikiElements::BasicElement* element = nullptr);
+
+	/**
+	 *  Is selection mode active?
+	 */
+	bool isInSelectionMode() const;
+
 private: // vcl events
-	void __fastcall DropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
+	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
+	void __fastcall onViewportClick(TObject* Sender);
 
 private:
 	ViewportContainer* viewport_;
 	std::vector <Section> sections_;
 	std::string style_;
+	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
 };
 //---------------------------------------------------------------------------
