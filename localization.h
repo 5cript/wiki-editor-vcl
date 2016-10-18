@@ -6,6 +6,8 @@
 #   include <SimpleJSON/parse/jsd_fusion_adapted_struct.hpp>
 #endif
 
+#include <System.Classes.hpp>
+
 #include <string>
 #include <map>
 //---------------------------------------------------------------------------
@@ -50,6 +52,8 @@ private:
     TranslationData::TranslationFile translationFile_;
 };
 //---------------------------------------------------------------------------
+String translate(String str);
+//---------------------------------------------------------------------------
 BOOST_FUSION_ADAPT_STRUCT
 (
 	TranslationData::Language,
@@ -61,4 +65,17 @@ BOOST_FUSION_ADAPT_STRUCT
 	TranslationData::TranslationFile,
 	(TranslationData::TranslationFile::map_type, languages)
 )
+//---------------------------------------------------------------------------
+#define TRANSLATE_SPECIFIC(WHAT, PROPERTY) \
+	if (WHAT->PROPERTY.SubString(0, 1) == "$") \
+		WHAT->PROPERTY = ::translate(WHAT->PROPERTY); \
+
+#define TRANSLATE_OF_TYPE(PARENT, TYPE, PROPERTY) \
+{ \
+	auto* control = dynamic_cast <TYPE*> (PARENT->Components[i]); \
+	if (!control) \
+		continue; \
+	\
+	TRANSLATE_SPECIFIC(control, PROPERTY) \
+}
 //---------------------------------------------------------------------------

@@ -78,5 +78,12 @@ void Translator::setLanguage(std::string const& language)
 {
 	language_ = language;
 }
-//###########################################################################s
+//###########################################################################
+String translate(String str)
+{
+	auto& translator = Translator::getInstance();
+	str = StringReplace(str, "&", "", TReplaceFlags{} << rfReplaceAll << rfIgnoreCase);
+	return UTF8ToString(translator.translate(AnsiString(str).c_str()).c_str());
+}
+//###########################################################################
 #pragma package(smart_init)

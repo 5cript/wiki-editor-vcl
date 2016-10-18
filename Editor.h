@@ -35,7 +35,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	TGridPanel *EditorGrid;
 	TScrollBox *PageContainer;
 	TPanel *PropertyControlPane;
-	TCategoryPanelGroup *CategoryPanelGroup1;
+	TCategoryPanelGroup *WikiElementCategoryGroup;
 	TCategoryPanel *CategoryPanel1;
 	TImage *Penguins;
 	TGridPanel *Viewport;
@@ -70,6 +70,7 @@ private:	// Benutzer-Deklarationen
     void TranslateWindow();
 
 	PageController controller_;
+    TFrame* lastFrame_;
 public:		// Benutzer-Deklarationen
 	__fastcall TMainEditor(TComponent* Owner);
 };

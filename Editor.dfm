@@ -94,7 +94,7 @@ object MainEditor: TMainEditor
       object Log: TRichEdit
         Left = 8
         Top = 446
-        Width = 251
+        Width = 249
         Height = 179
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -111,7 +111,7 @@ object MainEditor: TMainEditor
       object PropertyView: TPanel
         Left = 8
         Top = 59
-        Width = 251
+        Width = 249
         Height = 381
         Anchors = []
         BevelOuter = bvNone
@@ -237,7 +237,7 @@ object MainEditor: TMainEditor
       end
     end
   end
-  object CategoryPanelGroup1: TCategoryPanelGroup
+  object WikiElementCategoryGroup: TCategoryPanelGroup
     Left = 0
     Top = 0
     Height = 729
@@ -250,7 +250,7 @@ object MainEditor: TMainEditor
     TabOrder = 1
     object CategoryPanel1: TCategoryPanel
       Top = 0
-      Caption = '$UiElements'
+      Caption = '$UiTextElements'
       TabOrder = 0
       object Penguins: TImage
         Left = 8

@@ -9,6 +9,7 @@
 #include "localization.h"
 #include "debug.h"
 #include "constants.h"
+#include "frame_interface.h"
 //#include "component_export.hpp"
 
 #include <functional>
@@ -48,6 +49,7 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 		!!(PageContainer->BevelOuter != bvNone) * PageContainer->BevelWidth * 2 -
 		!!(Viewport->BevelOuter != bvNone) * Viewport->BevelWidth * 2 -
 		18 /* scrollbar height */;
+    PropertyView->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormCreate(TObject *Sender)
@@ -111,8 +113,21 @@ void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
 	{
 		Screen->Cursor = static_cast <TCursor> (WikiEditorConstants::crosshairCursor);
 		controller_.startSelectionMode([this](WikiElements::BasicElement* element){
-			if (element == nullptr)
+			if (element != nullptr)
 			{
+				if (lastFrame_)
+				{
+					lastFrame_->Hide();
+					lastFrame_->Parent = nullptr;
+				}
+				auto* frame = element->getOptionsFrame();
+				if (frame)
+				{
+					frameTranslate(frame);
+					frame->Parent = PropertyView;
+					frame->Show();
+				}
+				lastFrame_ = frame;
 			}
 			Screen->Cursor = crDefault;
 		});
@@ -131,15 +146,9 @@ void __fastcall TMainEditor::initLocals1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void TMainEditor::TranslateWindow()
 {
-	auto translate = [this](String str) -> String {
-		auto& translator = Translator::getInstance();
-		str = StringReplace(str, "&", "", TReplaceFlags{} << rfReplaceAll << rfIgnoreCase);
-		return UTF8ToString(translator.translate(AnsiString(str).c_str()).c_str());
-	};
-
 	// Menu
 	std::function <void(TMenuItem*)> translateMenuItem;
-	translateMenuItem = [this, &translateMenuItem, &translate](TMenuItem* item){
+	translateMenuItem = [this, &translateMenuItem](TMenuItem* item){
 		for (int i = 0; i < item->Count; ++i)
 		{
 			item->operator[](i)->Caption = translate(item->operator[](i)->Caption);
@@ -151,15 +160,12 @@ void TMainEditor::TranslateWindow()
 	// All Objects that have captions:
 	for(int i = 0; i < ComponentCount; i++)
 	{
-		auto* control = dynamic_cast <TBitBtn*> (Components[i]);
-		if (!control)
-			continue;
-
-		if (control->Caption.SubString(0, 1) == "$")
-		{
-			control->Caption = translate(control->Caption);
-		}
+		TRANSLATE_OF_TYPE(this, TBitBtn, Caption)
+		TRANSLATE_OF_TYPE(this, TLabel, Caption)
+		TRANSLATE_OF_TYPE(this, TCategoryPanel, Caption)
 	}
+
+	TRANSLATE_SPECIFIC(CategoryPanel1, Caption)
 }
 //---------------------------------------------------------------------------
 
@@ -168,12 +174,9 @@ void __fastcall TMainEditor::AppEventsMessage(tagMSG &Msg, bool &Handled)
 	switch (Msg.message)
 	{
 		case (WM_KEYUP):
-		{
 			if (Msg.wParam == vkEscape && controller_.isInSelectionMode())
-			{
 				controller_.stopSelectionMode();
-			}
-		}
+			break;
     }
 }
 //---------------------------------------------------------------------------
