@@ -48,7 +48,7 @@
         <ILINK_LibraryPath>ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;VirtualTreesR.lib;NiceGridXE.lib;xmlrtl.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib</AllPackageLibs>
         <ProjectType>CppVCLApplication</ProjectType>
         <SanitizedProjectName>wiki-editor-vcl</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
@@ -96,7 +96,7 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <LinkPackageStatics>vclribbon.lib;VirtualTreesR.lib;NiceGridXE.lib</LinkPackageStatics>
+        <LinkPackageStatics>vclribbon.lib</LinkPackageStatics>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
@@ -677,10 +677,10 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="LayoutTest.dfm"/>
-        <FormResources Include="About.dfm"/>
-        <FormResources Include="Editor.dfm"/>
         <FormResources Include="ui_elements\frames\header_options.dfm"/>
+        <FormResources Include="About.dfm"/>
+        <FormResources Include="LayoutTest.dfm"/>
+        <FormResources Include="Editor.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
