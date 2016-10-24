@@ -21,7 +21,7 @@ namespace WikiElements
 		HorizontalLine(Section* parentSection);
 
 	protected:
-		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);
+		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;
 
 	private:
 		//void __fastcall onTextChange(TObject* Sender);

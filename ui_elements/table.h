@@ -21,7 +21,7 @@ namespace WikiElements
 		Table(Section* parentSection);
 
 	protected: // wimu events
-		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);
+		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;
 
 	private: // vcl events
 		void __fastcall onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State);

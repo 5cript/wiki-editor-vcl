@@ -54,7 +54,7 @@ namespace WikiElements
 				//readBackgroundStyles <control_type>
 			}
 		);
-    }
+	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State)
 	{

@@ -13,7 +13,7 @@ namespace WikiElements
 
 	}
 //---------------------------------------------------------------------------
-	void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
+	void Spacer::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
 	{
 
 	}

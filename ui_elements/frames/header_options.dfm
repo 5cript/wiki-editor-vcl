@@ -12,12 +12,15 @@ object HeaderOptionsFrame: THeaderOptionsFrame
     Caption = '$HeaderType'
   end
   object HeaderLayer: TComboBox
-    Left = 8
+    Left = 3
     Top = 27
     Width = 225
     Height = 21
     Style = csDropDownList
+    ItemIndex = 0
     TabOrder = 0
+    Text = '$HeaderLayer2'
+    OnChange = HeaderLayerChange
     Items.Strings = (
       '$HeaderLayer2'
       '$HeaderLayer3'

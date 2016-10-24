@@ -1,9 +1,18 @@
 //---------------------------------------------------------------------------
 #pragma once
 
-#include "header_options.h"
+#include "../../element.h"
+
 //---------------------------------------------------------------------------
+struct __declspec(uuid("{5898CCAF-1EE4-4EB4-A785-48920E5E97A5}")) IOptionsFrame
+{
+	virtual void translate() = 0;
+	virtual void setOwner(WikiElements::BasicElement* element) = 0;
+};
 //---------------------------------------------------------------------------
+
+//---------------------------------------------------------------------------
+/*
 template <typename Head, typename... Tail>
 struct InterfaceCaller
 {
@@ -22,11 +31,12 @@ template <typename Head>
 struct InterfaceCaller <Head>
 {
 	template <typename T>
-	static void translate(T* frame)
+	static bool translate(T* frame)
 	{
 		auto* framed = dynamic_cast <Head*> (frame);
 		if (framed)
 			framed->translate();
+		return framed;
 	}
 };
 
@@ -37,4 +47,5 @@ void frameTranslate(T* frame)
 		THeaderOptionsFrame
 	>::translate(frame);
 }
+*/
 //---------------------------------------------------------------------------

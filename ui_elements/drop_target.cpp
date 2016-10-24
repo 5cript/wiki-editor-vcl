@@ -27,7 +27,6 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	void DropTarget::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
 	{
-
 	}
 //---------------------------------------------------------------------------
 }

@@ -5,6 +5,7 @@
 #include "text.h"
 
 #include "style_applicator.h"
+#include "frames/text_options.h"
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
@@ -48,6 +49,7 @@ namespace WikiElements
 		);
 
 		control_->Height = (control_->Lines->Count + 1) * (control_->Font->Size + 5);
+		parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Text::onTextChange(TObject* Sender)
@@ -81,6 +83,12 @@ namespace WikiElements
 			control_->Perform(EM_SCROLLCARET, 0, 0);
 			control_->SelStart = control_->Text.Length();
         }
+	}
+//---------------------------------------------------------------------------
+	void Text::initializeOptionsFrame()
+	{
+		optionsFrame_.reset(new TTextOptionsFrame(nullptr));
+		static_cast <TTextOptionsFrame*> (&*optionsFrame_)->setOwner(this);
     }
 //---------------------------------------------------------------------------
 }

@@ -5,6 +5,9 @@
 
 #include "header_options.h"
 #include "localization.h"
+#include "../header.h"
+
+#include <stdexcept>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -12,8 +15,16 @@ THeaderOptionsFrame *HeaderOptionsFrame;
 //---------------------------------------------------------------------------
 __fastcall THeaderOptionsFrame::THeaderOptionsFrame(TComponent* Owner)
 	: TFrame(Owner)
-    , translated_{false}
+	, translated_{false}
+    , owner_{nullptr}
 {
+}
+//---------------------------------------------------------------------------
+void THeaderOptionsFrame::setOwner(WikiElements::BasicElement* owner)
+{
+	owner_ = dynamic_cast <WikiElements::Header*> (owner);
+	if (!owner_)
+		throw std::invalid_argument("passed owner is not of header element type");
 }
 //---------------------------------------------------------------------------
 void __fastcall THeaderOptionsFrame::Label1Click(TObject *Sender)
@@ -42,6 +53,15 @@ void THeaderOptionsFrame::translate()
 	HeaderLayer->ItemIndex = 0;
 
 	translated_ = true;
+}
+//---------------------------------------------------------------------------
+void __fastcall THeaderOptionsFrame::HeaderLayerChange(TObject *Sender)
+{
+	// no owner was assigned.
+	if (owner_ == nullptr)
+		return;
+	else
+    	owner_->setLevel(HeaderLayer->ItemIndex + 2);
 }
 //---------------------------------------------------------------------------
 

@@ -10,6 +10,7 @@
 #include "debug.h"
 #include "constants.h"
 #include "frame_interface.h"
+#include "query_delphi_interface.hpp"
 //#include "component_export.hpp"
 
 #include <functional>
@@ -123,7 +124,13 @@ void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
 				auto* frame = element->getOptionsFrame();
 				if (frame)
 				{
-					frameTranslate(frame);
+					auto* iface = interface_query_cast <IOptionsFrame*> (frame);
+					if (iface)
+						iface->translate();
+					else
+						ShowMessage("Options frame misses IOptionsFrame interface");
+
+					//frameTranslate(frame);
 					frame->Parent = PropertyView;
 					frame->Show();
 				}

@@ -21,7 +21,10 @@ namespace WikiElements
 		Text(Section* parentSection);
 
 	protected:
-		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);
+		void initializeOptionsFrame() override;
+
+	protected:
+		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;
 
 	private:
 		void __fastcall onTextChange(TObject* Sender);

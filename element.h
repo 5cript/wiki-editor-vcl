@@ -48,6 +48,7 @@ namespace WikiElements
 			, control_{new UnderlyingUiElement(parentSection->getLayout()->getControl())}
 			, data_{}
 			, optionsFrame_{}
+			, style_{}
 		{
 			control_->Parent = parentSection->getLayout()->getControl();
 			control_->AlignWithMargins = true;
@@ -59,8 +60,30 @@ namespace WikiElements
 		void setStyle(std::string const& style)
 		{
 			StyleParser parser;
+            style_ = style;
             styleChanged(parser.parseStyleSheet(style), parser);
 		}
+
+		bool redraw()
+		{
+			/*
+			static bool entered = false;
+			if (entered)
+			{
+				// function called recursively!!!
+				return false;
+			}
+			entered = true;*/
+
+			if (style_.empty())
+            	return false;
+
+			StyleParser parser;
+			styleChanged(parser.parseStyleSheet(style_), parser);
+
+			//entered = false;
+			return true;
+        }
 
 		void realignAfter(BasicElement* element) const override
 		{
@@ -160,6 +183,7 @@ namespace WikiElements
 		std::unique_ptr <UnderlyingUiElement> control_;
 		DataElement data_;
 		std::unique_ptr <TFrame> optionsFrame_;
+        std::string style_;
     };
 };
 //---------------------------------------------------------------------------

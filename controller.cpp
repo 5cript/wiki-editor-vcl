@@ -43,9 +43,9 @@ void PageController::test()
 
 		auto* head = sections_.back().addElement <Header>();
 		//head->setLevel(rand() % 6 + 1);
-		head->setLevel(1);
-		head->setText("Test");
 		head->setStyle(style_);
+		head->setLevel(2);
+		head->setText("Test");
 
 		auto* text = sections_.back().addElement <Text>();
 		text->setStyle(style_);
@@ -172,7 +172,7 @@ WikiElements::BasicElement* PageController::addHeader(Section* section, int pos)
 //---------------------------------------------------------------------------
 WikiElements::BasicElement* PageController::addHeader(std::pair <Section*, int> const& parameters)
 {
-    addHeader(parameters.first, parameters.second);
+	return addHeader(parameters.first, parameters.second);
 }
 //---------------------------------------------------------------------------
 void PageController::realign()

@@ -477,6 +477,9 @@
             <DependentOn>page.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <None Include="query_delphi_interface.hpp">
+            <BuildOrder>177</BuildOrder>
+        </None>
         <CppCompile Include="section.cpp">
             <BuildOrder>157</BuildOrder>
         </CppCompile>
@@ -495,6 +498,9 @@
             <DependentOn>ui_elements\drop_target.h</DependentOn>
             <BuildOrder>170</BuildOrder>
         </CppCompile>
+        <None Include="ui_elements\element_fwd.h">
+            <BuildOrder>176</BuildOrder>
+        </None>
         <CppCompile Include="ui_elements\frames\frame_interface.cpp">
             <DependentOn>ui_elements\frames\frame_interface.h</DependentOn>
             <BuildOrder>175</BuildOrder>
@@ -505,6 +511,13 @@
             <DesignClass>TFrame</DesignClass>
             <DependentOn>ui_elements\frames\header_options.h</DependentOn>
             <BuildOrder>172</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="ui_elements\frames\text_options.cpp">
+            <Form>TextOptionsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>ui_elements\frames\text_options.h</DependentOn>
+            <BuildOrder>178</BuildOrder>
         </CppCompile>
         <CppCompile Include="ui_elements\header.cpp">
             <DependentOn>ui_elements\header.h</DependentOn>
@@ -681,6 +694,7 @@
         <FormResources Include="About.dfm"/>
         <FormResources Include="LayoutTest.dfm"/>
         <FormResources Include="Editor.dfm"/>
+        <FormResources Include="ui_elements\frames\text_options.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

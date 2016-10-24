@@ -22,15 +22,14 @@ namespace WikiElements
 		//applyDefaultMargins(wrapper_->Margins);
 
 		setText(data_.data);
-		//underline_->Parent = parent;
+		underline_->Parent = control_->Parent;
 
 		// Style
 		control_->Color = clWhite;
 		control_->BorderStyle = bsNone;
 
 		underline_->Color = clGray;
-		underline_->Hide();
-		underline_->Width = 1000; // FIXME: get this dynamic.
+		//underline_->Hide();
 
 		// Events
 		control_->OnChange = this->onTextChange;
@@ -39,6 +38,11 @@ namespace WikiElements
 		// Positioning
 		control_->Left = 0;
 		control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
+
+		underline_->Top = control_->Top + control_->Height + 3;
+		underline_->Width = 1000; // FIXME: get this dynamic.
+		underline_->Height = 20;
+		underline_->Left = leftSectionPadding;
 
 		// control_->Font->Name = "Courier";
 		//control_->Left = leftSectionPadding;
@@ -85,7 +89,8 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	void Header::setLevel(int level)
 	{
-        data_.level = level;
+		data_.level = level;
+		redraw();
 	}
 //---------------------------------------------------------------------------
 	int Header::getLevel() const
@@ -121,15 +126,18 @@ namespace WikiElements
 			}
 		);
 
-		control_->Height = control_->Font->Size + 8;
+		control_->Height = getRenderedFontHeight(control_->Font) + 2;
+		auto REMOVE_ME = control_->Font->Size;
 
 		if (data_.level == 1 || data_.level == 2)
 		{
-			underline_->Show();
 			underline_->Top = control_->Top + control_->Height + 3;
+			underline_->Show();
 		}
-		else
-			underline_->Hide();
+	   //	else
+		//	underline_->Hide();
+
+		parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 	BoundingBox Header::getBoundingBox() const
@@ -144,7 +152,8 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	void Header::initializeOptionsFrame()
 	{
-        optionsFrame_.reset(new THeaderOptionsFrame(nullptr));
+		optionsFrame_.reset(new THeaderOptionsFrame(nullptr));
+        static_cast <THeaderOptionsFrame*> (&*optionsFrame_)->setOwner(this);
     }
 //---------------------------------------------------------------------------
 }

@@ -8,6 +8,8 @@
 
 #include <string>
 
+#include <Vcl.Graphics.hpp>
+
 struct BoundingBox
 {
 	long top;
@@ -26,4 +28,6 @@ struct BoundingBox
 	long height() const { return bottom - top; }
 	long width() const { return right - left; }
 };
+//---------------------------------------------------------------------------
+int getRenderedFontHeight(TFont* font);
 //---------------------------------------------------------------------------
