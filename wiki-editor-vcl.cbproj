@@ -48,7 +48,7 @@
         <ILINK_LibraryPath>ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib;VclSmp.lib</AllPackageLibs>
         <ProjectType>CppVCLApplication</ProjectType>
         <SanitizedProjectName>wiki-editor-vcl</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
@@ -102,7 +102,7 @@
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;VclSmp.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -480,6 +480,15 @@
         <None Include="query_delphi_interface.hpp">
             <BuildOrder>177</BuildOrder>
         </None>
+        <CppCompile Include="resources.cpp">
+            <DependentOn>resources.h</DependentOn>
+            <BuildOrder>180</BuildOrder>
+        </CppCompile>
+        <RcItem Include="resources\locale.json">
+            <ContainerId>ResourceItem</ContainerId>
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>locale</ResourceId>
+        </RcItem>
         <CppCompile Include="section.cpp">
             <BuildOrder>157</BuildOrder>
         </CppCompile>
@@ -511,6 +520,13 @@
             <DesignClass>TFrame</DesignClass>
             <DependentOn>ui_elements\frames\header_options.h</DependentOn>
             <BuildOrder>172</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="ui_elements\frames\style_options.cpp">
+            <Form>StyleOptionsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>ui_elements\frames\style_options.h</DependentOn>
+            <BuildOrder>181</BuildOrder>
         </CppCompile>
         <CppCompile Include="ui_elements\frames\text_options.cpp">
             <Form>TextOptionsFrame</Form>
@@ -691,10 +707,11 @@
             <BuildOrder>121</BuildOrder>
         </None>
         <FormResources Include="ui_elements\frames\header_options.dfm"/>
+        <FormResources Include="ui_elements\frames\text_options.dfm"/>
         <FormResources Include="About.dfm"/>
         <FormResources Include="LayoutTest.dfm"/>
         <FormResources Include="Editor.dfm"/>
-        <FormResources Include="ui_elements\frames\text_options.dfm"/>
+        <FormResources Include="ui_elements\frames\style_options.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

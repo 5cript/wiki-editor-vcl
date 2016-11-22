@@ -31,7 +31,8 @@ namespace WikiElements
 		virtual long getWidth() const = 0;
 		virtual TControl* getBasicControl() = 0;
 		virtual std::string getDataTypeName() const = 0;
-        virtual TFrame* getOptionsFrame() = 0;
+		virtual TFrame* getOptionsFrame() = 0;
+		virtual TFrame* getStyleOptionsFrame() = 0;
 	};
 
 	template <typename Derivative, typename UnderlyingUiElement, typename DataElement>
@@ -73,7 +74,8 @@ namespace WikiElements
 				// function called recursively!!!
 				return false;
 			}
-			entered = true;*/
+			entered = true;
+			*/
 
 			if (style_.empty())
             	return false;
@@ -154,6 +156,15 @@ namespace WikiElements
 			return &*optionsFrame_;
 		}
 
+		TFrame* getStyleOptionsFrame() override
+		{
+			if (!styleOptionsFrame_)
+				initializeStyleOptionsFrame();
+			if (!styleOptionsFrame_)
+				return nullptr;
+			return &*styleOptionsFrame_;
+        }
+
 	protected:
 		DataElement* getDataHandle()
 		{
@@ -175,14 +186,21 @@ namespace WikiElements
 		virtual void initializeOptionsFrame()
 		{
 			// this function is only initialized, so an option frame is not
-            // required by any control. It is eligible to have components without it.
-        }
+			// required by any control. It is eligible to have components without it.
+		}
+
+		virtual void initializeStyleOptionsFrame()
+		{
+			// this function is only initialized, so a style option frame is not
+			// required by any control. It is eligible to have components without it.
+		}
 
     protected:
 		Section* parentSection_;
 		std::unique_ptr <UnderlyingUiElement> control_;
 		DataElement data_;
 		std::unique_ptr <TFrame> optionsFrame_;
+		std::unique_ptr <TFrame> styleOptionsFrame_;
         std::string style_;
     };
 };

@@ -11,6 +11,7 @@
 #include "constants.h"
 #include "frame_interface.h"
 #include "query_delphi_interface.hpp"
+#include "resources.h"
 //#include "component_export.hpp"
 
 #include <functional>
@@ -43,19 +44,26 @@ void __fastcall TMainEditor::About1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormResize(TObject *Sender)
 {
+	/*
 	EditorGrid->Width = Width - 24 - EditorGrid->Left;
 	EditorGrid->Height = Height - 64 - EditorGrid->Top;
+	*/
 	Viewport->Width =
 		PageContainer->Width -
 		!!(PageContainer->BevelOuter != bvNone) * PageContainer->BevelWidth * 2 -
 		!!(Viewport->BevelOuter != bvNone) * Viewport->BevelWidth * 2 -
 		18 /* scrollbar height */;
-    PropertyView->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
+
+    PropertyTabs->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormCreate(TObject *Sender)
 {
-    // Controller
+	// Fix Ui Alignment
+	PageContainerResize(this);
+	PropertyControlPaneResize(this);
+
+	// Controller
 	controller_.initializeViewport();
 	controller_.addSection();
 
@@ -66,6 +74,9 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 	Screen->Cursors[WikiEditorConstants::crosshairCursor] = LoadCursor(HInstance, L"Crosshair");
 
 	// Translation
+	if (!FileExists(L"locale.json"))
+		SaveResourceToFile(L"locale", L"locale.json");
+
 	Translator::getInstance().loadLanguageFile("locale.json");
 	TranslateWindow();
 }
@@ -124,14 +135,17 @@ void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
 				auto* frame = element->getOptionsFrame();
 				if (frame)
 				{
+					OptionsFrameAdapter{frame}.translate();
+					/*
 					auto* iface = interface_query_cast <IOptionsFrame*> (frame);
 					if (iface)
 						iface->translate();
 					else
 						ShowMessage("Options frame misses IOptionsFrame interface");
+					*/
 
 					//frameTranslate(frame);
-					frame->Parent = PropertyView;
+					frame->Parent = ElementSpecificOptions;
 					frame->Show();
 				}
 				lastFrame_ = frame;
@@ -147,7 +161,6 @@ void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::initLocals1Click(TObject *Sender)
 {
-	//
 	Translator::getInstance().saveLanguageFile("locale.json");
 }
 //---------------------------------------------------------------------------
@@ -164,6 +177,11 @@ void TMainEditor::TranslateWindow()
 	};
 	translateMenuItem(Menu->Items);
 
+	for (int i = 0; i != PropertyTabs->Tabs->Count; ++i)
+	{
+		PropertyTabs->Tabs->Strings[i] = ::translate(PropertyTabs->Tabs->Strings[i]);
+    }
+
 	// All Objects that have captions:
 	for(int i = 0; i < ComponentCount; i++)
 	{
@@ -175,7 +193,6 @@ void TMainEditor::TranslateWindow()
 	TRANSLATE_SPECIFIC(CategoryPanel1, Caption)
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TMainEditor::AppEventsMessage(tagMSG &Msg, bool &Handled)
 {
 	switch (Msg.message)
@@ -184,6 +201,34 @@ void __fastcall TMainEditor::AppEventsMessage(tagMSG &Msg, bool &Handled)
 			if (Msg.wParam == vkEscape && controller_.isInSelectionMode())
 				controller_.stopSelectionMode();
 			break;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::PropertyControlPaneResize(TObject *Sender)
+{
+	PropertyTabs->Width = PropertyControlPane->Width - PropertyTabs->Left * 2;
+	Log->Width = PropertyControlPane->Width - Log->Left * 2;
+	StartComponentSelect->Width = PropertyControlPane->Width - StartComponentSelect->Left * 2;
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::PageContainerResize(TObject *Sender)
+{
+	Viewport->Width = PageContainer->Width - 4;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainEditor::PropertyTabsChanging(TObject *Sender, bool &AllowChange)
+
+{
+	if (PropertyTabs->TabIndex == 1)
+	{
+		ElementSpecificOptions->Show();
+		StyleOptions->Hide();
+	}
+	else
+	{
+		ElementSpecificOptions->Hide();
+		StyleOptions->Show();
     }
 }
 //---------------------------------------------------------------------------

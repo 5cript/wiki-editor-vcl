@@ -22,6 +22,7 @@ namespace WikiElements
 
 	protected:
 		void initializeOptionsFrame() override;
+		void initializeStyleOptionsFrame() override;
 
 	protected:
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;

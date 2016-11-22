@@ -3,7 +3,6 @@
 #ifndef header_optionsH
 #define header_optionsH
 //---------------------------------------------------------------------------
-#include "frame_interface.h"
 #include "../element_fwd.h"
 
 #include <System.Classes.hpp>
@@ -12,7 +11,6 @@
 #include <Vcl.Forms.hpp>
 //---------------------------------------------------------------------------
 class THeaderOptionsFrame : public TFrame
-						  , public IOptionsFrame
 {
 __published:	// Von der IDE verwaltete Komponenten
 	TComboBox *HeaderLayer;

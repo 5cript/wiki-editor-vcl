@@ -6,6 +6,7 @@
 
 #include "style_applicator.h"
 #include "frames/text_options.h"
+#include "frames/style_options.h"
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
@@ -89,6 +90,12 @@ namespace WikiElements
 	{
 		optionsFrame_.reset(new TTextOptionsFrame(nullptr));
 		static_cast <TTextOptionsFrame*> (&*optionsFrame_)->setOwner(this);
+	}
+//---------------------------------------------------------------------------
+	void Text::initializeStyleOptionsFrame()
+	{
+		styleOptionsFrame_.reset(new TStyleOptionsFrame(nullptr));
+		static_cast <TStyleOptionsFrame*> (&*styleOptionsFrame_)->setOwner(this);
     }
 //---------------------------------------------------------------------------
 }

@@ -20,7 +20,11 @@
 					"$HeaderLayer3": "Überschrift 3",
 					"$HeaderLayer4": "Überschrift 4",
 					"$HeaderLayer5": "Überschrift 5",
-					"$HeaderLayer6": "Überschrift 6"
+					"$HeaderLayer6": "Überschrift 6",
+					"$PTabsSpecific": "Element Spezifisch",
+					"$PTabsStyleOpts": "Style",
+					"$FontSettings": "Schrift Eigenschaften",
+					"$FontSize", "Schriftgröße"
 				}
 			},
 			"en_US": {
@@ -42,7 +46,11 @@
 					"$HeaderLayer3": "Header 3",
 					"$HeaderLayer4": "Header 4",
 					"$HeaderLayer5": "Header 5",
-					"$HeaderLayer6": "Header 6"
+					"$HeaderLayer6": "Header 6",
+					"$PTabsSpecific": "Element Specific",
+					"$PTabsStyleOpts": "Style",
+					"$FontSettings": "Font Settings",
+					"$FontSize", "Font Size"
 				}
 			}
 		}

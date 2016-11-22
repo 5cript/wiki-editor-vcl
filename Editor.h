@@ -32,23 +32,26 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *SaveArticleAs1;
 	TMenuItem *Help1;
 	TMenuItem *About1;
-	TGridPanel *EditorGrid;
-	TScrollBox *PageContainer;
-	TPanel *PropertyControlPane;
 	TCategoryPanelGroup *WikiElementCategoryGroup;
 	TCategoryPanel *CategoryPanel1;
-	TImage *Penguins;
-	TGridPanel *Viewport;
-	TRichEdit *Log;
 	TMenuItem *Debug1;
 	TMenuItem *AddTestElements1;
 	TMenuItem *estFormShowModal1;
 	TMenuItem *controlleraddSection1;
 	TMenuItem *loadCursor1;
-	TPanel *PropertyView;
-	TBitBtn *StartComponentSelect;
 	TMenuItem *initLocals1;
 	TApplicationEvents *AppEvents;
+	TPanel *Panel1;
+	TScrollBox *PageContainer;
+	TGridPanel *Viewport;
+	TPanel *PropertyControlPane;
+	TRichEdit *Log;
+	TBitBtn *StartComponentSelect;
+	TTabControl *PropertyTabs;
+	TSplitter *Splitter1;
+	TImage *Penguins;
+	TPanel *ElementSpecificOptions;
+	TPanel *StyleOptions;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -63,6 +66,9 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall StartComponentSelectClick(TObject *Sender);
 	void __fastcall initLocals1Click(TObject *Sender);
 	void __fastcall AppEventsMessage(tagMSG &Msg, bool &Handled);
+	void __fastcall PropertyControlPaneResize(TObject *Sender);
+	void __fastcall PageContainerResize(TObject *Sender);
+	void __fastcall PropertyTabsChanging(TObject *Sender, bool &AllowChange);
 
 
 private:	// Benutzer-Deklarationen

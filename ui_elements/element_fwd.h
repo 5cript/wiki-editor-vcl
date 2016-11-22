@@ -2,6 +2,7 @@
 
 namespace WikiElements
 {
+	class BasicElement;
 	class Header;
 	class HorizontalLine;
 	class Spacer;
