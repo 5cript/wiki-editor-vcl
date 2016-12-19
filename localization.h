@@ -67,15 +67,38 @@ BOOST_FUSION_ADAPT_STRUCT
 )
 //---------------------------------------------------------------------------
 #define TRANSLATE_SPECIFIC(WHAT, PROPERTY) \
+	do { \
 	if (WHAT->PROPERTY.SubString(0, 1) == "$") \
 		WHAT->PROPERTY = ::translate(WHAT->PROPERTY); \
-
+	} while (false)
+//---------------------------------------------------------------------------
+#define TRANSLATE_OF_TYPE_I(INDEX, PARENT, TYPE, PROPERTY) \
+	do { \
+		auto* control = dynamic_cast <TYPE*> (PARENT->Components[INDEX]); \
+		if (!control) \
+			continue; \
+		\
+		TRANSLATE_SPECIFIC(control, PROPERTY); \
+	} while (false)
+//---------------------------------------------------------------------------
 #define TRANSLATE_OF_TYPE(PARENT, TYPE, PROPERTY) \
-{ \
-	auto* control = dynamic_cast <TYPE*> (PARENT->Components[i]); \
-	if (!control) \
-		continue; \
-	\
-	TRANSLATE_SPECIFIC(control, PROPERTY) \
+	do { \
+		for (int i = 0; i < ComponentCount; i++) \
+		{ \
+			TRANSLATE_OF_TYPE_I(i, PARENT, TYPE, PROPERTY); \
+		} \
+	} while (false)
+//---------------------------------------------------------------------------
+template <typename StringListIT>
+void translateStringList(StringListIT& items)
+{
+	std::unique_ptr <TStringList> tempList {new TStringList()};
+	tempList->AddStrings(items);
+	for (int j = 0; j != tempList->Count; ++j)
+	{
+		auto temp = tempList->Strings[j];
+		TRANSLATE_SPECIFIC(tempList, Strings[j]);
+	}
+	items->Assign(&*tempList);
 }
 //---------------------------------------------------------------------------

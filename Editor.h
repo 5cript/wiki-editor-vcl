@@ -73,7 +73,8 @@ __published:	// Von der IDE verwaltete Komponenten
 
 private:	// Benutzer-Deklarationen
 	void LoadPage();
-    void TranslateWindow();
+	void TranslateWindow();
+	void __fastcall SelectCallback(WikiElements::BasicElement* element, bool autoSelect = false);
 
 	PageController controller_;
     TFrame* lastFrame_;

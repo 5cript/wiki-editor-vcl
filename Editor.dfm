@@ -28,7 +28,6 @@ object MainEditor: TMainEditor
     HeaderFont.Name = 'Tahoma'
     HeaderFont.Style = []
     TabOrder = 0
-    ExplicitHeight = 729
     object CategoryPanel1: TCategoryPanel
       Top = 0
       Caption = '$UiTextElements'
@@ -24362,10 +24361,6 @@ object MainEditor: TMainEditor
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1
-    ExplicitLeft = 206
-    ExplicitTop = 8
-    ExplicitWidth = 787
-    ExplicitHeight = 657
     object Splitter1: TSplitter
       Left = 560
       Top = 1
@@ -24390,10 +24385,6 @@ object MainEditor: TMainEditor
       ParentDoubleBuffered = False
       TabOrder = 0
       OnResize = PageContainerResize
-      ExplicitLeft = 3
-      ExplicitTop = 9
-      ExplicitWidth = 480
-      ExplicitHeight = 629
       object Viewport: TGridPanel
         Left = 0
         Top = 0
@@ -24422,8 +24413,6 @@ object MainEditor: TMainEditor
       Align = alRight
       TabOrder = 1
       OnResize = PropertyControlPaneResize
-      ExplicitLeft = 496
-      ExplicitHeight = 655
       object Log: TRichEdit
         Left = 8
         Top = 446
@@ -24576,8 +24565,6 @@ object MainEditor: TMainEditor
           Height = 353
           Align = alClient
           TabOrder = 0
-          ExplicitLeft = 3
-          ExplicitTop = 25
         end
         object StyleOptions: TPanel
           Left = 4
@@ -24586,8 +24573,7 @@ object MainEditor: TMainEditor
           Height = 353
           Align = alClient
           TabOrder = 1
-          ExplicitLeft = 8
-          ExplicitTop = 28
+          Visible = False
         end
       end
     end

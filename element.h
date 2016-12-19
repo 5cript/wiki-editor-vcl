@@ -163,13 +163,14 @@ namespace WikiElements
 			if (!styleOptionsFrame_)
 				return nullptr;
 			return &*styleOptionsFrame_;
-        }
+		}
 
-	protected:
 		DataElement* getDataHandle()
 		{
 			return &data_;
 		}
+
+	protected:
 
 		virtual void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) = 0;
 

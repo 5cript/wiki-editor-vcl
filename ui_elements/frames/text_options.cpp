@@ -28,6 +28,6 @@ void TTextOptionsFrame::setOwner(WikiElements::BasicElement* owner)
 {
 	owner_ = dynamic_cast <WikiElements::Text*> (owner);
 	if (!owner_)
-		throw std::invalid_argument("passed owner is not of header element type");
+		throw std::invalid_argument("passed owner is not of text element type");
 }
 //---------------------------------------------------------------------------

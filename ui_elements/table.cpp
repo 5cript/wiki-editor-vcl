@@ -5,6 +5,7 @@
 #include "table.h"
 
 #include "style_applicator.h"
+#include "frames/table_options.h"
 
 #include <algorithm>
 
@@ -36,6 +37,72 @@ namespace WikiElements
 		control_->DrawingStyle = gdsClassic;
 		control_->ColWidths[0] = 8;
 		control_->RowHeights[0] = 8;
+	}
+//---------------------------------------------------------------------------
+	WretchedCss::StyleSheet Table::gatherStyles(std::size_t column, std::size_t row)
+	{
+		if (data_.rows.size() <= row)
+			throw std::invalid_argument("row parameter exceeds actual row count");
+
+		if (data_.rows[row].cells.size() <= column)
+			throw std::invalid_argument("column parameter exceeds actual row count");
+
+		auto getOptional = [](std::map <std::string, std::string> const& map,
+							  std::string const& key) -> boost::optional <std::string>
+		{
+			auto iter = map.find(key);
+			if (iter != std::end(map))
+				return {iter->second};
+			else
+				return boost::none;
+        };
+
+		auto cellStyle = getOptional(data_.rows[row].cells[column].attributes, "style");
+		auto rowStyle = getOptional(data_.rows[row].attributes, "style");
+		auto tableStyle = getOptional(data_.attributes, "style");
+
+		auto tableClass = getOptional(data_.attributes, "class");
+
+		using namespace WretchedCss;
+
+		StyleParser extractor;
+		auto sheet = extractor.parseStyleSheet(style_);
+		StyleSheet filteredSheet;
+
+		auto augmentStyle = [](std::string const& selector, std::string const& content)
+		{
+            return selector + " {\r\n" + content + "\r\n}";
+		};
+
+		if (tableClass) {
+			auto tableClass2 = sheet.select(std::string(".") + tableClass.get());
+			if (tableClass2)
+				filteredSheet.addStyle(tableClass2.get());
+		}
+
+		if (tableStyle)
+			filteredSheet.addStyle(
+				extractor.parseStyleSheet(augmentStyle(".tableStyle", tableStyle.get())).select(".tableStyle").get()
+			);
+
+		if (rowStyle)
+			filteredSheet.addStyle(
+				extractor.parseStyleSheet(augmentStyle(".rowStyle", rowStyle.get())).select(".rowStyle").get()
+			);
+
+		if (cellStyle)
+			filteredSheet.addStyle(
+				extractor.parseStyleSheet(augmentStyle(".cellStyle", cellStyle.get())).select(".cellStyle").get()
+			);
+
+        ShowMessage(filteredSheet.toString().c_str());
+	}
+//---------------------------------------------------------------------------
+	void Table::resize(std::size_t height, std::size_t width)
+	{
+		data_.rows.resize(height);
+		for (auto& row : data_.rows)
+			row.resize(width);
     }
 //---------------------------------------------------------------------------
 	void Table::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
@@ -66,6 +133,8 @@ namespace WikiElements
 		drawRectCpy.Left += 2;
 		drawRectCpy.Top += 2;
 
+
+		control_->Canvas->Brush->Color = clRed;
 		control_->Canvas->FillRect(Rect);
 		DrawText(
 			control_->Canvas->Handle,
@@ -103,6 +172,17 @@ namespace WikiElements
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift, int X, int Y)
+	{
+
+	}
+//---------------------------------------------------------------------------
+	void Table::initializeOptionsFrame()
+	{
+		optionsFrame_.reset(new TTableOptionsFrame(nullptr));
+        static_cast <TTableOptionsFrame*> (&*optionsFrame_)->setOwner(this);
+	}
+//---------------------------------------------------------------------------
+	void Table::initializeStyleOptionsFrame()
 	{
 
     }

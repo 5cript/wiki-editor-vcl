@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef header_optionsH
-#define header_optionsH
+#ifndef table_optionsH
+#define table_optionsH
 //---------------------------------------------------------------------------
 #include "../element_fwd.h"
 
@@ -9,24 +9,28 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.ValEdit.hpp>
 //---------------------------------------------------------------------------
-class THeaderOptionsFrame : public TFrame
+class TTableOptionsFrame : public TFrame
 {
 __published:	// Von der IDE verwaltete Komponenten
-	TComboBox *HeaderLayer;
-	TLabel *Label1;
-	void __fastcall Label1Click(TObject *Sender);
-	void __fastcall HeaderLayerChange(TObject *Sender);
+	TValueListEditor *TableAttributes;
+	TLabel *AttributeLbl;
+	TCheckBox *HeaderCellChecker;
+	void __fastcall TableAttributesValidate(TObject *Sender, int ACol, int ARow, const UnicodeString KeyName,
+          const UnicodeString KeyValue);
 private:	// Benutzer-Deklarationen
 	bool translated_;
-	WikiElements::Header* owner_;
+	WikiElements::Table* owner_;
 public:		// Benutzer-Deklarationen
-	void populate();
 	void translate();
+	void populate();
 	void setOwner(WikiElements::BasicElement* owner);
-	__fastcall THeaderOptionsFrame(TComponent* Owner);
+
+	__fastcall TTableOptionsFrame(TComponent* Owner);
 };
 //---------------------------------------------------------------------------
-extern PACKAGE THeaderOptionsFrame *HeaderOptionsFrame;
+extern PACKAGE TTableOptionsFrame *TableOptionsFrame;
 //---------------------------------------------------------------------------
 #endif

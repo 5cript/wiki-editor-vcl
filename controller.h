@@ -113,6 +113,17 @@ public:
 	 */
 	bool isInSelectionMode() const;
 
+	/**
+	 *  Checks whether the page is in auto selection mode.
+	 *  Elements will be automatically selected on click when in auto select mode.
+	 */
+	bool isAutoSelectEnabled() const;
+
+	/**
+	 *  Set the selection mode.
+	 */
+	bool setAutoSelectEnabled(bool autoSelect);
+
 private: // vcl events
 	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 	void __fastcall onViewportClick(TObject* Sender);
@@ -122,5 +133,6 @@ private:
 	std::vector <Section> sections_;
 	std::string style_;
 	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
+	bool autoSelect_;
 };
 //---------------------------------------------------------------------------

@@ -6,10 +6,11 @@
 //---------------------------------------------------------------------------
 USEFORM("ui_elements\frames\header_options.cpp", HeaderOptionsFrame); /* TFrame: File Type */
 USEFORM("ui_elements\frames\text_options.cpp", TextOptionsFrame); /* TFrame: File Type */
-USEFORM("About.cpp", AboutForm);
-USEFORM("LayoutTest.cpp", TestForm);
-USEFORM("Editor.cpp", MainEditor);
 USEFORM("ui_elements\frames\style_options.cpp", StyleOptionsFrame); /* TFrame: File Type */
+USEFORM("About.cpp", AboutForm);
+USEFORM("Editor.cpp", MainEditor);
+USEFORM("LayoutTest.cpp", TestForm);
+USEFORM("ui_elements\frames\table_options.cpp", TableOptionsFrame); /* TFrame: File Type */
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {

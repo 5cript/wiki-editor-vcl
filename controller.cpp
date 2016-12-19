@@ -23,6 +23,7 @@ PageController::PageController(ViewportContainer* viewport)
 	, sections_{}
 	, style_{}
 	, selectionCallback_{}
+	, autoSelect_{false}
 {
 	viewport_->OnClick = onViewportClick;
 }
@@ -59,6 +60,11 @@ void PageController::test()
 
 		auto* table = sections_.back().addElement <Table>();
 		table->setStyle(style_);
+		table->getDataHandle()->attributes["class"] = "wikitable";
+
+		table->
+
+		table->gatherStyles(0, 0);
 
 		// finally
 		realign();
@@ -237,7 +243,8 @@ void PageController::stopSelectionMode(WikiElements::BasicElement* element)
 	if (selectionCallback_)
 	{
 		selectionCallback_(element);
-		selectionCallback_ = {};
+		if (!autoSelect_)
+			selectionCallback_ = {};
 	}
 }
 //---------------------------------------------------------------------------
@@ -245,13 +252,23 @@ void __fastcall PageController::onViewportClick(TObject* Sender)
 {
 	if (isInSelectionMode())
 	{
-		selectionCallback_(nullptr);
-		stopSelectionMode();
+		// selectionCallback_(nullptr);
+		stopSelectionMode(nullptr);
     }
 }
 //---------------------------------------------------------------------------
 bool PageController::isInSelectionMode() const
 {
 	return selectionCallback_;
+}
+//---------------------------------------------------------------------------
+bool PageController::setAutoSelectEnabled(bool autoSelect)
+{
+	autoSelect_ = autoSelect;
+}
+//---------------------------------------------------------------------------
+bool PageController::isAutoSelectEnabled() const
+{
+	return autoSelect_;
 }
 //---------------------------------------------------------------------------

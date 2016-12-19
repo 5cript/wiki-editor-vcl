@@ -67,6 +67,12 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 	controller_.initializeViewport();
 	controller_.addSection();
 
+	// Auto-Select
+	controller_.setAutoSelectEnabled(true);
+	controller_.startSelectionMode([this](WikiElements::BasicElement* element){
+		SelectCallback(element);
+	});
+
 	// Logging
 	SetLog(Log);
 
@@ -74,8 +80,8 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 	Screen->Cursors[WikiEditorConstants::crosshairCursor] = LoadCursor(HInstance, L"Crosshair");
 
 	// Translation
-	if (!FileExists(L"locale.json"))
-		SaveResourceToFile(L"locale", L"locale.json");
+	//if (!FileExists(L"locale.json"))
+	SaveResourceToFile(L"locale", L"locale.json");
 
 	Translator::getInstance().loadLanguageFile("locale.json");
 	TranslateWindow();
@@ -119,38 +125,44 @@ void __fastcall TMainEditor::controlleraddSection1Click(TObject *Sender)
 	controller_.addSection();
 }
 //---------------------------------------------------------------------------
+void __fastcall TMainEditor::SelectCallback(WikiElements::BasicElement* element, bool autoSelect)
+{
+	if (element != nullptr)
+	{
+		if (lastFrame_)
+		{
+			lastFrame_->Hide();
+			lastFrame_->Parent = nullptr;
+		}
+		auto* frame = element->getOptionsFrame();
+		if (frame)
+		{
+			OptionsFrameAdapter{frame}.translate().populate();
+			/*
+			auto* iface = interface_query_cast <IOptionsFrame*> (frame);
+			if (iface)
+				iface->translate();
+			else
+				ShowMessage("Options frame misses IOptionsFrame interface");
+			*/
+
+			//frameTranslate(frame);
+			frame->Parent = ElementSpecificOptions;
+			frame->Show();
+		}
+		lastFrame_ = frame;
+	}
+	if (!autoSelect)
+		Screen->Cursor = crDefault;
+}
+//---------------------------------------------------------------------------
 void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
 {
 	if (!controller_.isInSelectionMode())
 	{
 		Screen->Cursor = static_cast <TCursor> (WikiEditorConstants::crosshairCursor);
 		controller_.startSelectionMode([this](WikiElements::BasicElement* element){
-			if (element != nullptr)
-			{
-				if (lastFrame_)
-				{
-					lastFrame_->Hide();
-					lastFrame_->Parent = nullptr;
-				}
-				auto* frame = element->getOptionsFrame();
-				if (frame)
-				{
-					OptionsFrameAdapter{frame}.translate();
-					/*
-					auto* iface = interface_query_cast <IOptionsFrame*> (frame);
-					if (iface)
-						iface->translate();
-					else
-						ShowMessage("Options frame misses IOptionsFrame interface");
-					*/
-
-					//frameTranslate(frame);
-					frame->Parent = ElementSpecificOptions;
-					frame->Show();
-				}
-				lastFrame_ = frame;
-			}
-			Screen->Cursor = crDefault;
+            SelectCallback(element);
 		});
 	}
 	else
@@ -185,12 +197,12 @@ void TMainEditor::TranslateWindow()
 	// All Objects that have captions:
 	for(int i = 0; i < ComponentCount; i++)
 	{
-		TRANSLATE_OF_TYPE(this, TBitBtn, Caption)
-		TRANSLATE_OF_TYPE(this, TLabel, Caption)
-		TRANSLATE_OF_TYPE(this, TCategoryPanel, Caption)
+		TRANSLATE_OF_TYPE_I(i, this, TBitBtn, Caption);
+		TRANSLATE_OF_TYPE_I(i, this, TLabel, Caption);
+		TRANSLATE_OF_TYPE_I(i, this, TCategoryPanel, Caption);
 	}
 
-	TRANSLATE_SPECIFIC(CategoryPanel1, Caption)
+	TRANSLATE_SPECIFIC(CategoryPanel1, Caption);
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::AppEventsMessage(tagMSG &Msg, bool &Handled)

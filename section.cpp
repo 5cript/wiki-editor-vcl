@@ -303,7 +303,7 @@ PageController* Section::getController()
 //---------------------------------------------------------------------------
 void __fastcall Section::onElementClick(TObject* Sender, WikiElements::BasicElement* element)
 {
-	if (parent_->isInSelectionMode())
+	if (parent_->isInSelectionMode() || parent_->isAutoSelectEnabled())
 	{
 		parent_->stopSelectionMode(element);
 	}
