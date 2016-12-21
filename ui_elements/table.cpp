@@ -2,14 +2,21 @@
 
 #pragma hdrstop
 
+// Self
 #include "table.h"
 
+// Project
 #include "style_applicator.h"
 #include "frames/table_options.h"
+#include "style_parser.h"
 
-#include <algorithm>
-
+// VCL
 #include <Vcl.Dialogs.hpp>
+
+// STL
+#include <algorithm>
+#include <limits>
+#include <tuple>
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
@@ -74,35 +81,105 @@ namespace WikiElements
             return selector + " {\r\n" + content + "\r\n}";
 		};
 
+		auto& cssParser = WretchedCssLibrary::getInstance();
+
 		if (tableClass) {
-			auto tableClass2 = sheet.select(std::string(".") + tableClass.get());
+			auto tableClass2 = sheet.select(cssParser.selectorToJson(std::string(".") + tableClass.get()));
 			if (tableClass2)
 				filteredSheet.addStyle(tableClass2.get());
 		}
 
 		if (tableStyle)
 			filteredSheet.addStyle(
-				extractor.parseStyleSheet(augmentStyle(".tableStyle", tableStyle.get())).select(".tableStyle").get()
+				extractor.parseStyleSheet(
+					augmentStyle(".tableStyle", tableStyle.get())
+				).select(cssParser.selectorToJson(".tableStyle")).get()
 			);
 
 		if (rowStyle)
 			filteredSheet.addStyle(
-				extractor.parseStyleSheet(augmentStyle(".rowStyle", rowStyle.get())).select(".rowStyle").get()
+				extractor.parseStyleSheet(
+					augmentStyle(".rowStyle", rowStyle.get())
+				).select(cssParser.selectorToJson(".rowStyle")).get()
 			);
 
 		if (cellStyle)
 			filteredSheet.addStyle(
-				extractor.parseStyleSheet(augmentStyle(".cellStyle", cellStyle.get())).select(".cellStyle").get()
+				extractor.parseStyleSheet(
+					augmentStyle(".cellStyle", cellStyle.get())
+				).select(cssParser.selectorToJson(".cellStyle")).get()
 			);
 
         ShowMessage(filteredSheet.toString().c_str());
 	}
 //---------------------------------------------------------------------------
-	void Table::resize(std::size_t height, std::size_t width)
+	bool Table::resize(std::size_t height, std::size_t width, bool safeMode)
 	{
+		auto safetyCheck = [this, &height, &width](bool checkAttributes) -> bool
+		{
+			auto canRemoveCellSafely = [](WikiMarkup::Components::TableCell* cell, bool checkAttributes) {
+				if (cell == nullptr)
+					return true;
+
+				if (!cell->data.empty())
+					return false;
+
+				if (checkAttributes && !cell->attributes.empty())
+					return false;
+
+				return true;
+            };
+
+			std::size_t minWidth;
+			std::size_t maxWidth;
+			std::size_t oldHeight = data_.rows.size();
+
+			std::tie (minWidth, maxWidth) = getTableWidth();
+
+			// from top to bottom
+			if (maxWidth > width) // optimizing check
+				for (std::size_t y = 0u; y != data_.rows.size(); ++y)
+					for (std::size_t x = width; x != maxWidth; ++x)
+						if (!canRemoveCellSafely(data_[x][y], checkAttributes))
+							return false;
+
+			if (oldHeight > height) // optimizing check
+				for (std::size_t y = height; y != oldHeight; ++y)
+					for (std::size_t x = 0u; x != width; ++x)
+						if (!canRemoveCellSafely(data_[x][y], checkAttributes))
+							return false;
+
+			return true;
+		};
+
+		if (safeMode && !safetyCheck(true))
+			return false;
+
 		data_.rows.resize(height);
 		for (auto& row : data_.rows)
-			row.resize(width);
+			resizeRow(row, width);
+
+		return true;
+	}
+//---------------------------------------------------------------------------
+	void Table::resizeRow(WikiMarkup::Components::TableRow& row, std::size_t width)
+	{
+        row.cells.resize(width);
+	}
+//---------------------------------------------------------------------------
+	std::pair <std::size_t, std::size_t> Table::getTableWidth() const
+	{
+		if (data_.rows.empty())
+			return {0u, 0u};
+
+		std::size_t widthMin = std::numeric_limits<std::size_t>::max();
+		std::size_t widthMax = 0u;
+		for (auto const& r : data_.rows)
+		{
+			widthMin = std::min(r.cells.size(), widthMin);
+			widthMax = std::max(r.cells.size(), widthMax);
+		}
+		return {widthMin, widthMax};
     }
 //---------------------------------------------------------------------------
 	void Table::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)

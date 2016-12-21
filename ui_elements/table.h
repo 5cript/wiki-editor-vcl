@@ -14,6 +14,7 @@
 
 // STL
 #include <memory>
+#include <utility>
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
@@ -33,8 +34,14 @@ namespace WikiElements
 
 		/**
 		 *  Sets the size of the table.
+		 *
+		 *	@param height The new height.
+		 *	@param width The new width.
+		 *	@param safeMode does not shrink the table, if it contains data that would be lost.
+		 *
+		 *  @return Will only return false, if shrinking fails due to safe mode.
 		 */
-		void resize(std::size_t height, std::size_t width);
+		bool resize(std::size_t height, std::size_t width, bool safeMode = false);
 
 	protected: // wimu events
 		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;
@@ -49,7 +56,23 @@ namespace WikiElements
 		void initializeStyleOptionsFrame() override;
 
 	private: // private methods
+		/**
+		 *	Will resize a wiki table row to the given width.
+		 *	This function is internal and does not need to do safety checkings.
+		 *	As placing the check here would make resizing partially an issue.
+		 *
+		 *	@param row A table row
+		 *	@param width The width to resize the row to.
+		 **/
+		void resizeRow(WikiMarkup::Components::TableRow& row, std::size_t width);
 
+		/**
+		 * 	Returns the width of the table. (min, max)
+		 *
+		 *	@return A table is not guaranteed to be of homogenous width,
+		 *  		therefore we cannot assume a definitive width here.
+		 */
+		std::pair <std::size_t, std::size_t> getTableWidth() const;
 
 	private: // members
     };

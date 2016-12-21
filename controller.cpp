@@ -62,7 +62,7 @@ void PageController::test()
 		table->setStyle(style_);
 		table->getDataHandle()->attributes["class"] = "wikitable";
 
-		table->
+		table->resize(1,1);
 
 		table->gatherStyles(0, 0);
 
