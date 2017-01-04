@@ -23,6 +23,11 @@ public:
 	Section(PageController* parent);
 
 	/**
+	 *  Move constructor.
+	 */
+	Section(Section&& other);
+
+	/**
 	 *  Get the bounding box of this section. Includes all elements.
 	 */
 	BoundingBox getBoundingBox() const;

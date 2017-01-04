@@ -9,6 +9,7 @@
 #include "ui_elements/table.h"
 #include "ui_elements/drop_target.h"
 #include "debug.h"
+#include "page.h"
 
 #include <Vcl.Dialogs.hpp>
 
@@ -270,5 +271,11 @@ bool PageController::setAutoSelectEnabled(bool autoSelect)
 bool PageController::isAutoSelectEnabled() const
 {
 	return autoSelect_;
+}
+//---------------------------------------------------------------------------
+void PageController::save(std::string const& fileName) const
+{
+	WikiPage page {sections_};
+
 }
 //---------------------------------------------------------------------------

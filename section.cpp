@@ -22,6 +22,14 @@ Section::Section(PageController* parent)
 	layout_.getControl()->OnDragOver = onDragOver;
 }
 //---------------------------------------------------------------------------
+Section::Section(Section&& other)
+	: parent_{std::move(other.parent_)}
+	, layout_{std::move(other.layout_)}
+	, children_{std::move(other.children_)}
+	, dropTarget_{std::move(other.dropTarget_)}
+{
+}
+//---------------------------------------------------------------------------
 ViewportContainer* Section::getViewport() const
 {
 	return parent_->getViewport();

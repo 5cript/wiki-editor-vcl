@@ -124,6 +124,11 @@ public:
 	 */
 	bool setAutoSelectEnabled(bool autoSelect);
 
+	/**
+	 * 	Saves the page as a .tar.bz2
+	 */
+	void save(std::string const& fileName) const;
+
 private: // vcl events
 	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 	void __fastcall onViewportClick(TObject* Sender);
