@@ -110,7 +110,7 @@ namespace WikiElements
 				).select(cssParser.selectorToJson(".cellStyle")).get()
 			);
 
-        ShowMessage(filteredSheet.toString().c_str());
+        //ShowMessage(filteredSheet.toString().c_str());
 	}
 //---------------------------------------------------------------------------
 	bool Table::resize(std::size_t height, std::size_t width, bool safeMode)

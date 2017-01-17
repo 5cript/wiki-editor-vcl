@@ -3,31 +3,15 @@
 
 #include "section.h"
 
-#ifndef Q_MOC_RUN
-#   include "SimpleJSON/parse/jsd.hpp"
-#   include "SimpleJSON/parse/jsd_convenience.hpp"
-#   include "SimpleJSON/stringify/jss.hpp"
-#   include "SimpleJSON/stringify/jss_fusion_adapted_struct.hpp"
-#endif
+#include "wiki-markup/exportable_page.hpp"
 
 #include <vector>
 //---------------------------------------------------------------------------
-struct WikiPage : public JSON::Stringifiable <WikiPage>
-				, public JSON::Parsable <WikiPage>
+class WikiPage : public WikiMarkup::ExportablePage
 {
-	std::vector <Section> const& sections;
-
-	WikiPage(std::vector <Section> const& sections);
-
-	std::string toJson();
-	void fromJson();
+public:
+	void fromMarkup(std::string const& markup);
 	std::string toMarkup();
-    void fromMarkup();
 };
 //---------------------------------------------------------------------------
 
-BOOST_FUSION_ADAPT_STRUCT
-(
-	WikiPage,
-    (std::vector <Section>, sections)
-)

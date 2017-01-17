@@ -6,6 +6,8 @@
 #include "controller.h"
 #include "element.h"
 #include "debug.h"
+#include "markup_converter.h"
+#include "elements.h"
 
 #include "ui_elements/drop_target.h"
 
@@ -315,6 +317,33 @@ void __fastcall Section::onElementClick(TObject* Sender, WikiElements::BasicElem
 	{
 		parent_->stopSelectionMode(element);
 	}
+}
+//---------------------------------------------------------------------------
+void Section::loadComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> const& components)
+{
+	for (auto const& component : components)
+	{
+        elementFactory(this, component.get());
+    }
+}
+//---------------------------------------------------------------------------
+void Section::saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components)
+{
+	for (auto const& i : children_)
+	{
+		auto* comp = extractData(i.get());
+		if (comp != nullptr)
+			components.emplace_back(comp);
+		else
+			throw std::runtime_error(std::string("impossible!? data == nullptr") + __FILE__ + ":" + std::to_string(__LINE__));
+    }
+}
+//---------------------------------------------------------------------------
+std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> Section::saveComponents()
+{
+	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> comps;
+	saveComponents(comps);
+	return comps;
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

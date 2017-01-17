@@ -21,7 +21,7 @@ std::string MarkupLibrary::markupToJson(std::string const& markup)
 {
 	char* buffer;
 	markup_to_json_(markup.c_str(), &buffer);
-	std::string json = {buffer}; // noexcept, or bad_alloc
+	std::string json = std::string{buffer}; // noexcept, or bad_alloc
 	free_buffer_(buffer);
 
 	return json;
@@ -31,7 +31,7 @@ std::string MarkupLibrary::jsonToMarkup(std::string const& json)
 {
  	char* buffer;
 	json_to_markup_(json.c_str(), &buffer);
-	std::string markup = {buffer}; // noexcept, or bad_alloc
+	std::string markup = std::string{buffer}; // noexcept, or bad_alloc
 	free_buffer_(buffer);
 
 	return markup;

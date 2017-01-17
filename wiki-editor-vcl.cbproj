@@ -43,9 +43,9 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <ILINK_AdditionalOptions>-lwiki-client-static -ldbghelp</ILINK_AdditionalOptions>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <IncludePath>ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
+        <IncludePath>..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1031</VerInfo_Locale>
-        <ILINK_LibraryPath>ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib;VclSmp.lib</AllPackageLibs>
@@ -437,6 +437,10 @@
         <None Include="element.h">
             <BuildOrder>154</BuildOrder>
         </None>
+        <CppCompile Include="elements.cpp">
+            <DependentOn>elements.h</DependentOn>
+            <BuildOrder>199</BuildOrder>
+        </CppCompile>
         <CppCompile Include="forward_declarations.cpp">
             <DependentOn>forward_declarations.h</DependentOn>
             <BuildOrder>157</BuildOrder>
@@ -588,6 +592,9 @@
         <None Include="..\wiki-markup\components\exportable_components\exportable_component.hpp">
             <BuildOrder>15</BuildOrder>
         </None>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_components.hpp">
+            <BuildOrder>200</BuildOrder>
+        </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_header.cpp">
             <BuildOrder>103</BuildOrder>
         </CppCompile>
@@ -629,6 +636,51 @@
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_text.hpp">
             <BuildOrder>22</BuildOrder>
+        </None>
+        <None Include="..\wiki-markup\components\list\list_atomics.hpp">
+            <BuildOrder>190</BuildOrder>
+        </None>
+        <None Include="..\wiki-markup\components\list\list_element.hpp">
+            <BuildOrder>191</BuildOrder>
+        </None>
+        <None Include="..\wiki-markup\components\list\list_line.hpp">
+            <BuildOrder>192</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\list\list_text_line.cpp">
+            <BuildOrder>193</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\list\list_text_line.hpp">
+            <BuildOrder>194</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\list\list_type.cpp">
+            <BuildOrder>195</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\list\list_type.hpp">
+            <BuildOrder>196</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\list\primal_list.cpp">
+            <BuildOrder>197</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\list\primal_list.hpp">
+            <BuildOrder>198</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\meta_info.cpp">
+            <BuildOrder>188</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\meta_info.hpp">
+            <BuildOrder>189</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\exportable_page.cpp">
+            <BuildOrder>185</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\exportable_page.hpp">
+            <BuildOrder>187</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\exp_component_factory.cpp">
+            <BuildOrder>184</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\exp_component_factory.hpp">
+            <BuildOrder>186</BuildOrder>
         </None>
         <None Include="..\wretched-css\bcb_patch.hpp">
             <BuildOrder>153</BuildOrder>
@@ -717,8 +769,8 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="ui_elements\frames\style_options.dfm"/>
         <FormResources Include="ui_elements\frames\header_options.dfm"/>
+        <FormResources Include="ui_elements\frames\style_options.dfm"/>
         <FormResources Include="ui_elements\frames\text_options.dfm"/>
         <FormResources Include="ui_elements\frames\table_options.dfm"/>
         <FormResources Include="Editor.dfm"/>
@@ -850,12 +902,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1206,27 +1273,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

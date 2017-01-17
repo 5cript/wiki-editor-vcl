@@ -7,6 +7,8 @@
 #include "layout.h"
 #include "viewport.h"
 
+#include "wiki-markup/components/exportable_components/exportable_component.hpp"
+#include "SimpleUtil/value_ptr/value_ptr.hpp"
 #include <Vcl.ExtCtrls.hpp>
 
 #include <vector>
@@ -176,6 +178,21 @@ public:
 	 * 	Called by elements.
 	 */
 	void __fastcall onElementClick(TObject* Sender, WikiElements::BasicElement* element);
+
+	/**
+	 * 	Load components into section from exportables.
+	 **/
+	void loadComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> const& components);
+
+	/**
+	 *  Save components into exportable format. (Appends END_SECTION comment)
+	 **/
+	void saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components);
+
+	/**
+	 *  Save components into exportable format. (Appends END_SECTION comment)
+	 **/
+	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> saveComponents();
 
 public:
 	void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);

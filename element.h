@@ -170,6 +170,11 @@ namespace WikiElements
 			return &data_;
 		}
 
+		void setData(DataElement const& data)
+		{
+            data_ = data;
+        }
+
 	protected:
 
 		virtual void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) = 0;

@@ -122,12 +122,17 @@ public:
 	/**
 	 *  Set the selection mode.
 	 */
-	bool setAutoSelectEnabled(bool autoSelect);
+	void setAutoSelectEnabled(bool autoSelect);
 
 	/**
 	 * 	Saves the page as a .tar.bz2
 	 */
 	void save(std::string const& fileName) const;
+
+	/**
+	 *	Loads a page from a .tar.bz2
+	 **/
+	void load(std::string const& fileName);
 
 private: // vcl events
 	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);

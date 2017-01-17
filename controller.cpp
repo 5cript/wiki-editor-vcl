@@ -13,6 +13,7 @@
 
 #include <Vcl.Dialogs.hpp>
 
+#include <string>
 #include <fstream>
 #include <cstdlib>
 //---------------------------------------------------------------------------
@@ -66,6 +67,8 @@ void PageController::test()
 		table->resize(1,1);
 
 		table->gatherStyles(0, 0);
+
+        load("testfile.txt");
 
 		// finally
 		realign();
@@ -263,7 +266,7 @@ bool PageController::isInSelectionMode() const
 	return selectionCallback_;
 }
 //---------------------------------------------------------------------------
-bool PageController::setAutoSelectEnabled(bool autoSelect)
+void PageController::setAutoSelectEnabled(bool autoSelect)
 {
 	autoSelect_ = autoSelect;
 }
@@ -275,7 +278,33 @@ bool PageController::isAutoSelectEnabled() const
 //---------------------------------------------------------------------------
 void PageController::save(std::string const& fileName) const
 {
-	WikiPage page {sections_};
+	//WikiPage page {sections_};
+}
+//---------------------------------------------------------------------------
+void PageController::load(std::string const& fileName)
+{
+	WikiPage page{};
+	std::ifstream reader {fileName, std::ios_base::binary};
+	if (!reader.good())
+    	throw std::runtime_error((std::string{"file not found: "} + fileName).c_str());
 
+	reader.seekg(0, std::ios::end);
+	size_t size = reader.tellg();
+	std::string buffer(size, ' ');
+	reader.seekg(0);
+	reader.read(&buffer[0], size);
+
+	page.fromMarkup(buffer);
+
+
+	sections_.back().loadComponents(page.getComponents());
+
+	WikiPage p2;
+	p2.setComponents(sections_.back().saveComponents());
+
+
+	std::ofstream writer{"out2.txt", std::ios_base::binary};
+	std::string str = p2.toJson();
+	writer.write(str.c_str(), str.length());
 }
 //---------------------------------------------------------------------------
