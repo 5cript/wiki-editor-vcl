@@ -1,40 +1,19 @@
 //---------------------------------------------------------------------------
 #pragma once
 
-#include <memory>
-#include <typeinfo>
-#include <Vcl.ExtCtrls.hpp>
-#include <Vcl.Forms.hpp>
-
 #include "section.h"
 #include "padding_control.h"
-#include "utilities.h"
-#include "style_parser.h"
 #include "viewport.h"
 #include "layout.h"
+#include "basic_element.h"
 
 #include "wretched-css/style_sheet.hpp"
+
+#include <memory>
+#include <typeinfo>
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
-	class BasicElement
-	{
-	public:
-    	virtual ~BasicElement() = default;
-
-		virtual BoundingBox getBoundingBox() const = 0;
-		virtual void realignAfter(BasicElement* element) const = 0;
-		virtual void realignAfter(int position) const = 0;
-		virtual void moveDown(int pixels) = 0;
-		virtual void moveUp(int pixels) = 0;
-		virtual long getHeight() const = 0;
-		virtual long getWidth() const = 0;
-		virtual TControl* getBasicControl() = 0;
-		virtual std::string getDataTypeName() const = 0;
-		virtual TFrame* getOptionsFrame() = 0;
-		virtual TFrame* getStyleOptionsFrame() = 0;
-	};
-
 	template <typename Derivative, typename UnderlyingUiElement, typename DataElement>
 	class Element : public BasicElement
 	{
@@ -42,6 +21,7 @@ namespace WikiElements
 		using control_type = UnderlyingUiElement;
 		using data_type = DataElement;
 		using this_type = Derivative;
+        using element_type = Element <this_type, control_type, data_type>;
 
 	public:
 		Element(Section* parentSection)
@@ -49,7 +29,7 @@ namespace WikiElements
 			, control_{new UnderlyingUiElement(parentSection->getLayout()->getControl())}
 			, data_{}
 			, optionsFrame_{}
-			, style_{}
+			, parsedStyle_{}
 		{
 			control_->Parent = parentSection->getLayout()->getControl();
 			control_->AlignWithMargins = true;
@@ -58,32 +38,41 @@ namespace WikiElements
             control_->OnClick = onClick;
 		}
 
-		void setStyle(std::string const& style)
+		void setStyle(WretchedCss::StyleSheet const& style)
 		{
-			StyleParser parser;
-            style_ = style;
-            styleChanged(parser.parseStyleSheet(style), parser);
-		}
+			parsedStyle_ = style;
+            styleChanged(parsedStyle_);
+        }
 
-		bool redraw()
+		virtual bool redraw()
 		{
-			/*
 			static bool entered = false;
-			if (entered)
+
+			struct EnterReset
 			{
-				// function called recursively!!!
+				bool& entered_;
+				EnterReset(bool& entered)
+					: entered_ {entered}
+				{
+					if (entered)
+						throw std::logic_error("redraw called recursively");
+					entered_ = true;
+				}
+				~EnterReset()
+				{
+					entered_ = false;
+				}
+			};
+			auto recursionDetector = EnterReset{entered};
+
+
+			static_cast <this_type*> (this)->writeModelToUserInterface();
+
+			if (!parsedStyle_.empty())
+			{
+				styleChanged(parsedStyle_);
 				return false;
 			}
-			entered = true;
-			*/
-
-			if (style_.empty())
-            	return false;
-
-			StyleParser parser;
-			styleChanged(parser.parseStyleSheet(style_), parser);
-
-			//entered = false;
 			return true;
         }
 
@@ -170,14 +159,21 @@ namespace WikiElements
 			return &data_;
 		}
 
-		void setData(DataElement const& data)
+		virtual void setData(DataElement const& data)
 		{
-            data_ = data;
+			data_ = data;
+			redraw();
+        }
+
+		virtual void writeModelToUserInterface()
+		{
+			// An element does not necessarly have a model.
+			// Therfore not overriding this is a viable option.
         }
 
 	protected:
 
-		virtual void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) = 0;
+		virtual void styleChanged(WretchedCss::StyleSheet const& style) = 0;
 
 		void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept)
 		{
@@ -191,13 +187,13 @@ namespace WikiElements
 
 		virtual void initializeOptionsFrame()
 		{
-			// this function is only initialized, so an option frame is not
+			// this function body is only given, so an option frame is not
 			// required by any control. It is eligible to have components without it.
 		}
 
 		virtual void initializeStyleOptionsFrame()
 		{
-			// this function is only initialized, so a style option frame is not
+			// this function body is only given, so a style option frame is not
 			// required by any control. It is eligible to have components without it.
 		}
 
@@ -207,7 +203,7 @@ namespace WikiElements
 		DataElement data_;
 		std::unique_ptr <TFrame> optionsFrame_;
 		std::unique_ptr <TFrame> styleOptionsFrame_;
-        std::string style_;
+		WretchedCss::StyleSheet parsedStyle_;
     };
 };
 //---------------------------------------------------------------------------

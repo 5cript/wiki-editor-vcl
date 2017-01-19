@@ -5,6 +5,7 @@
 #include "style_parser.h"
 #include "constants.h"
 
+SINGLETON_GLOBALS_DECLARATION(WretchedCssLibrary)
 //###########################################################################
 WretchedCssLibrary::WretchedCssLibrary()
 	: library_{WikiEditorConstants::CssParserLibrary}

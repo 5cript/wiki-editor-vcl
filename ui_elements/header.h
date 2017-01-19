@@ -31,11 +31,13 @@ namespace WikiElements
 
 		BoundingBox getBoundingBox() const override;
 
+		void writeModelToUserInterface() override;
+
 	protected:
 		void initializeOptionsFrame() override;
 
 	protected: // events
-		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser);
+		void styleChanged(WretchedCss::StyleSheet const& style) override;
 
 	private: // vcl events
 		void __fastcall onTextChange(TObject* Sender);

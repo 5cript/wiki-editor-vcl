@@ -63,7 +63,7 @@ public:
 	 * 	Add an element to the section. It will be created in place and initialized.
 	 */
 	template <typename T>
-	T* addElement(int position = -1)
+	T* addElement(int position = -1, bool ignoreStyle = false)
 	{
 		auto* elem = new T(this);
 		try
@@ -73,14 +73,23 @@ public:
 			else
 				children_.insert(children_.begin() + position, std::unique_ptr <T> {elem});
 
+			if (!ignoreStyle)
+				adoptStyle(elem);
 			synchronizeLayout();
 		}
 		catch (std::bad_alloc const& exc)
 		{
 			delete elem;
+            throw exc; // bad_alloc is evil shit.
 		}
 		return elem;
 	}
+
+	template <typename T>
+	T* addElement(bool ignoreStyle)
+	{
+        return addElement <T>(-1, ignoreStyle);
+    }
 
 	/**
 	 *  Removes the given element from the section. It will be deleted and this will
@@ -187,12 +196,12 @@ public:
 	/**
 	 *  Save components into exportable format. (Appends END_SECTION comment)
 	 **/
-	void saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components);
+	void saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components) const;
 
 	/**
 	 *  Save components into exportable format. (Appends END_SECTION comment)
 	 **/
-	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> saveComponents();
+	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> saveComponents() const;
 
 public:
 	void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
@@ -200,6 +209,7 @@ public:
 private:
 	children_list_type::iterator findChild(WikiElements::BasicElement* element);
 	void synchronizeLayout();
+    void adoptStyle(WikiElements::BasicElement* element);
 
 private:
 	PageController* parent_;

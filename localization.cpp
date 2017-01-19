@@ -16,18 +16,22 @@
 
 #include <stdexcept>
 #include <fstream>
+
+SINGLETON_GLOBALS_DECLARATION(Translator)
 //###########################################################################
 TranslationData::Language::Language(std::map <std::string, std::string> translations)
 	: mappings{std::move(translations)}
 {
-
 }
 //###########################################################################
 Translator::Translator()
 	: language_{"de_DE"}
 	, translationFile_{}
 {
-
+}
+//---------------------------------------------------------------------------
+Translator::~Translator()
+{
 }
 //---------------------------------------------------------------------------
 void Translator::loadLanguageFile(std::string const& file)

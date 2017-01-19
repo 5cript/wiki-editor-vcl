@@ -8,6 +8,8 @@
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 
+SINGLETON_GLOBALS_DECLARATION(MarkupLibrary)
+//---------------------------------------------------------------------------
 MarkupLibrary::MarkupLibrary()
 	: library_{WikiEditorConstants::MarkupLibrary}
 	, free_buffer_{library_.get<void(char*)>("free_buffer")}

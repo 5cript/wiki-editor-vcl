@@ -8,8 +8,11 @@
 #include "ui_elements/horizontal_line.h"
 #include "ui_elements/table.h"
 #include "ui_elements/drop_target.h"
+#include "style_parser.h"
 #include "debug.h"
 #include "page.h"
+
+#include "star-tape/star_tape.hpp"
 
 #include <Vcl.Dialogs.hpp>
 
@@ -44,31 +47,21 @@ void PageController::test()
 		//setStyle(boost::filesystem::path("D:/Development_IWS/wiki-project/wiki-vcl-css/compiled.css"));
 		setStyle(boost::filesystem::path("../../../wiki-vcl-css/compiled.css"));
 
-		auto* head = sections_.back().addElement <Header>();
-		//head->setLevel(rand() % 6 + 1);
-		head->setStyle(style_);
-		head->setLevel(2);
-		head->setText("Test");
+		//load("save.wes");
 
-		auto* text = sections_.back().addElement <Text>();
-		text->setStyle(style_);
+        std::ifstream reader {"testfile.txt", std::ios_base::binary};
+		if (!reader.good())
+			throw std::runtime_error((std::string{"file not found: "} + "testfile.txt").c_str());
 
-		auto* hline = sections_.back().addElement <HorizontalLine>();
-		hline->setStyle(style_);
+		reader.seekg(0, std::ios::end);
+		size_t size = reader.tellg();
+		std::string buffer(size, ' ');
+		reader.seekg(0);
+		reader.read(&buffer[0], size);
 
+		loadFromMarkup(buffer);
 
-		auto* text2 = sections_.back().addElement <Text>();
-		text2->setStyle(style_);
-
-		auto* table = sections_.back().addElement <Table>();
-		table->setStyle(style_);
-		table->getDataHandle()->attributes["class"] = "wikitable";
-
-		table->resize(1,1);
-
-		table->gatherStyles(0, 0);
-
-        load("testfile.txt");
+		save("out.wes");
 
 		// finally
 		realign();
@@ -174,8 +167,8 @@ WikiElements::BasicElement* PageController::addHeader(Section* section, int pos)
 		return nullptr;
 
 	auto* head = section->addElement <WikiElements::Header>(pos);
-	if (!style_.empty())
-		head->setStyle(style_);
+	if (!parsedStyle_.empty())
+		head->setStyle(parsedStyle_);
 	realign();
 	return head;
 }
@@ -216,6 +209,8 @@ ViewportContainer* PageController::getViewport() const
 void PageController::setStyle(std::string const& style)
 {
 	style_ = style;
+	StyleParser parser;
+	parsedStyle_ = parser.parseStyleSheet(style_);
 }
 //---------------------------------------------------------------------------
 void PageController::setStyle(boost::filesystem::path const& styleFile)
@@ -229,12 +224,18 @@ void PageController::setStyle(boost::filesystem::path const& styleFile)
 	do {
 		reader.read(buffer, 4096);
 		style_ += std::string{buffer}.substr(0, reader.gcount());
-    } while (reader.gcount() == 4096);
+	} while (reader.gcount() == 4096);
+    setStyle(style_);
 }
 //---------------------------------------------------------------------------
 std::string PageController::getStyleString() const
 {
 	return style_;
+}
+//---------------------------------------------------------------------------
+WretchedCss::StyleSheet PageController::getStyle() const
+{
+	return parsedStyle_;
 }
 //---------------------------------------------------------------------------
 void PageController::startSelectionMode(std::function <void(WikiElements::BasicElement*)> const& cb)
@@ -278,33 +279,39 @@ bool PageController::isAutoSelectEnabled() const
 //---------------------------------------------------------------------------
 void PageController::save(std::string const& fileName) const
 {
-	//WikiPage page {sections_};
+	WikiPage page;
+	page.setComponents(sections_.back().saveComponents());
+
+	auto markup = page.toMarkup();
+	auto json = page.toJson();
+
+    using namespace StarTape;
+
+	auto bundle = createOutputFileArchive <CompressionType::None> (fileName);
+	(TapeWaterfall{}
+		<< TapeOperations::AddString("page.mu", markup)
+		<< TapeOperations::AddString("page.json", json)
+	).apply(&archive(bundle));
 }
 //---------------------------------------------------------------------------
 void PageController::load(std::string const& fileName)
 {
-	WikiPage page{};
-	std::ifstream reader {fileName, std::ios_base::binary};
-	if (!reader.good())
-    	throw std::runtime_error((std::string{"file not found: "} + fileName).c_str());
+	using namespace StarTape;
 
-	reader.seekg(0, std::ios::end);
-	size_t size = reader.tellg();
-	std::string buffer(size, ' ');
-	reader.seekg(0);
-	reader.read(&buffer[0], size);
-
-	page.fromMarkup(buffer);
-
-
-	sections_.back().loadComponents(page.getComponents());
-
-	WikiPage p2;
-	p2.setComponents(sections_.back().saveComponents());
-
-
-	std::ofstream writer{"out2.txt", std::ios_base::binary};
-	std::string str = p2.toJson();
-	writer.write(str.c_str(), str.length());
+	WikiPage page;
+	auto bundle = openInputFile <CompressionType::None> (fileName);
+	auto decompressed = loadArchive <InputTapeArchive> (archive(bundle));
+	auto index = archive(decompressed).makeIndex();
+	auto markupFile = index.find("page.mu");
+	if (markupFile == std::end(index))
+		throw std::runtime_error("markup file not found");
+	loadFromMarkup(index.readFile(markupFile));
+}
+//---------------------------------------------------------------------------
+void PageController::loadFromMarkup(std::string const& markup)
+{
+	WikiPage page;
+	page.fromMarkup(markup);
+    sections_.back().loadComponents(page.getComponents());
 }
 //---------------------------------------------------------------------------

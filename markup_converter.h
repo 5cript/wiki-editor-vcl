@@ -2,14 +2,13 @@
 #pragma once
 
 #include "dll/dll/library.hpp"
+#include "singleton.h"
 //---------------------------------------------------------------------------
-class MarkupLibrary
+SINGLETON_GLOBALS(MarkupLibrary)
+class MarkupLibrary : public Singleton <MarkupLibrary>
 {
 public:
-	static MarkupLibrary& getInstance() {
-		static MarkupLibrary inst;
-		return inst;
-	}
+	SINGLETON_GET_INSTANCE(MarkupLibrary)
 
 	std::string markupToJson(std::string const& markup);
     std::string jsonToMarkup(std::string const& json);

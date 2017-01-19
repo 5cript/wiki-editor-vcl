@@ -60,31 +60,38 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 void __fastcall TMainEditor::FormCreate(TObject *Sender)
 {
 	// Fix Ui Alignment
-	PageContainerResize(this);
-	PropertyControlPaneResize(this);
+	try
+	{
+		PageContainerResize(this);
+		PropertyControlPaneResize(this);
 
-	// Controller
-	controller_.initializeViewport();
-	controller_.addSection();
+		// Controller
+		controller_.initializeViewport();
+		controller_.addSection();
 
-	// Auto-Select
-	controller_.setAutoSelectEnabled(true);
-	controller_.startSelectionMode([this](WikiElements::BasicElement* element){
-		SelectCallback(element);
-	});
+		// Auto-Select
+		controller_.setAutoSelectEnabled(true);
+		controller_.startSelectionMode([this](WikiElements::BasicElement* element){
+			SelectCallback(element);
+		});
 
-	// Logging
-	SetLog(Log);
+		// Logging
+		SetLog(Log);
 
-	// Cursor
-	Screen->Cursors[WikiEditorConstants::crosshairCursor] = LoadCursor(HInstance, L"Crosshair");
+		// Cursor
+		Screen->Cursors[WikiEditorConstants::crosshairCursor] = LoadCursor(HInstance, L"Crosshair");
 
-	// Translation
-	//if (!FileExists(L"locale.json"))
-	SaveResourceToFile(L"locale", L"locale.json");
+		// Translation
+		//if (!FileExists(L"locale.json"))
+		SaveResourceToFile(L"locale", L"locale.json");
 
-	Translator::getInstance().loadLanguageFile("locale.json");
-	TranslateWindow();
+		Translator::getInstance().loadLanguageFile("locale.json");
+		TranslateWindow();
+	}
+	catch (std::exception const& exc)
+	{
+        ShowMessage(exc.what());
+    }
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y)

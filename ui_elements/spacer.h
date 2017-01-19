@@ -21,7 +21,7 @@ namespace WikiElements
 		Spacer(Section* parentSection);
 
 	protected:
-		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;
+		void styleChanged(WretchedCss::StyleSheet const& style) override;
     };
 
 }

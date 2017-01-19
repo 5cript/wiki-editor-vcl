@@ -72,8 +72,8 @@ namespace WikiElements
 
 		using namespace WretchedCss;
 
-		StyleParser extractor;
-		auto sheet = extractor.parseStyleSheet(style_);
+        StyleParser extractor;
+		auto sheet = parsedStyle_;
 		StyleSheet filteredSheet;
 
 		auto augmentStyle = [](std::string const& selector, std::string const& content)
@@ -182,7 +182,7 @@ namespace WikiElements
 		return {widthMin, widthMax};
     }
 //---------------------------------------------------------------------------
-	void Table::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
+	void Table::styleChanged(WretchedCss::StyleSheet const& style)
 	{
     	auto hierarchy = StyleHierarchy{};
 		hierarchy << "body"

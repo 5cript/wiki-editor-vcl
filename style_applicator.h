@@ -110,7 +110,6 @@ void readBackgroundStyles(T* control, WretchedCss::StyleSheet const& sheet, Styl
 	auto rule = constructCascade(sheet, hierarchy).getCombined();
 
 	auto backgroundColor = extractColor(sheet, rule["background-color"]);
-    auto temp = backgroundColor.get().toInt();
 	if (backgroundColor)
 		control->Color = TColor(backgroundColor.get().toInt());
 }

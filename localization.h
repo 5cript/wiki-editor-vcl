@@ -6,7 +6,10 @@
 #   include <SimpleJSON/parse/jsd_fusion_adapted_struct.hpp>
 #endif
 
+#include "singleton.h"
+
 #include <System.Classes.hpp>
+#include <Vcl.Dialogs.hpp>
 
 #include <string>
 #include <map>
@@ -31,21 +34,19 @@ namespace TranslationData
 	};
 }
 //---------------------------------------------------------------------------
-class Translator
+SINGLETON_GLOBALS(Translator)
+class Translator : public Singleton <Translator>
 {
 public:
-	static Translator& getInstance() {
-		static Translator inst;
-		return inst;
-	}
+	SINGLETON_GET_INSTANCE(Translator)
+	~Translator();
 
 	void loadLanguageFile(std::string const& file);
     void saveLanguageFile(std::string const& file);
 	void setLanguage(std::string const& language);
 	std::string translate(std::string const& keyString);
 
-private:
-	Translator();
+    SINGLETON_CTOR(Translator);
 
 private:
 	std::string language_;

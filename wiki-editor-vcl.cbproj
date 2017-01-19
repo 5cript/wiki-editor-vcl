@@ -43,9 +43,9 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <ILINK_AdditionalOptions>-lwiki-client-static -ldbghelp</ILINK_AdditionalOptions>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <IncludePath>..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
+        <IncludePath>..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1031</VerInfo_Locale>
-        <ILINK_LibraryPath>..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib;VclSmp.lib</AllPackageLibs>
@@ -109,8 +109,12 @@
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <LinkPackageStatics>vclribbon.lib;VirtualTreesR.lib;NiceGridXE.lib</LinkPackageStatics>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi</LinkPackageImports>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <LinkPackageStatics>vclribbon.lib</LinkPackageStatics>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;VclSmp.bpi</LinkPackageImports>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
     </PropertyGroup>
@@ -407,11 +411,108 @@
         <None Include="..\SimpleUtil\value_ptr\value_ptr.hpp">
             <BuildOrder>16</BuildOrder>
         </None>
+        <None Include="..\star-tape\star_tape.hpp">
+            <BuildOrder>216</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_archive.cpp">
+            <BuildOrder>204</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_archive.hpp">
+            <BuildOrder>217</BuildOrder>
+        </None>
+        <None Include="..\star-tape\tape_config.hpp">
+            <BuildOrder>218</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_convenience.cpp">
+            <BuildOrder>205</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_convenience.hpp">
+            <BuildOrder>219</BuildOrder>
+        </None>
+        <None Include="..\star-tape\tape_core.hpp">
+            <BuildOrder>220</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_entry.cpp">
+            <BuildOrder>206</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_entry.hpp">
+            <BuildOrder>221</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_file_proxy.cpp">
+            <BuildOrder>207</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_file_proxy.hpp">
+            <BuildOrder>222</BuildOrder>
+        </None>
+        <None Include="..\star-tape\tape_fwd.hpp">
+            <BuildOrder>223</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_header.cpp">
+            <BuildOrder>208</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_header.hpp">
+            <BuildOrder>224</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_index.cpp">
+            <BuildOrder>209</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_index.hpp">
+            <BuildOrder>225</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_io\tape_bzip2_stream.cpp">
+            <BuildOrder>212</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_io\tape_bzip2_stream.hpp">
+            <BuildOrder>231</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_io\tape_file.cpp">
+            <BuildOrder>213</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_io\tape_file.hpp">
+            <BuildOrder>232</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_io\tape_gzip_stream.cpp">
+            <BuildOrder>214</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_io\tape_gzip_stream.hpp">
+            <BuildOrder>233</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_io\tape_stream.cpp">
+            <BuildOrder>215</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_io\tape_stream.hpp">
+            <BuildOrder>234</BuildOrder>
+        </None>
+        <None Include="..\star-tape\tape_io_base.hpp">
+            <BuildOrder>226</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_operation.cpp">
+            <BuildOrder>210</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_operation.hpp">
+            <BuildOrder>227</BuildOrder>
+        </None>
+        <None Include="..\star-tape\tape_reader.hpp">
+            <BuildOrder>228</BuildOrder>
+        </None>
+        <None Include="..\star-tape\tape_utility.hpp">
+            <BuildOrder>229</BuildOrder>
+        </None>
+        <CppCompile Include="..\star-tape\tape_writer.cpp">
+            <BuildOrder>211</BuildOrder>
+        </CppCompile>
+        <None Include="..\star-tape\tape_writer.hpp">
+            <BuildOrder>230</BuildOrder>
+        </None>
         <CppCompile Include="About.cpp">
             <Form>AboutForm</Form>
             <FormType>dfm</FormType>
             <DependentOn>About.h</DependentOn>
             <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="basic_element.cpp">
+            <DependentOn>basic_element.h</DependentOn>
+            <BuildOrder>201</BuildOrder>
         </CppCompile>
         <CppCompile Include="constants.cpp">
             <DependentOn>constants.h</DependentOn>
@@ -485,6 +586,7 @@
             <DependentOn>page.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <None Include="Profiling\AQtimeModule1.aqt"/>
         <None Include="query_delphi_interface.hpp">
             <BuildOrder>177</BuildOrder>
         </None>
@@ -503,6 +605,10 @@
         <None Include="section.h">
             <BuildOrder>158</BuildOrder>
         </None>
+        <CppCompile Include="singleton.cpp">
+            <DependentOn>singleton.h</DependentOn>
+            <BuildOrder>203</BuildOrder>
+        </CppCompile>
         <CppCompile Include="style_applicator.cpp">
             <DependentOn>style_applicator.h</DependentOn>
             <BuildOrder>163</BuildOrder>
@@ -769,10 +875,10 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="ui_elements\frames\header_options.dfm"/>
-        <FormResources Include="ui_elements\frames\style_options.dfm"/>
         <FormResources Include="ui_elements\frames\text_options.dfm"/>
         <FormResources Include="ui_elements\frames\table_options.dfm"/>
+        <FormResources Include="ui_elements\frames\style_options.dfm"/>
+        <FormResources Include="ui_elements\frames\header_options.dfm"/>
         <FormResources Include="Editor.dfm"/>
         <FormResources Include="About.dfm"/>
         <FormResources Include="LayoutTest.dfm"/>
@@ -836,14 +942,20 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName=".\Win32\Debug\wiki-editor-vcl.tds" Configuration="Debug" Class="DebugSymbols">
+                <DeployFile LocalName="images\crosshair.cur" Configuration="Release" Class="ProjectFile">
                     <Platform Name="Win32">
-                        <RemoteName>wiki-editor-vcl.tds</RemoteName>
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true'" LocalName="$(BDS)\Redist\osx32\libcgstl.dylib" Class="DependencyModule">
                     <Platform Name="OSX32">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName=".\Win32\Debug\wiki-editor-vcl.tds" Configuration="Debug" Class="DebugSymbols">
+                    <Platform Name="Win32">
+                        <RemoteName>wiki-editor-vcl.tds</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -888,6 +1000,30 @@
                 </DeployFile>
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64240mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Profiling\AQtimeModule1.aqt" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="resources\locale.json" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="C:\Program Files (x86)\Embarcadero\Studio\18.0\lib\win32c\release\psdk\dbghelp.lib" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="Profiling\AQtimeModule1.aqt" Configuration="Release" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>

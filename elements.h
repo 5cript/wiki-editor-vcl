@@ -54,12 +54,14 @@ WikiMarkup::Components::IExportableComponent* extractData(WikiElements::BasicEle
 //---------------------------------------------------------------------------
 void elementFactory(Section* section, WikiMarkup::Components::IExportableComponent* element)
 {
+	bool ignoreStyle = false;
+
 #	define IDENTIFY(T, RES) \
 	{ \
 		auto optData = tryIdentify <T> (element); \
 		if (optData != nullptr) \
 		{ \
-			section->addElement <RES>()->setData(*optData); \
+			section->addElement <RES>(ignoreStyle)->setData(*optData); \
             return; \
 		} \
 	}

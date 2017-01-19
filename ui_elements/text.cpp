@@ -7,6 +7,8 @@
 #include "style_applicator.h"
 #include "frames/text_options.h"
 #include "frames/style_options.h"
+
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
@@ -32,9 +34,11 @@ namespace WikiElements
         control_->WantTabs = true;
 	}
 //---------------------------------------------------------------------------
-	void Text::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
+	void Text::styleChanged(WretchedCss::StyleSheet const& style)
 	{
-    	auto hierarchy = StyleHierarchy{};
+        parsedStyle_ = style;
+
+		auto hierarchy = StyleHierarchy{};
 		hierarchy << "body"
 				  << ".text"
 		;
@@ -52,6 +56,11 @@ namespace WikiElements
 		control_->Height = (control_->Lines->Count + 1) * (control_->Font->Size + 5);
 		parentSection_->causePageRealign();
 	}
+//---------------------------------------------------------------------------
+	void Text::writeModelToUserInterface()
+	{
+        control_->Text = data_.data.c_str();
+    }
 //---------------------------------------------------------------------------
 	void __fastcall Text::onTextChange(TObject* Sender)
 	{

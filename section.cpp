@@ -268,6 +268,11 @@ Section::children_list_type::iterator Section::findChild(WikiElements::BasicElem
 	return child;
 }
 //---------------------------------------------------------------------------
+void Section::adoptStyle(WikiElements::BasicElement* element)
+{
+    element->setStyle(parent_->getStyle());
+}
+//---------------------------------------------------------------------------
 void Section::causePageRealign()
 {
     parent_->realign();
@@ -327,7 +332,7 @@ void Section::loadComponents(std::vector <sutil::value_ptr <WikiMarkup::Componen
     }
 }
 //---------------------------------------------------------------------------
-void Section::saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components)
+void Section::saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components) const
 {
 	for (auto const& i : children_)
 	{
@@ -336,10 +341,14 @@ void Section::saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Componen
 			components.emplace_back(comp);
 		else
 			throw std::runtime_error(std::string("impossible!? data == nullptr") + __FILE__ + ":" + std::to_string(__LINE__));
-    }
+	}
+	// Add END SECTION Comment
+	auto* comment = new WikiMarkup::Components::ExportableCommentText;
+	comment->data = "5CRIPT_WIKI_EDITOR_END_SECTION";
+	components.emplace_back(comment);
 }
 //---------------------------------------------------------------------------
-std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> Section::saveComponents()
+std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> Section::saveComponents() const
 {
 	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> comps;
 	saveComponents(comps);

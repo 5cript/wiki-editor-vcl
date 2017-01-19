@@ -100,15 +100,16 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	void Header::setText(std::string const& text)
 	{
-        control_->Text = text.c_str();
+		data_.data = text;
+        writeModelToUserInterface();
 	}
 //---------------------------------------------------------------------------
 	std::string const& Header::getText() const
 	{
-		return std::string{UTF8String(control_->Text).c_str()};
+		return data_.data;
     }
 //---------------------------------------------------------------------------
-	void Header::styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser)
+	void Header::styleChanged(WretchedCss::StyleSheet const& style)
 	{
 		auto hierarchy = StyleHierarchy{};
 		hierarchy << "body"
@@ -154,6 +155,11 @@ namespace WikiElements
 	{
 		optionsFrame_.reset(new THeaderOptionsFrame(nullptr));
         static_cast <THeaderOptionsFrame*> (&*optionsFrame_)->setOwner(this);
+	}
+//---------------------------------------------------------------------------
+	void Header::writeModelToUserInterface()
+	{
+        control_->Text = data_.data.c_str();
     }
 //---------------------------------------------------------------------------
 }

@@ -19,13 +19,14 @@ namespace WikiElements
 	{
 	public:
 		Text(Section* parentSection);
+		void writeModelToUserInterface() override;
 
 	protected:
 		void initializeOptionsFrame() override;
 		void initializeStyleOptionsFrame() override;
 
 	protected:
-		void styleChanged(WretchedCss::StyleSheet const& style, StyleParser const& parser) override;
+		void styleChanged(WretchedCss::StyleSheet const& style) override;
 
 	private:
 		void __fastcall onTextChange(TObject* Sender);

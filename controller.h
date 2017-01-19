@@ -6,6 +6,8 @@
 #include "element.h"
 #include "viewport.h"
 
+#include "wretched-css/style_sheet.hpp"
+
 #include <vector>
 #include <functional>
 
@@ -94,6 +96,11 @@ public:
 	std::string getStyleString() const;
 
 	/**
+	 * 	Returns the current css style as a WCSS Style Sheet.
+	 **/
+	WretchedCss::StyleSheet getStyle() const;
+
+	/**
 	 * 	Returns a pointer to the viewport control object.
 	 */
 	ViewportContainer* getViewport() const;
@@ -134,6 +141,11 @@ public:
 	 **/
 	void load(std::string const& fileName);
 
+	/**
+	 *	Loads a page from a markup string.
+	 **/
+	void loadFromMarkup(std::string const& markup);
+
 private: // vcl events
 	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 	void __fastcall onViewportClick(TObject* Sender);
@@ -142,6 +154,7 @@ private:
 	ViewportContainer* viewport_;
 	std::vector <Section> sections_;
 	std::string style_;
+    WretchedCss::StyleSheet parsedStyle_;
 	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
 	bool autoSelect_;
 };

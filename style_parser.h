@@ -4,6 +4,7 @@
 
 #include "dll/dll/library.hpp"
 #include "wretched-css/style_sheet.hpp"
+#include "singleton.h"
 
 #include <cctype>
 
@@ -18,13 +19,12 @@ DLL_DECLARE_INTERFACE
 */
 
 //---------------------------------------------------------------------------
-class WretchedCssLibrary
+SINGLETON_GLOBALS(WretchedCssLibrary)
+//---------------------------------------------------------------------------
+class WretchedCssLibrary : public Singleton <WretchedCssLibrary>
 {
 public:
-	static WretchedCssLibrary& getInstance() {
-		static WretchedCssLibrary inst;
-		return inst;
-	}
+	SINGLETON_GET_INSTANCE(WretchedCssLibrary)
 
 	std::string cssToJson(std::string const& css);
 	std::string jsonToCss(std::string const& json);
