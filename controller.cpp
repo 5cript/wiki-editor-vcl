@@ -280,7 +280,8 @@ bool PageController::isAutoSelectEnabled() const
 void PageController::save(std::string const& fileName) const
 {
 	WikiPage page;
-	page.addComponents(sections_.back().saveComponents());
+	for (auto const& i : sections_)
+		page.addComponents(i.saveComponents());
 
 	auto markup = page.toMarkup();
 	auto json = page.toJson();

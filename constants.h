@@ -8,7 +8,7 @@ namespace WikiEditorConstants
 	constexpr const char* const endSectionMarker = "WIKI_EDITOR_END_SECTION";
 	constexpr const char* const saveFileExtension = "mwe";
 	constexpr const char* const programName = "MWEdit";
-	constexpr const char* const timeStampMask_ = "%H_%M_%S_%e_%m_%Y";
+	constexpr const char* const timeStampMask = "%H_%M_%S_%e_%m_%Y";
 	constexpr const int crosshairCursor = 5;
 }
 //---------------------------------------------------------------------------

@@ -15,13 +15,13 @@
 #include <Vcl.AppEvnts.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
-//---------------------------------------------------------------------------
-#include "controller.h"
-//#include "persistence_control.h"
 #include <Vcl.Grids.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.AppEvnts.hpp>
+//---------------------------------------------------------------------------
+#include "controller.h"
+#include "persistence_control.h"
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -81,7 +81,7 @@ private:	// Benutzer-Deklarationen
 	void __fastcall SelectCallback(WikiElements::BasicElement* element, bool autoSelect = false);
 
 	PageController controller_;
-	//PersistenceControl persistence_;
+	PersistenceControl persistence_;
     TFrame* lastFrame_;
 public:		// Benutzer-Deklarationen
 	__fastcall TMainEditor(TComponent* Owner);

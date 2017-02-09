@@ -23,7 +23,7 @@ TMainEditor *MainEditor;
 __fastcall TMainEditor::TMainEditor(TComponent* Owner)
 	: TForm(Owner)
 	, controller_{Viewport}
-	//, persistence_{&controller_}
+	, persistence_{&controller_}
 {
 	//srand(time(0));
 }
@@ -70,7 +70,9 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 		controller_.initializeViewport();
 
 		// Persistence
-        // PersistenceControl::setupBackupStructure();
+		PersistenceControl::setupBackupStructure();
+		persistence_.setFile("unsaved");
+		persistence_.backup(100);
 
 		// Auto-Select
 		controller_.setAutoSelectEnabled(true);
@@ -123,6 +125,7 @@ void __fastcall TMainEditor::ViewportDragOver(TObject *Sender, TObject *Source, 
 void __fastcall TMainEditor::AddTestElements1Click(TObject *Sender)
 {
 	controller_.test();
+	persistence_.backup(3);
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::estFormShowModal1Click(TObject *Sender)

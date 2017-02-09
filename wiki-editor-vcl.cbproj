@@ -586,6 +586,10 @@
             <DependentOn>page.h</DependentOn>
             <BuildOrder>18</BuildOrder>
         </CppCompile>
+        <CppCompile Include="persistence_control.cpp">
+            <DependentOn>persistence_control.h</DependentOn>
+            <BuildOrder>235</BuildOrder>
+        </CppCompile>
         <None Include="Profiling\AQtimeModule1.aqt"/>
         <None Include="query_delphi_interface.hpp">
             <BuildOrder>177</BuildOrder>
@@ -676,6 +680,12 @@
             <DependentOn>ui_elements\text.h</DependentOn>
             <BuildOrder>162</BuildOrder>
         </CppCompile>
+        <CppCompile Include="user_files.cpp">
+            <BuildOrder>236</BuildOrder>
+        </CppCompile>
+        <None Include="user_files.h">
+            <BuildOrder>237</BuildOrder>
+        </None>
         <CppCompile Include="utilities.cpp">
             <BuildOrder>159</BuildOrder>
         </CppCompile>
@@ -875,13 +885,13 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
+        <FormResources Include="ui_elements\frames\header_options.dfm"/>
+        <FormResources Include="ui_elements\frames\style_options.dfm"/>
         <FormResources Include="ui_elements\frames\text_options.dfm"/>
         <FormResources Include="ui_elements\frames\table_options.dfm"/>
-        <FormResources Include="ui_elements\frames\style_options.dfm"/>
-        <FormResources Include="ui_elements\frames\header_options.dfm"/>
-        <FormResources Include="Editor.dfm"/>
         <FormResources Include="About.dfm"/>
         <FormResources Include="LayoutTest.dfm"/>
+        <FormResources Include="Editor.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -1038,27 +1048,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1409,12 +1404,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
