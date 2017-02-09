@@ -5,8 +5,9 @@
 
 #include <string>
 #include <exception>
+#include <typeinfo>
 //---------------------------------------------------------------------------
-TRichEdit* Log = nullptr;
+extern TRichEdit* Log;
 //---------------------------------------------------------------------------
 void SetLog(TRichEdit* log);
 

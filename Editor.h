@@ -12,8 +12,12 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.Ribbon.hpp>
 #include <Vcl.RibbonLunaStyleActnCtrls.hpp>
+#include <Vcl.AppEvnts.hpp>
+#include <Vcl.Buttons.hpp>
+#include <Vcl.Imaging.jpeg.hpp>
 //---------------------------------------------------------------------------
 #include "controller.h"
+//#include "persistence_control.h"
 #include <Vcl.Grids.hpp>
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
@@ -37,7 +41,6 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *Debug1;
 	TMenuItem *AddTestElements1;
 	TMenuItem *estFormShowModal1;
-	TMenuItem *controlleraddSection1;
 	TMenuItem *loadCursor1;
 	TMenuItem *initLocals1;
 	TApplicationEvents *AppEvents;
@@ -52,6 +55,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	TImage *Penguins;
 	TPanel *ElementSpecificOptions;
 	TPanel *StyleOptions;
+	TStatusBar *StatusBar;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -62,13 +66,13 @@ __published:	// Von der IDE verwaltete Komponenten
           TDragState State, bool &Accept);
 	void __fastcall AddTestElements1Click(TObject *Sender);
 	void __fastcall estFormShowModal1Click(TObject *Sender);
-	void __fastcall controlleraddSection1Click(TObject *Sender);
 	void __fastcall StartComponentSelectClick(TObject *Sender);
 	void __fastcall initLocals1Click(TObject *Sender);
 	void __fastcall AppEventsMessage(tagMSG &Msg, bool &Handled);
 	void __fastcall PropertyControlPaneResize(TObject *Sender);
 	void __fastcall PageContainerResize(TObject *Sender);
 	void __fastcall PropertyTabsChanging(TObject *Sender, bool &AllowChange);
+	void __fastcall SaveArticleAs1Click(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen
@@ -77,6 +81,7 @@ private:	// Benutzer-Deklarationen
 	void __fastcall SelectCallback(WikiElements::BasicElement* element, bool autoSelect = false);
 
 	PageController controller_;
+	//PersistenceControl persistence_;
     TFrame* lastFrame_;
 public:		// Benutzer-Deklarationen
 	__fastcall TMainEditor(TComponent* Owner);

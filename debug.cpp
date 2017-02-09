@@ -10,6 +10,8 @@
 #include <iomanip>
 #include <cstdint>
 //---------------------------------------------------------------------------
+extern TRichEdit* Log = nullptr;
+//---------------------------------------------------------------------------
 template <unsigned S>
 struct IntFromSize
 {

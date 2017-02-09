@@ -23,6 +23,7 @@ TMainEditor *MainEditor;
 __fastcall TMainEditor::TMainEditor(TComponent* Owner)
 	: TForm(Owner)
 	, controller_{Viewport}
+	//, persistence_{&controller_}
 {
 	//srand(time(0));
 }
@@ -67,7 +68,9 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 
 		// Controller
 		controller_.initializeViewport();
-		controller_.addSection();
+
+		// Persistence
+        // PersistenceControl::setupBackupStructure();
 
 		// Auto-Select
 		controller_.setAutoSelectEnabled(true);
@@ -125,11 +128,6 @@ void __fastcall TMainEditor::AddTestElements1Click(TObject *Sender)
 void __fastcall TMainEditor::estFormShowModal1Click(TObject *Sender)
 {
 	TestForm->ShowModal();
-}
-//---------------------------------------------------------------------------
-void __fastcall TMainEditor::controlleraddSection1Click(TObject *Sender)
-{
-	controller_.addSection();
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::SelectCallback(WikiElements::BasicElement* element, bool autoSelect)
@@ -235,7 +233,6 @@ void __fastcall TMainEditor::PageContainerResize(TObject *Sender)
 	Viewport->Width = PageContainer->Width - 4;
 }
 //---------------------------------------------------------------------------
-
 void __fastcall TMainEditor::PropertyTabsChanging(TObject *Sender, bool &AllowChange)
 
 {
@@ -248,7 +245,13 @@ void __fastcall TMainEditor::PropertyTabsChanging(TObject *Sender, bool &AllowCh
 	{
 		ElementSpecificOptions->Hide();
 		StyleOptions->Show();
-    }
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::SaveArticleAs1Click(TObject *Sender)
+{
+	// ...
+
 }
 //---------------------------------------------------------------------------
 

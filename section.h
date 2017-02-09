@@ -21,6 +21,9 @@ public:
 	using child_type = WikiElements::BasicElement;
 	using child_pointer_type = child_type*;
 
+	using component_container = std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>;
+	using component_iterator = component_container::iterator;
+
 public:
 	Section(PageController* parent);
 
@@ -28,6 +31,21 @@ public:
 	 *  Move constructor.
 	 */
 	Section(Section&& other);
+
+	/**
+	 *	Sections cannot be assigned.
+	 */
+	Section& operator=(Section const&) = delete;
+
+	/**
+	 * 	Sections can be moved.
+	 */
+	Section& operator=(Section&&) = default;
+
+	/**
+	 * 	Sections cannot be copied.
+	 */
+	Section(Section const&) = delete;
 
 	/**
 	 *  Get the bounding box of this section. Includes all elements.
@@ -191,7 +209,7 @@ public:
 	/**
 	 * 	Load components into section from exportables.
 	 **/
-	void loadComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> const& components);
+	component_iterator loadComponents(component_iterator components, component_iterator const& end);
 
 	/**
 	 *  Save components into exportable format. (Appends END_SECTION comment)

@@ -10,6 +10,9 @@
 #include "ui_elements/spacer.h"
 #include "ui_elements/table.h"
 #include "ui_elements/text.h"
+
+#include <boost/optional.hpp>
+#include <string>
 //---------------------------------------------------------------------------
 template <typename T>
 typename T::data_type* tryExtract(WikiElements::BasicElement* element)
@@ -24,58 +27,18 @@ typename T::data_type* tryExtract(WikiElements::BasicElement* element)
 template <typename T>
 T* tryIdentify(WikiMarkup::Components::IExportableComponent* component)
 {
-	auto* p = dynamic_cast <T*> (component);
-	if (p == nullptr)
-		return nullptr;
-	else
-		return p;
+	return dynamic_cast <T*> (component);
 }
 //---------------------------------------------------------------------------
-WikiMarkup::Components::IExportableComponent* extractData(WikiElements::BasicElement* element)
-{
-	using namespace WikiElements;
-
-#	define EXTRACT(T) \
-	{ \
-		auto optData = tryExtract <T> (element); \
-		if (optData != nullptr) \
-			return optData->clone(); \
-	}
-
-	EXTRACT(Text)
-	EXTRACT(Header)
-	EXTRACT(Table)
-	EXTRACT(HorizontalLine)
-
-#	undef EXTRACT
-
-	return nullptr;
-}
+boost::optional <std::string> tryGetCommentText(WikiMarkup::Components::IExportableComponent* component);
 //---------------------------------------------------------------------------
-void elementFactory(Section* section, WikiMarkup::Components::IExportableComponent* element)
-{
-	bool ignoreStyle = false;
-
-#	define IDENTIFY(T, RES) \
-	{ \
-		auto optData = tryIdentify <T> (element); \
-		if (optData != nullptr) \
-		{ \
-			section->addElement <RES>(ignoreStyle)->setData(*optData); \
-            return; \
-		} \
-	}
-
-	using namespace WikiMarkup::Components;
-	using namespace WikiElements;
-
-	IDENTIFY(ExportableText, Text)
-	IDENTIFY(ExportableHeader, Header)
-	IDENTIFY(ExportableTable, Table)
-	IDENTIFY(ExportableHorizontalLine, HorizontalLine);
-
-#	undef IDENTIFY
-
-	throw std::runtime_error((std::string{"element not supported by UI ("} + element->toJson() + ")").c_str());
-}
+/**
+ *	Comments and links count as sub elements, that do not own a personal component.
+ **/
+bool isSubComponent(WikiMarkup::Components::IExportableComponent* component);
 //---------------------------------------------------------------------------
+WikiMarkup::Components::IExportableComponent* extractData(WikiElements::BasicElement* element);
+//---------------------------------------------------------------------------
+void elementFactory(Section* section, WikiMarkup::Components::IExportableComponent* component);
+//---------------------------------------------------------------------------
+

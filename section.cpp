@@ -8,6 +8,7 @@
 #include "debug.h"
 #include "markup_converter.h"
 #include "elements.h"
+#include "constants.h"
 
 #include "ui_elements/drop_target.h"
 
@@ -324,12 +325,26 @@ void __fastcall Section::onElementClick(TObject* Sender, WikiElements::BasicElem
 	}
 }
 //---------------------------------------------------------------------------
-void Section::loadComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> const& components)
+Section::component_iterator Section::loadComponents(component_iterator component, component_iterator const& end)
 {
-	for (auto const& component : components)
+	for (;component != end; ++component)
 	{
-        elementFactory(this, component.get());
-    }
+		auto maybeComment = tryGetCommentText(component->get());
+		if (maybeComment && maybeComment.get() == WikiEditorConstants::endSectionMarker)
+			return ++component;
+
+		if (isSubComponent(component->get()))
+		{
+			// add sub component to prior element.
+			// TODO
+        }
+		else
+        	elementFactory(this, component->get());
+	}
+	//not a requirement
+	//if (components == end)
+	//	throw std::runtime_error("section is not ended by end section marker");
+	return end;
 }
 //---------------------------------------------------------------------------
 void Section::saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>>& components) const
@@ -344,7 +359,7 @@ void Section::saveComponents(std::vector <sutil::value_ptr <WikiMarkup::Componen
 	}
 	// Add END SECTION Comment
 	auto* comment = new WikiMarkup::Components::ExportableCommentText;
-	comment->data = "5CRIPT_WIKI_EDITOR_END_SECTION";
+	comment->data = WikiEditorConstants::endSectionMarker;
 	components.emplace_back(comment);
 }
 //---------------------------------------------------------------------------

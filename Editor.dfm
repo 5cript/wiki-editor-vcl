@@ -20,7 +20,7 @@ object MainEditor: TMainEditor
   object WikiElementCategoryGroup: TCategoryPanelGroup
     Left = 0
     Top = 0
-    Height = 685
+    Height = 666
     VertScrollBar.Tracking = True
     HeaderFont.Charset = DEFAULT_CHARSET
     HeaderFont.Color = clWindowText
@@ -24357,7 +24357,7 @@ object MainEditor: TMainEditor
     Left = 200
     Top = 0
     Width = 857
-    Height = 685
+    Height = 666
     Align = alClient
     Caption = 'Panel1'
     TabOrder = 1
@@ -24365,7 +24365,7 @@ object MainEditor: TMainEditor
       Left = 560
       Top = 1
       Width = 6
-      Height = 683
+      Height = 664
       Align = alRight
       Color = clSilver
       ParentColor = False
@@ -24376,7 +24376,7 @@ object MainEditor: TMainEditor
       Left = 1
       Top = 1
       Width = 559
-      Height = 683
+      Height = 664
       Align = alClient
       DoubleBuffered = True
       DragMode = dmAutomatic
@@ -24409,7 +24409,7 @@ object MainEditor: TMainEditor
       Left = 566
       Top = 1
       Width = 290
-      Height = 683
+      Height = 664
       Align = alRight
       TabOrder = 1
       OnResize = PropertyControlPaneResize
@@ -24578,6 +24578,13 @@ object MainEditor: TMainEditor
       end
     end
   end
+  object StatusBar: TStatusBar
+    Left = 0
+    Top = 666
+    Width = 1057
+    Height = 19
+    Panels = <>
+  end
   object Menu: TMainMenu
     Left = 1000
     Top = 24
@@ -24590,6 +24597,7 @@ object MainEditor: TMainEditor
       object SaveArticleAs1: TMenuItem
         Caption = '$SaveArticleAs'
         ShortCut = 24659
+        OnClick = SaveArticleAs1Click
       end
       object SaveArticle1: TMenuItem
         Caption = '$SaveArticle'
@@ -24624,10 +24632,6 @@ object MainEditor: TMainEditor
       object estFormShowModal1: TMenuItem
         Caption = '$TestForm->ShowModal'
         OnClick = estFormShowModal1Click
-      end
-      object controlleraddSection1: TMenuItem
-        Caption = '$controller->addSection'
-        OnClick = controlleraddSection1Click
       end
       object loadCursor1: TMenuItem
         Caption = '$loadCursor'
