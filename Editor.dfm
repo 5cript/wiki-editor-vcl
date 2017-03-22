@@ -29,6 +29,7 @@ object MainEditor: TMainEditor
     HeaderFont.Name = 'Tahoma'
     HeaderFont.Style = []
     TabOrder = 0
+    OnMouseUp = WikiElementCategoryGroupMouseUp
     object CategoryPanel1: TCategoryPanel
       Top = 0
       Caption = '$UiTextElements'
@@ -24631,9 +24632,14 @@ object MainEditor: TMainEditor
         Caption = '$AllSettings'
         OnClick = AllSettings2Click
       end
+      object CaptionSettings1: TMenuItem
+        Caption = '$BackupSettings'
+        OnClick = CaptionSettings1Click
+      end
     end
     object Debug1: TMenuItem
       Caption = '$Debug'
+      Visible = False
       object AddTestElements1: TMenuItem
         Caption = '$controller->test'
         OnClick = AddTestElements1Click

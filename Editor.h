@@ -22,6 +22,7 @@
 //---------------------------------------------------------------------------
 #include "controller.h"
 #include "persistence_control.h"
+#include "options.h"
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -58,6 +59,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	TStatusBar *StatusBar;
 	TMenuItem *AllSettings1;
 	TMenuItem *AllSettings2;
+	TMenuItem *CaptionSettings1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -78,6 +80,9 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall SaveArticle1Click(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall AllSettings2Click(TObject *Sender);
+	void __fastcall WikiElementCategoryGroupMouseUp(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y);
+	void __fastcall CaptionSettings1Click(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen
@@ -87,6 +92,7 @@ private:	// Benutzer-Deklarationen
 
 	PageController controller_;
 	PersistenceControl persistence_;
+	SettingsHolder settings_;
     TFrame* lastFrame_;
 public:		// Benutzer-Deklarationen
 	__fastcall TMainEditor(TComponent* Owner);

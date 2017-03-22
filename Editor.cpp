@@ -6,13 +6,14 @@
 #include "Editor.h"
 #include "About.h"
 #include "LayoutTest.h"
+#include "BackupSettings.h"
+
 #include "localization.h"
 #include "debug.h"
 #include "constants.h"
 #include "frame_interface.h"
 #include "query_delphi_interface.hpp"
 #include "resources.h"
-//#include "component_export.hpp"
 
 #include <functional>
 
@@ -60,9 +61,13 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormCreate(TObject *Sender)
 {
-	// Fix Ui Alignment
 	try
 	{
+		// Settings
+		setupSettings();
+		settings_ = loadSettings();
+
+		// Fix Ui Alignment
 		PageContainerResize(this);
 		PropertyControlPaneResize(this);
 
@@ -71,9 +76,9 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 
 		// Persistence
 		PersistenceControl::setupBackupStructure();
-        persistence_.setMaxBackups(100);
 		persistence_.setFile("unsaved");
-		persistence_.startAutoBackup(1);
+		persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
+		persistence_.startAutoBackup(settings_.backupOptions.intervalSec);
 
 		// Auto-Select
 		controller_.setAutoSelectEnabled(true);
@@ -254,7 +259,6 @@ void __fastcall TMainEditor::PropertyTabsChanging(TObject *Sender, bool &AllowCh
 void __fastcall TMainEditor::SaveArticleAs1Click(TObject *Sender)
 {
 	// ...
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::SaveArticle1Click(TObject *Sender)
@@ -270,6 +274,27 @@ void __fastcall TMainEditor::FormClose(TObject *Sender, TCloseAction &Action)
 void __fastcall TMainEditor::AllSettings2Click(TObject *Sender)
 {
 	// ...
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::WikiElementCategoryGroupMouseUp(TObject *Sender, TMouseButton Button,
+		  TShiftState Shift, int X, int Y)
+{
+	if (Button == mbMiddle && Shift.Contains(ssCtrl))
+		Debug1->Visible = true;
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::CaptionSettings1Click(TObject *Sender)
+{
+	BackupSettingsDialog->LoadOptions(settings_.backupOptions);
+	BackupSettingsDialog->ShowModal();
+	if (BackupSettingsDialog->Accepted())
+	{
+		settings_.backupOptions = BackupSettingsDialog->GetOptions();
+		saveSettings(settings_);
+		persistence_.stopAutoBackup();
+		persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
+		persistence_.startAutoBackup(settings_.backupOptions.intervalSec);
+	}
 }
 //---------------------------------------------------------------------------
 

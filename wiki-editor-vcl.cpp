@@ -6,12 +6,13 @@
 //---------------------------------------------------------------------------
 USEFORM("ui_elements\frames\style_options.cpp", StyleOptionsFrame); /* TFrame: File Type */
 USEFORM("ui_elements\frames\header_options.cpp", HeaderOptionsFrame); /* TFrame: File Type */
-USEFORM("ui_elements\frames\table_options.cpp", TableOptionsFrame); /* TFrame: File Type */
-USEFORM("ui_elements\frames\text_options.cpp", TextOptionsFrame); /* TFrame: File Type */
-USEFORM("About.cpp", AboutForm);
-USEFORM("Editor.cpp", MainEditor);
-USEFORM("LayoutTest.cpp", TestForm);
 USEFORM("Settings.cpp", SettingsDialog);
+USEFORM("ui_elements\frames\text_options.cpp", TextOptionsFrame); /* TFrame: File Type */
+USEFORM("ui_elements\frames\table_options.cpp", TableOptionsFrame); /* TFrame: File Type */
+USEFORM("Editor.cpp", MainEditor);
+USEFORM("About.cpp", AboutForm);
+USEFORM("LayoutTest.cpp", TestForm);
+USEFORM("BackupSettings.cpp", BackupSettingsDialog);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -23,6 +24,7 @@ int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->CreateForm(__classid(TAboutForm), &AboutForm);
 		Application->CreateForm(__classid(TTestForm), &TestForm);
 		Application->CreateForm(__classid(TSettingsDialog), &SettingsDialog);
+		Application->CreateForm(__classid(TBackupSettingsDialog), &BackupSettingsDialog);
 		Application->Run();
 	}
 	catch (Exception &exception)

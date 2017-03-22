@@ -11,7 +11,7 @@
 					"$Autosave": "Autospeichern Aktiv",
 					"$Exit": "Beenden",
 					"$Licensing": "Lizenzinformation",
-					"$Debug": "ENTFERNE_MICH",
+					"$Debug": "Debug Menu",
 					"$Select": "Element Auswählen",
 					"$UiElements": "Wiki Elemente",
 					"$UiTextElements": "Wiki Text Elemente",
@@ -29,8 +29,14 @@
 					"$Value": "Wert",
 					"$TableAttributes": "Tabellenattribute",
 					"$SelectedCellIsHeaderCell": "Ausgewählte Zelle ist Header",
-					"$AllSettings": "Optionen",
-					"$Settings": "Optionen"
+					"$AllSettings": "Einstellungen",
+					"$Settings": "Optionen",
+					"$BackupSettings": "Sicherungs Optionen",
+					"$BackupInterval": "Sicherungsintervall (Sekunden)",
+					"$MaxBackups": "Maximale Anzahl Sicherungen",
+					"$OldestBackup": "Durch die Einstellungen reichen die Sicherungen %m Minuten zurück.",
+					"$Ok": "Ok",
+					"$Cancel": "Abbrechen"
 				}
 			},
 			"en_US": {
@@ -43,7 +49,7 @@
 					"$Autosave": "Autosave Active",
 					"$Exit": "Exit",
 					"$Licensing": "Licensing Information",
-					"$Debug": "REMOVE_ME",
+					"$Debug": "Debug Menu",
 					"$Select": "Select Element",
 					"$UiElements": "Wiki Elements",
 					"$UiTextElements": "Wiki Text Elements",
@@ -61,8 +67,14 @@
 					"$Value": "Value",
 					"$TableAttributes": "Table Attributes",
 					"$SelectedCellIsHeaderCell": "Selected Cell is Header Cell",
-					"$AllSettings": "Options",
-					"$Settings": "Options"
+					"$AllSettings": "Settings",
+					"$Settings": "Options",
+					"$BackupSettings": "Backup Settings",
+					"$BackupInterval": "Backup Interval (seconds)",
+					"$MaxBackups": "Maximum Backup Amount",
+					"$OldestBackup": "By chosen settings, the oldest backup will be %m minutes old.",
+					"$Ok": "Ok",
+					"$Cancel": "Cancel"
 				}
 			}
 		}
