@@ -10,6 +10,7 @@
 
 #include <vector>
 #include <functional>
+#include <mutex>
 
 #include <boost/filesystem.hpp>
 //---------------------------------------------------------------------------
@@ -27,7 +28,7 @@ public:
 	/**
 	 *	Adds a section to the page
 	 */
-	void addSection();
+	void addSection(bool threadSafe = true);
 
 	/**
 	 *  Function for testing purposes only. Do not use. Will be removed later.
@@ -157,5 +158,6 @@ private:
     WretchedCss::StyleSheet parsedStyle_;
 	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
 	bool autoSelect_;
+	mutable std::mutex sectionGuard_;
 };
 //---------------------------------------------------------------------------

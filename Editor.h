@@ -56,6 +56,8 @@ __published:	// Von der IDE verwaltete Komponenten
 	TPanel *ElementSpecificOptions;
 	TPanel *StyleOptions;
 	TStatusBar *StatusBar;
+	TMenuItem *AllSettings1;
+	TMenuItem *AllSettings2;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -73,6 +75,9 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall PageContainerResize(TObject *Sender);
 	void __fastcall PropertyTabsChanging(TObject *Sender, bool &AllowChange);
 	void __fastcall SaveArticleAs1Click(TObject *Sender);
+	void __fastcall SaveArticle1Click(TObject *Sender);
+	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
+	void __fastcall AllSettings2Click(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen

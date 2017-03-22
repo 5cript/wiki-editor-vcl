@@ -5,6 +5,7 @@
 #include "persistence_control.h"
 #include "constants.h"
 #include "user_files.h"
+#include "debug.h"
 
 #include <boost/filesystem.hpp>
 
@@ -18,13 +19,29 @@ namespace fs = boost::filesystem;
 PersistenceControl::PersistenceControl(
 	PageController* controller,
 	std::string const& fileName,
-	bool addExtension
+	bool addExtension,
+	int maxBackups
 )
 	: controller_{controller}
+	, backupTimer_{[this](){return automaticBackup();}}
 	, fileName_{} // intentional
 	, nameStem_{}
+	, maxBackups_{maxBackups}
 {
 	setFile(fileName, addExtension);
+}
+//---------------------------------------------------------------------------
+bool PersistenceControl::automaticBackup()
+{
+	try
+	{
+		backup();
+		return true;
+	}
+	catch(...)
+	{
+        return false;
+    }
 }
 //---------------------------------------------------------------------------
 void PersistenceControl::setupBackupStructure()
@@ -91,9 +108,22 @@ std::vector <std::string> PersistenceControl::enlistBackups(std::string const& b
 	return unpacked;
 }
 //---------------------------------------------------------------------------
-void PersistenceControl::backup(int maxBackups)
+void PersistenceControl::backup()
 {
+	if (maxBackups_ == 0)
+		return;
+
 	fs::path backupRoot = fs::path{UserHome::getAppDataPath()} / "backups";
+	auto backups = enlistBackups(backupRoot.string());
+	if (backups.size() > maxBackups_ - 1)
+	{
+		for (auto i = std::begin(backups), end = std::begin(backups) + (backups.size() - maxBackups_ + 1); i < end; ++i)
+		{
+			std::remove(i->c_str());
+            //DebugOut(*i);
+        }
+    }
+
 	auto time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	auto now = *std::localtime(&time);
 	std::stringstream sstr;
@@ -106,6 +136,23 @@ void PersistenceControl::backup(int maxBackups)
 	auto backupFile = backupRoot / sstr.str();
 
 	controller_->save(backupFile.string());
+}
+//---------------------------------------------------------------------------
+void PersistenceControl::setMaxBackups(int maxBackups)
+{
+	if (maxBackups < 0)
+		throw std::invalid_argument("maximum backup count must at least be 0");
+	maxBackups_ = maxBackups;
+}
+//---------------------------------------------------------------------------
+void PersistenceControl::startAutoBackup(int interval)
+{
+	backupTimer_.start(std::chrono::seconds{interval}, false);
+}
+//---------------------------------------------------------------------------
+void PersistenceControl::stopAutoBackup()
+{
+    backupTimer_.stop();
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

@@ -13,6 +13,7 @@ object MainEditor: TMainEditor
   Font.Style = []
   Menu = Menu
   OldCreateOrder = False
+  OnClose = FormClose
   OnCreate = FormCreate
   OnResize = FormResize
   PixelsPerInch = 96
@@ -24602,6 +24603,7 @@ object MainEditor: TMainEditor
       object SaveArticle1: TMenuItem
         Caption = '$SaveArticle'
         ShortCut = 16467
+        OnClick = SaveArticle1Click
       end
       object Autosave1: TMenuItem
         Caption = '$Autosave'
@@ -24621,6 +24623,13 @@ object MainEditor: TMainEditor
       object About1: TMenuItem
         Caption = '$Licensing'
         OnClick = About1Click
+      end
+    end
+    object AllSettings1: TMenuItem
+      Caption = '$AllSettings'
+      object AllSettings2: TMenuItem
+        Caption = '$AllSettings'
+        OnClick = AllSettings2Click
       end
     end
     object Debug1: TMenuItem

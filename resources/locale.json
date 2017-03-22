@@ -28,7 +28,9 @@
 					"$Key": "Schlüssel",
 					"$Value": "Wert",
 					"$TableAttributes": "Tabellenattribute",
-					"$SelectedCellIsHeaderCell": "Ausgewählte Zelle ist Header"
+					"$SelectedCellIsHeaderCell": "Ausgewählte Zelle ist Header",
+					"$AllSettings": "Optionen",
+					"$Settings": "Optionen"
 				}
 			},
 			"en_US": {
@@ -58,7 +60,9 @@
 					"$Key": "Key",
 					"$Value": "Value",
 					"$TableAttributes": "Table Attributes",
-					"$SelectedCellIsHeaderCell": "Selected Cell is Header Cell"
+					"$SelectedCellIsHeaderCell": "Selected Cell is Header Cell",
+					"$AllSettings": "Options",
+					"$Settings": "Options"
 				}
 			}
 		}

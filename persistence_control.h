@@ -2,6 +2,7 @@
 #pragma once
 
 #include "controller.h"
+#include "mini_timer.h"
 
 #include <string>
 #include <vector>
@@ -12,7 +13,8 @@ public:
 	PersistenceControl(
 		PageController* controller,
 		std::string const& fileName = "",
-		bool addExtension = true
+		bool addExtension = true,
+		int maxBackups = 100
 	);
 
 	~PersistenceControl() = default;
@@ -46,19 +48,41 @@ public:
 	 * 	Creates a backup with the name of the file.
 	 *	Backups rotate up to a limit.
 	 */
-	void backup(int maxBackups);
+	void backup();
+
+	/**
+	 * 	Set the maximum of backups.
+	 */
+	void setMaxBackups(int maxBackups);
 
 	/**
 	 * 	Opens a GUI to select a backup file to load.
 	 */
 	void loadSelectedBackup();
 
+	/**
+	 * 	Starts the automatic backup (every 'interval' seconds).
+	 *
+	 *  @param interval The backup interval in seconds.
+	 */
+	void startAutoBackup(int interval = 60);
+
+	/**
+	 * 	Stop Automatic Backup.
+	 */
+	void stopAutoBackup();
+
 private:
 	std::vector <std::string> enlistBackups(std::string const& backupRoot);
 
+    // This function is called by the timer.
+	bool automaticBackup();
+
 private:
 	PageController* controller_;
+    Timer backupTimer_;
 	std::string fileName_;
 	std::string nameStem_;
+	int maxBackups_;
 };
 //---------------------------------------------------------------------------

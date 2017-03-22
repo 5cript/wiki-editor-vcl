@@ -29,13 +29,20 @@ PageController::PageController(ViewportContainer* viewport)
 	, style_{}
 	, selectionCallback_{}
 	, autoSelect_{false}
+	, sectionGuard_{}
 {
 	viewport_->OnClick = onViewportClick;
 }
 //---------------------------------------------------------------------------
-void PageController::addSection()
+void PageController::addSection(bool threadSafe)
 {
-	sections_.emplace_back(this);
+	if (threadSafe)
+	{
+		std::lock_guard <std::mutex> guard {sectionGuard_};
+		sections_.emplace_back(this);
+	}
+	else
+		sections_.emplace_back(this);
 }
 //---------------------------------------------------------------------------
 void PageController::test()
@@ -91,6 +98,7 @@ void PageController::initializeViewport()
 //---------------------------------------------------------------------------
 void PageController::startDragDrop()
 {
+    std::lock_guard <std::mutex> guard {sectionGuard_};
 	for (auto& section : sections_)
 	{
 		section.startDragDrop();
@@ -117,12 +125,15 @@ std::pair <Section*, int> PageController::endDragDrop()
 		-1
 	};
 
-	for (auto& section : sections_)
 	{
-		auto pos = section.endDragDrop();
+		std::lock_guard <std::mutex> guard {sectionGuard_};
+		for (auto& section : sections_)
+		{
+			auto pos = section.endDragDrop();
 
-		if (&section == result.first)
-			result.second = pos;
+			if (&section == result.first)
+				result.second = pos;
+		}
 	}
 	realign();
 
@@ -132,6 +143,7 @@ std::pair <Section*, int> PageController::endDragDrop()
 Section* PageController::getSectionUnderCursor()
 {
 	auto clientPoint = viewport_->ScreenToClient(Mouse->CursorPos);
+    std::lock_guard <std::mutex> guard {sectionGuard_};
 	for (auto& section : sections_)
 	{
 		if (section.isWithin(clientPoint.X, clientPoint.Y))
@@ -142,6 +154,7 @@ Section* PageController::getSectionUnderCursor()
 //---------------------------------------------------------------------------
 Section* PageController::getSectionUnder(int x, int y)
 {
+    std::lock_guard <std::mutex> guard {sectionGuard_};
 	for (auto& i : sections_)
 	{
 		auto fixed = viewport_->ScreenToClient(TPoint{x, y});
@@ -180,6 +193,7 @@ WikiElements::BasicElement* PageController::addHeader(std::pair <Section*, int> 
 //---------------------------------------------------------------------------
 void PageController::realign()
 {
+    std::lock_guard <std::mutex> guard {sectionGuard_};
 	int totalHeight = 0;
 
 	for (auto& i : sections_)
@@ -280,9 +294,13 @@ bool PageController::isAutoSelectEnabled() const
 void PageController::save(std::string const& fileName) const
 {
 	WikiPage page;
-	for (auto const& i : sections_)
-		page.addComponents(i.saveComponents());
+	{
+		std::lock_guard <std::mutex> guard {sectionGuard_};
+		for (auto const& i : sections_)
+			page.addComponents(i.saveComponents());
+	}
 
+    // NOTE: FROM HERE ON, THERE MUST NOT BE ANY MEMBER ACCESS.
 	auto markup = page.toMarkup();
 	auto json = page.toJson();
 
@@ -315,6 +333,7 @@ void PageController::loadFromMarkup(std::string const& markup)
 	page.fromMarkup(markup);
 
 	auto components = page.getComponents();
+
 	for (auto component = std::begin(components), end = std::end(components); component != end;)
 	{
 		addSection();

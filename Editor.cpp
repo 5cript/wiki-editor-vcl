@@ -71,8 +71,9 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 
 		// Persistence
 		PersistenceControl::setupBackupStructure();
+        persistence_.setMaxBackups(100);
 		persistence_.setFile("unsaved");
-		persistence_.backup(100);
+		persistence_.startAutoBackup(1);
 
 		// Auto-Select
 		controller_.setAutoSelectEnabled(true);
@@ -125,7 +126,6 @@ void __fastcall TMainEditor::ViewportDragOver(TObject *Sender, TObject *Source, 
 void __fastcall TMainEditor::AddTestElements1Click(TObject *Sender)
 {
 	controller_.test();
-	persistence_.backup(3);
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::estFormShowModal1Click(TObject *Sender)
@@ -255,6 +255,21 @@ void __fastcall TMainEditor::SaveArticleAs1Click(TObject *Sender)
 {
 	// ...
 
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::SaveArticle1Click(TObject *Sender)
+{
+	//...
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::FormClose(TObject *Sender, TCloseAction &Action)
+{
+	persistence_.stopAutoBackup();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::AllSettings2Click(TObject *Sender)
+{
+	// ...
 }
 //---------------------------------------------------------------------------
 
