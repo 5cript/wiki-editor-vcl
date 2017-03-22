@@ -24,9 +24,11 @@ namespace WikiElements
 		virtual long getHeight() const = 0;
 		virtual long getWidth() const = 0;
 		virtual TControl* getBasicControl() = 0;
+        virtual BoundingBox getRenderedBox() const = 0;
 		virtual std::string getDataTypeName() const = 0;
 		virtual TFrame* getOptionsFrame() = 0;
 		virtual TFrame* getStyleOptionsFrame() = 0;
+		virtual void remove() = 0;
 		virtual void setStyle(WretchedCss::StyleSheet const& style) = 0;
 	};
 }

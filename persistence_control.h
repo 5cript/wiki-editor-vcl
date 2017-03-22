@@ -61,11 +61,16 @@ public:
 	void loadSelectedBackup();
 
 	/**
-	 * 	Starts the automatic backup (every 'interval' seconds).
+	 *	Sets the auto backup interval.
 	 *
 	 *  @param interval The backup interval in seconds.
 	 */
-	void startAutoBackup(int interval = 60);
+	void setAutoBackupInterval(int interval);
+
+	/**
+	 * 	Starts the automatic backup.
+	 */
+	void startAutoBackup();
 
 	/**
 	 * 	Stop Automatic Backup.
@@ -84,5 +89,6 @@ private:
 	std::string fileName_;
 	std::string nameStem_;
 	int maxBackups_;
+	int intervalS_;
 };
 //---------------------------------------------------------------------------

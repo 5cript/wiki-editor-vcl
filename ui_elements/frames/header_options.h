@@ -15,8 +15,10 @@ class THeaderOptionsFrame : public TFrame
 __published:	// Von der IDE verwaltete Komponenten
 	TComboBox *HeaderLayer;
 	TLabel *Label1;
+	TButton *Button1;
 	void __fastcall Label1Click(TObject *Sender);
 	void __fastcall HeaderLayerChange(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
 private:	// Benutzer-Deklarationen
 	bool translated_;
 	WikiElements::Header* owner_;

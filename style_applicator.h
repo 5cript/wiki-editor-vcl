@@ -12,6 +12,8 @@
 #include "wretched-css/rule_set/rule/property/value/point.hpp"
 #include "wretched-css/rule_set/rule/property/value/color.hpp"
 
+#include "debug.h"
+
 #include <Vcl.Graphics.hpp>
 
 #include <vector>
@@ -79,6 +81,12 @@ void readFontStyles(T* control, WretchedCss::StyleSheet const& sheet, StyleHiera
 {
 	// build style cascade from style hierarchy.
 	auto rule = constructCascade(sheet, hierarchy).getCombined();
+
+	auto fontFamily = extractString(sheet, rule["font-family"]);
+	if (fontFamily)
+	{
+		DebugOut(fontFamily.get());
+	}
 
 	auto fontSize = extractSize(sheet, rule["font-size"]);
 	if (fontSize)

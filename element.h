@@ -163,6 +163,17 @@ namespace WikiElements
 		{
 			data_ = data;
 			redraw();
+		}
+
+		BoundingBox getRenderedBox() const
+		{
+			auto xy = control_->ClientToScreen(Point(0,0));
+			return {
+				xy.X,
+				xy.Y,
+				xy.X + control_->Width,
+                xy.Y + control_->Height
+            };
         }
 
 		virtual void writeModelToUserInterface()

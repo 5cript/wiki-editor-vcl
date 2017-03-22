@@ -257,4 +257,14 @@ object TestForm: TTestForm
     WantTabs = True
     Zoom = 100
   end
+  object Panel1: TPanel
+    Left = 88
+    Top = 251
+    Width = 185
+    Height = 41
+    Caption = 'Panel1'
+    Color = clRed
+    ParentBackground = False
+    TabOrder = 4
+  end
 end

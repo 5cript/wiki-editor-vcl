@@ -23,6 +23,7 @@
 #include "controller.h"
 #include "persistence_control.h"
 #include "options.h"
+#include <Vcl.Imaging.pngimage.hpp>
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
 {
@@ -53,19 +54,25 @@ __published:	// Von der IDE verwaltete Komponenten
 	TBitBtn *StartComponentSelect;
 	TTabControl *PropertyTabs;
 	TSplitter *Splitter1;
-	TImage *Penguins;
 	TPanel *ElementSpecificOptions;
 	TPanel *StyleOptions;
 	TStatusBar *StatusBar;
 	TMenuItem *AllSettings1;
 	TMenuItem *AllSettings2;
 	TMenuItem *CaptionSettings1;
+	TPanel *Panel2;
+	TImage *HeaderImage;
+	TLabel *Label1;
+	TPanel *Panel3;
+	TImage *TextImge;
+	TLabel *Label2;
+	TMenuItem *NewArticle1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall FormCreate(TObject *Sender);
-	void __fastcall ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y);
-	void __fastcall ElementStartDrag(TObject *Sender, TDragObject *&DragObject);
+	void __fastcall HeaderEndDrag(TObject *Sender, TObject *Target, int X, int Y);
+	void __fastcall GenericStartDrag(TObject *Sender, TDragObject *&DragObject);
 	void __fastcall ViewportDragOver(TObject *Sender, TObject *Source, int X, int Y,
           TDragState State, bool &Accept);
 	void __fastcall AddTestElements1Click(TObject *Sender);
@@ -83,6 +90,8 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall WikiElementCategoryGroupMouseUp(TObject *Sender, TMouseButton Button,
           TShiftState Shift, int X, int Y);
 	void __fastcall CaptionSettings1Click(TObject *Sender);
+	void __fastcall TextEndDrag(TObject *Sender, TObject *Target, int X, int Y);
+	void __fastcall NewArticle1Click(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen

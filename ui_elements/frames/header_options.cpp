@@ -42,8 +42,12 @@ void THeaderOptionsFrame::translate()
 	if (translated_)
 		return;
 
-
-	TRANSLATE_OF_TYPE(this, TLabel, Caption);
+    // All Objects that have captions:
+	for(int i = 0; i < ComponentCount; i++)
+	{
+		TRANSLATE_OF_TYPE_I(i, this, TButton, Caption);
+		TRANSLATE_OF_TYPE_I(i, this, TLabel, Caption);
+	}
 
     translateStringList(HeaderLayer->Items);
 
@@ -57,6 +61,18 @@ void __fastcall THeaderOptionsFrame::HeaderLayerChange(TObject *Sender)
 		return;
 	else
     	owner_->setLevel(HeaderLayer->ItemIndex + 2);
+}
+//---------------------------------------------------------------------------
+void __fastcall THeaderOptionsFrame::Button1Click(TObject *Sender)
+{
+	auto res = MessageBox(
+		nullptr,
+		::translate("$ReallyWantRemove").c_str(),
+		::translate("$LossWarningCaption").c_str(),
+		MB_YESNO | MB_ICONWARNING
+	);
+	if (res == IDYES)
+		owner_->remove();
 }
 //---------------------------------------------------------------------------
 

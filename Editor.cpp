@@ -72,13 +72,14 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 		PropertyControlPaneResize(this);
 
 		// Controller
+		controller_.setStyle();
 		controller_.initializeViewport();
 
 		// Persistence
 		PersistenceControl::setupBackupStructure();
 		persistence_.setFile("unsaved");
+		persistence_.setAutoBackupInterval(settings_.backupOptions.intervalSec);
 		persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
-		persistence_.startAutoBackup(settings_.backupOptions.intervalSec);
 
 		// Auto-Select
 		controller_.setAutoSelectEnabled(true);
@@ -98,6 +99,9 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 
 		Translator::getInstance().loadLanguageFile("locale.json");
 		TranslateWindow();
+
+		// Fresh Article
+        NewArticle1Click(nullptr);
 	}
 	catch (std::exception const& exc)
 	{
@@ -105,15 +109,15 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
     }
 }
 //---------------------------------------------------------------------------
-void __fastcall TMainEditor::ElementEndDrag(TObject *Sender, TObject *Target, int X, int Y)
+void __fastcall TMainEditor::HeaderEndDrag(TObject *Sender, TObject *Target, int X, int Y)
 {
 	auto dropTarget = controller_.endDragDrop();
-	controller_.addHeader(dropTarget);
+	controller_.addElement <WikiElements::Header> (dropTarget);
 }
 //---------------------------------------------------------------------------
-void __fastcall TMainEditor::ElementStartDrag(TObject *Sender, TDragObject *&DragObject)
+void __fastcall TMainEditor::GenericStartDrag(TObject *Sender, TDragObject *&DragObject)
 {
-    controller_.startDragDrop();
+	controller_.startDragDrop();
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::ViewportDragOver(TObject *Sender, TObject *Source, int X,
@@ -292,9 +296,47 @@ void __fastcall TMainEditor::CaptionSettings1Click(TObject *Sender)
 		settings_.backupOptions = BackupSettingsDialog->GetOptions();
 		saveSettings(settings_);
 		persistence_.stopAutoBackup();
+		persistence_.setAutoBackupInterval(settings_.backupOptions.intervalSec);
 		persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
-		persistence_.startAutoBackup(settings_.backupOptions.intervalSec);
+		persistence_.startAutoBackup();
 	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::TextEndDrag(TObject *Sender, TObject *Target, int X,
+		  int Y)
+{
+	auto dropTarget = controller_.endDragDrop();
+	controller_.addElement <WikiElements::Text> (dropTarget);
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::NewArticle1Click(TObject *Sender)
+{
+	auto reset = [this](){
+		persistence_.stopAutoBackup();
+		controller_.reset();
+		persistence_.startAutoBackup();
+	};
+
+	if (!controller_.empty())
+	{
+		auto res = MessageBox(
+			nullptr,
+			translate("$WantSave?").c_str(),
+			translate("$LossWarningCaption").c_str(),
+			MB_YESNOCANCEL | MB_ICONWARNING
+		);
+		if (res == IDCANCEL || res == IDABORT)
+			return;
+		if (res == IDYES)
+			SaveArticleAs1Click(Sender);
+
+		if (res == IDNO || res == IDYES)
+		{
+			reset();
+		}
+	}
+	else
+		reset();
 }
 //---------------------------------------------------------------------------
 

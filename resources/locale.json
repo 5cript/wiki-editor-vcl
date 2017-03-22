@@ -5,6 +5,7 @@
 				"mappings": {
 					"$File": "Datei",
 					"$Help": "Hilfe",
+					"$NewArticle": "Neuer Artikel",
 					"$OpenArticle": "Artikel Öffnen",
 					"$SaveArticleAs": "Artikel Speichern Unter",
 					"$SaveArticle": "Artikel Speichern",
@@ -36,13 +37,20 @@
 					"$MaxBackups": "Maximale Anzahl Sicherungen",
 					"$OldestBackup": "Durch die Einstellungen reichen die Sicherungen %m Minuten zurück.",
 					"$Ok": "Ok",
-					"$Cancel": "Abbrechen"
+					"$Cancel": "Abbrechen",
+					"$HeaderElement": "Überschrift",
+					"$TextElement": "Text",
+					"$WantSave?": "Wollen sie die vorherige Arbeit abspeichern? Sie ist sonst verloren.",
+					"$LossWarningCaption": "Warnung!",
+					"$RemoveElement": "Element Entfernen",
+					"$ReallyWantRemove": "Wollen sie wirklich das ausgewählte Element löschen?"
 				}
 			},
 			"en_US": {
 				"mappings": {
 					"$File": "File",
 					"$Help": "Help",
+					"$NewArticle": "New Article",
 					"$OpenArticle": "Open Article",
 					"$SaveArticleAs": "Save Article As",
 					"$SaveArticle": "Save Article",
@@ -74,7 +82,13 @@
 					"$MaxBackups": "Maximum Backup Amount",
 					"$OldestBackup": "By chosen settings, the oldest backup will be %m minutes old.",
 					"$Ok": "Ok",
-					"$Cancel": "Cancel"
+					"$Cancel": "Cancel",
+					"$HeaderElement": "Header",
+					"$TextElement": "Text",
+					"$WantSave?": "Want to save current article? Unsaved changes will be lost.",
+					"$LossWarningCaption": "Warning!",
+					"$RemoveElement": "Remove Element",
+					"$ReallyWantRemove": "Do you really want to DELETE this?"
 				}
 			}
 		}

@@ -221,6 +221,11 @@ public:
 	 **/
 	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> saveComponents() const;
 
+	/**
+	 * 	Returns wether the section is empty or not.
+	 */
+    bool empty() const;
+
 public:
 	void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 

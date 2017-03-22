@@ -3,14 +3,10 @@
 #pragma hdrstop
 
 #include "controller.h"
-#include "ui_elements/header.h"
-#include "ui_elements/text.h"
-#include "ui_elements/horizontal_line.h"
-#include "ui_elements/table.h"
-#include "ui_elements/drop_target.h"
 #include "style_parser.h"
 #include "debug.h"
 #include "page.h"
+#include "user_files.h"
 
 #include "star-tape/star_tape.hpp"
 
@@ -22,6 +18,8 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
+namespace fs = boost::filesystem;
+//---------------------------------------------------------------------------
 PageController::PageController(ViewportContainer* viewport)
 	: viewport_(viewport)
 	//, dropTarget_{new TPanel{viewport_}}
@@ -34,15 +32,10 @@ PageController::PageController(ViewportContainer* viewport)
 	viewport_->OnClick = onViewportClick;
 }
 //---------------------------------------------------------------------------
-void PageController::addSection(bool threadSafe)
+void PageController::addSection()
 {
-	if (threadSafe)
-	{
-		std::lock_guard <std::mutex> guard {sectionGuard_};
-		sections_.emplace_back(this);
-	}
-	else
-		sections_.emplace_back(this);
+	std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
+	sections_.emplace_back(this);
 }
 //---------------------------------------------------------------------------
 void PageController::test()
@@ -98,7 +91,7 @@ void PageController::initializeViewport()
 //---------------------------------------------------------------------------
 void PageController::startDragDrop()
 {
-    std::lock_guard <std::mutex> guard {sectionGuard_};
+	std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	for (auto& section : sections_)
 	{
 		section.startDragDrop();
@@ -126,7 +119,7 @@ std::pair <Section*, int> PageController::endDragDrop()
 	};
 
 	{
-		std::lock_guard <std::mutex> guard {sectionGuard_};
+		std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 		for (auto& section : sections_)
 		{
 			auto pos = section.endDragDrop();
@@ -143,18 +136,25 @@ std::pair <Section*, int> PageController::endDragDrop()
 Section* PageController::getSectionUnderCursor()
 {
 	auto clientPoint = viewport_->ScreenToClient(Mouse->CursorPos);
-    std::lock_guard <std::mutex> guard {sectionGuard_};
+	std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	for (auto& section : sections_)
 	{
 		if (section.isWithin(clientPoint.X, clientPoint.Y))
 			return &section;
 	}
+	if (!sections_.empty())
+	{
+		if (clientPoint.Y < sections_.front().getBoundingBox().top)
+			return &*std::begin(sections_);
+		if (clientPoint.Y > sections_.back().getBoundingBox().top)
+			return &*(std::begin(sections_) + (sections_.size() - 1));
+    }
 	return nullptr;
 }
 //---------------------------------------------------------------------------
 Section* PageController::getSectionUnder(int x, int y)
 {
-    std::lock_guard <std::mutex> guard {sectionGuard_};
+    std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	for (auto& i : sections_)
 	{
 		auto fixed = viewport_->ScreenToClient(TPoint{x, y});
@@ -174,26 +174,9 @@ WikiElements::BasicElement* PageController::getElementUnderCursor()
 	return section->getElementUnder(clientPoint.X, clientPoint.Y);
 }
 //---------------------------------------------------------------------------
-WikiElements::BasicElement* PageController::addHeader(Section* section, int pos)
-{
-	if (section == nullptr)
-		return nullptr;
-
-	auto* head = section->addElement <WikiElements::Header>(pos);
-	if (!parsedStyle_.empty())
-		head->setStyle(parsedStyle_);
-	realign();
-	return head;
-}
-//---------------------------------------------------------------------------
-WikiElements::BasicElement* PageController::addHeader(std::pair <Section*, int> const& parameters)
-{
-	return addHeader(parameters.first, parameters.second);
-}
-//---------------------------------------------------------------------------
 void PageController::realign()
 {
-    std::lock_guard <std::mutex> guard {sectionGuard_};
+    std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	int totalHeight = 0;
 
 	for (auto& i : sections_)
@@ -225,6 +208,14 @@ void PageController::setStyle(std::string const& style)
 	style_ = style;
 	StyleParser parser;
 	parsedStyle_ = parser.parseStyleSheet(style_);
+}
+//---------------------------------------------------------------------------
+void PageController::setStyle()
+{
+	fs::path fileRoot {UserHome::getAppDataPath()};
+	auto style = fileRoot / "default_style.css";
+	if (fs::exists(style) && fs::is_regular_file(style))
+        setStyle(style);
 }
 //---------------------------------------------------------------------------
 void PageController::setStyle(boost::filesystem::path const& styleFile)
@@ -295,7 +286,7 @@ void PageController::save(std::string const& fileName) const
 {
 	WikiPage page;
 	{
-		std::lock_guard <std::mutex> guard {sectionGuard_};
+		std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 		for (auto const& i : sections_)
 			page.addComponents(i.saveComponents());
 	}
@@ -334,10 +325,28 @@ void PageController::loadFromMarkup(std::string const& markup)
 
 	auto components = page.getComponents();
 
+    std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	for (auto component = std::begin(components), end = std::end(components); component != end;)
 	{
 		addSection();
 		component = sections_.back().loadComponents(component, end);
 	}
+}
+//---------------------------------------------------------------------------
+void PageController::reset()
+{
+	std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
+	sections_.clear();
+	addSection();
+	realign();
+}
+//---------------------------------------------------------------------------
+bool PageController::empty() const
+{
+	for (auto const& section : sections_)
+		if (!section.empty())
+			return false;
+
+	return true;
 }
 //---------------------------------------------------------------------------

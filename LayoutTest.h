@@ -26,6 +26,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	TEdit *Edit6;
 	TEdit *Edit7;
 	TRichEdit *RichEdit3;
+	TPanel *Panel1;
 private:	// Benutzer-Deklarationen
 public:		// Benutzer-Deklarationen
 	__fastcall TTestForm(TComponent* Owner);

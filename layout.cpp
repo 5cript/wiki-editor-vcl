@@ -30,8 +30,9 @@ Layout::Layout(ViewportContainer* parent)
 	resize(0);
 
 	// Style
-	gridPanel_->BorderStyle = bsSingle;
-	gridPanel_->BorderWidth = 1;
+	gridPanel_->BorderStyle = bsNone;
+	//gridPanel_->BorderStyle = bsSingle;
+	//gridPanel_->BorderWidth = 1;
 	gridPanel_->BevelOuter = bvNone;
 	//gridPanel_->ParentBackground = false;
 	//gridPanel_->Color = TColor(((rand() % 255) << 16) + ((rand() % 255) << 8) + ((rand() % 255)));

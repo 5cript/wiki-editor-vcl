@@ -15,7 +15,7 @@
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
-	class Header : public Element <Header, TEdit, WikiMarkup::Components::ExportableHeader>
+	class Header : public Element <Header, TPanel, WikiMarkup::Components::ExportableHeader>
 	{
 	public:
 		Header(Section* parentSection);
@@ -31,6 +31,8 @@ namespace WikiElements
 
 		BoundingBox getBoundingBox() const override;
 
+		BoundingBox getRenderedBox() const;
+
 		void writeModelToUserInterface() override;
 
 	protected:
@@ -44,6 +46,7 @@ namespace WikiElements
 		void __fastcall onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
 
 	private:
+		std::unique_ptr <TEdit> textbox_;
 		std::unique_ptr <TPanel> underline_;
 		unsigned int deleteCounter_;
 	};

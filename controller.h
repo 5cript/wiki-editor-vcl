@@ -6,6 +6,13 @@
 #include "element.h"
 #include "viewport.h"
 
+// UI Elements
+#include "ui_elements/header.h"
+#include "ui_elements/text.h"
+#include "ui_elements/horizontal_line.h"
+#include "ui_elements/table.h"
+#include "ui_elements/drop_target.h"
+
 #include "wretched-css/style_sheet.hpp"
 
 #include <vector>
@@ -28,7 +35,7 @@ public:
 	/**
 	 *	Adds a section to the page
 	 */
-	void addSection(bool threadSafe = true);
+	void addSection();
 
 	/**
 	 *  Function for testing purposes only. Do not use. Will be removed later.
@@ -59,14 +66,23 @@ public:
 	Section* getSectionUnderCursor();
 
 	/**
-	 * 	Add a header to a specific section at the specified position.
+	 * 	Add an element to a specific section at the specified position.
 	 */
-	WikiElements::BasicElement* addHeader(Section* section, int pos = -1);
+	template <typename ElementT>
+	WikiElements::BasicElement* addElement(std::pair <Section*, int> const& parameters)
+	{
+		auto* section = parameters.first;
+		int pos = parameters.second;
 
-	/**
-	 * 	Add a header to a specific section at the specified position (using a pair).
-	 */
-	WikiElements::BasicElement* addHeader(std::pair <Section*, int> const& parameters);
+		if (section == nullptr)
+			return nullptr;
+
+		auto* elem = section->addElement <ElementT> (pos);
+		if (!parsedStyle_.empty())
+			elem->setStyle(parsedStyle_);
+		realign();
+		return elem;
+    }
 
 	/**
 	 *  Starts drag and drop mechanism
@@ -85,6 +101,11 @@ public:
 	 *  Sets the css style from a string. (utf-8 buffer)
 	 */
 	void setStyle(std::string const& style);
+
+	/**
+	 *  Sets the css style from the appdata path. (utf-8 buffer)
+	 */
+	void setStyle();
 
 	/**
 	 *	Sets the css style from a string.
@@ -147,6 +168,16 @@ public:
 	 **/
 	void loadFromMarkup(std::string const& markup);
 
+	/**
+	 *  Empties everything and adds a blank section.
+	 */
+	void reset();
+
+	/**
+	 *	Checks if there are any elements in any section.
+	 */
+	bool empty() const;
+
 private: // vcl events
 	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 	void __fastcall onViewportClick(TObject* Sender);
@@ -158,6 +189,6 @@ private:
     WretchedCss::StyleSheet parsedStyle_;
 	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
 	bool autoSelect_;
-	mutable std::mutex sectionGuard_;
+	mutable std::recursive_mutex sectionGuard_;
 };
 //---------------------------------------------------------------------------

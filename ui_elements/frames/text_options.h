@@ -13,7 +13,8 @@
 class TTextOptionsFrame : public TFrame
 {
 __published:	// Von der IDE verwaltete Komponenten
-	TLabel *Label1;
+	TButton *Button1;
+	void __fastcall Button1Click(TObject *Sender);
 private:	// Benutzer-Deklarationen
 	bool translated_;
 	WikiElements::Text* owner_;

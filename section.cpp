@@ -130,8 +130,7 @@ void Section::moveDropIndicatorToMouse()
 	bool found = false;
 	for (auto& child : children_)
 	{
-		auto childRef = child->getBasicControl()->ClientToScreen(Point(0,0)).Y +
-						   child->getBasicControl()->Height;
+		auto childRef = child->getRenderedBox().bottom;
 		if (comparisonOperator(childRef, mouseY))
 		{
 			corresChild = &*child;
@@ -176,6 +175,7 @@ long Section::getAccumulativeHeight() const
 	) * children_.size();
 
 	return totalHeight;
+	//return std::max(totalHeight, 200L);
 }
 //---------------------------------------------------------------------------
 void Section::realign(long previousSectionEnd)
@@ -368,6 +368,11 @@ std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> Se
 	std::vector <sutil::value_ptr <WikiMarkup::Components::IExportableComponent>> comps;
 	saveComponents(comps);
 	return comps;
+}
+//---------------------------------------------------------------------------
+bool Section::empty() const
+{
+	return children_.empty();
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

@@ -138,6 +138,11 @@ void PersistenceControl::backup()
 	controller_->save(backupFile.string());
 }
 //---------------------------------------------------------------------------
+void PersistenceControl::setAutoBackupInterval(int interval)
+{
+    intervalS_ = interval;
+}
+//---------------------------------------------------------------------------
 void PersistenceControl::setMaxBackups(int maxBackups)
 {
 	if (maxBackups < 0)
@@ -145,9 +150,9 @@ void PersistenceControl::setMaxBackups(int maxBackups)
 	maxBackups_ = maxBackups;
 }
 //---------------------------------------------------------------------------
-void PersistenceControl::startAutoBackup(int interval)
+void PersistenceControl::startAutoBackup()
 {
-	backupTimer_.start(std::chrono::seconds{interval}, false);
+	backupTimer_.start(std::chrono::seconds{intervalS_}, false);
 }
 //---------------------------------------------------------------------------
 void PersistenceControl::stopAutoBackup()
