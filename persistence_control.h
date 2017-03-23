@@ -37,7 +37,7 @@ public:
 	/**
 	 * 	Saves the controller state into the file.
 	 */
-	void save();
+	bool save();
 
 	/**
 	 *  Loads the file content into the controller.

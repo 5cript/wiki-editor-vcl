@@ -26,23 +26,41 @@ namespace WikiElements
 	{
     	auto* parent = parentSection->getLayout()->getControl();
 
+		// Border
+		control_->BevelInner = bvNone;
+		control_->BevelOuter = bvNone;
+        control_->BorderStyle = bsNone;
+
+		// Positioning and Size
 		control_->Left = leftSectionPadding;
-		// control_->Color = clWhite;
 		control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
-		// control_->Height = 10;
 		control_->Top = parentSection->getMostBottom() + sectionSplitPadding;
+		// control_->Height = 10;
+
+		// Style
+		// control_->Color = clWhite;
+		control_->DrawingStyle = gdsClassic;
+		//control_->GridLineWidth = 0;
+
+		// Events
 		control_->OnDrawCell = this->onDrawCell;
 		control_->OnSetEditText = this->onSetEditText;
+		control_->OnExit = this->onExit;
+		control_->OnMouseUp = this->onMouseUp;
+		control_->OnSelectCell = this->onSelectCell;
 
-		control_->Options <<= goFixedVertLine;
-		control_->Options <<= goFixedHorzLine;
-		control_->Options <<= goRowSizing;
-		control_->Options <<= goColSizing;
-		control_->Options <<= goEditing;
-		control_->Options <<= goAlwaysShowEditor;
+		control_->Options = TGridOptions()
+			<< goFixedVertLine
+			// << goFixedHorzLine
+			// << goRowSizing
+			<< goColSizing
+			<< goEditing
+			<< goAlwaysShowEditor
+		;
 
-		control_->DrawingStyle = gdsClassic;
-		control_->ColWidths[0] = 8;
+		resize(4, 4, false);
+
+		control_->ColWidths[0] = 0;
 		control_->RowHeights[0] = 8;
 	}
 //---------------------------------------------------------------------------
@@ -110,7 +128,9 @@ namespace WikiElements
 				).select(cssParser.selectorToJson(".cellStyle")).get()
 			);
 
-        //ShowMessage(filteredSheet.toString().c_str());
+		ShowMessage(filteredSheet.toString().c_str());
+
+		return filteredSheet;
 	}
 //---------------------------------------------------------------------------
 	bool Table::resize(std::size_t height, std::size_t width, bool safeMode)
@@ -162,6 +182,45 @@ namespace WikiElements
 		return true;
 	}
 //---------------------------------------------------------------------------
+	void Table::updateRowHeights()
+	{
+		for (int y = control_->FixedRows; y != control_->RowCount; ++y)
+		{
+			auto maxHeight = control_->DefaultRowHeight - 4;
+			for (int x = control_->FixedCols; x != control_->ColCount; ++x)
+			{
+				TRect rect = Rect(0, 0, control_->ColWidths[x] - 4, 0);
+				int textHeight = DrawText(
+					control_->Canvas->Handle,
+					control_->Cells[x][y].c_str(),
+					-1,
+					&rect,
+					DT_WORDBREAK | DT_CALCRECT
+				);
+				if (textHeight > maxHeight)
+					maxHeight = textHeight;
+			}
+			control_->RowHeights[y] = maxHeight + 10;
+		}
+		control_->Height = 15;
+		for (int y = control_->FixedRows; y != control_->RowCount; ++y)
+		{
+			control_->Height += control_->RowHeights[y];
+        }
+	}
+//---------------------------------------------------------------------------
+	void Table::updateColumnWidths()
+	{
+
+	}
+//---------------------------------------------------------------------------
+	void Table::updateSizes()
+	{
+		updateRowHeights();
+		updateColumnWidths();
+        parentSection_->realign();
+    }
+//---------------------------------------------------------------------------
 	void Table::resizeRow(WikiMarkup::Components::TableRow& row, std::size_t width)
 	{
         row.cells.resize(width);
@@ -198,26 +257,40 @@ namespace WikiElements
 				//readBackgroundStyles <control_type>
 			}
 		);
+
+		gatherStyles(0, 0);
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State)
 	{
-		//control_->Canvas->Brush->Color = clLime;
-		//control_->Canvas->FillRect(Rect);
-		//control_type::OnDrawCell(Sender, ACol, ARow, Rect, State);
+		if (ACol == 0 || ARow == 0)
+			return;
 
-		auto drawRectCpy = Rect;
-		drawRectCpy.Left += 2;
-		drawRectCpy.Top += 2;
+		auto cellRect = Rect;
+		cellRect.Left -= 5;
+		cellRect.Bottom += 1;
 
+		control_->Canvas->Brush->Color = clGray;
+		control_->Canvas->FillRect(cellRect);
 
-		control_->Canvas->Brush->Color = clRed;
-		control_->Canvas->FillRect(Rect);
+		// Grid Lines
+		control_->Canvas->Pen->Color = clBlack;
+
+		// Grid Lines - Horizontal
+		control_->Canvas->MoveTo(cellRect.Left, cellRect.Top);
+		control_->Canvas->LineTo(cellRect.Right, cellRect.Top);
+
+		// Grid Lines - Vertical
+		control_->Canvas->MoveTo(cellRect.Left, cellRect.Top);
+		control_->Canvas->LineTo(cellRect.Left, cellRect.Bottom);
+
+		auto textRect = Rect;
+		textRect.Top += 2;
 		DrawText(
 			control_->Canvas->Handle,
 			control_->Cells[ACol][ARow].c_str(),
 			-1,
-			&drawRectCpy,
+			&textRect,
 			DT_NOPREFIX | DT_WORDBREAK
 		);
 	}
@@ -240,20 +313,35 @@ namespace WikiElements
 				lineCountMax = lineCount;
 		}
 
+		updateRowHeights();
 
+
+		/*
 		control_->RowHeights[ARow] =
 			std::max(1, lineCountMax) *
 			control_->Canvas->TextHeight("ABCDEFGHIJKLMNOPQRSTUVWXYZ") +
 			10
 		;
+		*/
 
         parentSection_->makeDirty();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift, int X, int Y)
 	{
-
+        updateRowHeights();
 	}
+//---------------------------------------------------------------------------
+	void __fastcall Table::onExit(TObject* Sender)
+	{
+		updateRowHeights();
+	}
+//---------------------------------------------------------------------------
+	void __fastcall Table::onSelectCell(TObject *Sender, int ACol, int ARow, bool &CanSelect)
+	{
+		updateRowHeights();
+        CanSelect = true;
+    }
 //---------------------------------------------------------------------------
 	void Table::initializeOptionsFrame()
 	{

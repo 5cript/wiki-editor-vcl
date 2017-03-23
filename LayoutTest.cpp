@@ -14,4 +14,10 @@ __fastcall TTestForm::TTestForm(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+void __fastcall TTestForm::StringGrid1ColumnMoved(TObject *Sender, int FromIndex,
+          int ToIndex)
+{
+	ShowMessage("Move");
+}
+//---------------------------------------------------------------------------
 

@@ -9,6 +9,7 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.ComCtrls.hpp>
+#include <Vcl.Grids.hpp>
 //---------------------------------------------------------------------------
 class TTestForm : public TForm
 {
@@ -26,7 +27,11 @@ __published:	// Von der IDE verwaltete Komponenten
 	TEdit *Edit6;
 	TEdit *Edit7;
 	TRichEdit *RichEdit3;
-	TPanel *Panel1;
+	TStringGrid *StringGrid1;
+	void __fastcall StringGrid1ColumnMoved(TObject *Sender, int FromIndex, int ToIndex);
+
+
+
 private:	// Benutzer-Deklarationen
 public:		// Benutzer-Deklarationen
 	__fastcall TTestForm(TComponent* Owner);

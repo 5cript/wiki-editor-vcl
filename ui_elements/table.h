@@ -50,6 +50,8 @@ namespace WikiElements
 		void __fastcall onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State);
 		void __fastcall onSetEditText(TObject *Sender, int ACol, int ARow, const UnicodeString Value);
 		void __fastcall onMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift, int X, int Y);
+		void __fastcall onExit(TObject* Sender);
+		void __fastcall onSelectCell(TObject *Sender, int ACol, int ARow, bool &CanSelect);
 
 	protected:
 		void initializeOptionsFrame() override;
@@ -74,7 +76,12 @@ namespace WikiElements
 		 */
 		std::pair <std::size_t, std::size_t> getTableWidth() const;
 
+		void updateRowHeights();
+		void updateColumnWidths();
+		void updateSizes();
+
 	private: // members
+
     };
 
 }

@@ -71,6 +71,10 @@ __published:	// Von der IDE verwaltete Komponenten
 	TPanel *Panel4;
 	TImage *Image2;
 	TLabel *Label4;
+	TCategoryPanel *CategoryPanel3;
+	TPanel *Panel5;
+	TImage *Image1;
+	TLabel *Label3;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -97,7 +101,8 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall NewArticle1Click(TObject *Sender);
 	void __fastcall SaveArticleAs1Click(TObject *Sender);
 	void __fastcall OpenArticle1Click(TObject *Sender);
-	void __fastcall Image2EndDrag(TObject *Sender, TObject *Target, int X, int Y);
+	void __fastcall HorizontalLineEndDrag(TObject *Sender, TObject *Target, int X, int Y);
+	void __fastcall TableEndDrag(TObject *Sender, TObject *Target, int X, int Y);
 
 
 private:	// Benutzer-Deklarationen

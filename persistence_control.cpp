@@ -61,10 +61,13 @@ void PersistenceControl::setFile(std::string const& fileName, bool addExtension)
 	nameStem_ = fs::path{fileName}.stem().string();
 }
 //---------------------------------------------------------------------------
-void PersistenceControl::save()
+bool PersistenceControl::save()
 {
 	if (!fileName_.empty())
 		controller_->save(fileName_);
+	else
+		return false;
+	return true;
 }
 //---------------------------------------------------------------------------
 void PersistenceControl::load()

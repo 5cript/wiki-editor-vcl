@@ -2,8 +2,8 @@ object TestForm: TTestForm
   Left = 0
   Top = 0
   Caption = 'TestForm'
-  ClientHeight = 300
-  ClientWidth = 635
+  ClientHeight = 516
+  ClientWidth = 688
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -155,8 +155,8 @@ object TestForm: TTestForm
     end
   end
   object GridPanel3: TGridPanel
-    Left = 211
-    Top = 63
+    Left = 215
+    Top = 21
     Width = 185
     Height = 186
     Caption = 'GridPanel3'
@@ -257,14 +257,19 @@ object TestForm: TTestForm
     WantTabs = True
     Zoom = 100
   end
-  object Panel1: TPanel
-    Left = 88
-    Top = 251
-    Width = 185
-    Height = 41
-    Caption = 'Panel1'
-    Color = clRed
-    ParentBackground = False
+  object StringGrid1: TStringGrid
+    Left = 20
+    Top = 264
+    Width = 429
+    Height = 209
+    BevelInner = bvNone
+    BevelOuter = bvNone
+    BorderStyle = bsNone
+    DrawingStyle = gdsClassic
+    GradientEndColor = clAqua
+    GradientStartColor = clMaroon
+    Options = [goRangeSelect]
     TabOrder = 4
+    OnColumnMoved = StringGrid1ColumnMoved
   end
 end

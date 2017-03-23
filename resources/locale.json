@@ -51,7 +51,8 @@
 					"$StructureElements": "Strukturelemente",
 					"$HorizontalLine": "Trennlinie",
 					"$Table": "Tabelle",
-					"$TextBox": "Textfeld"
+					"$TextBox": "Textfeld",
+					"$SpecialElements": "Spezialelemente"
 				}
 			},
 			"en_US": {
@@ -104,7 +105,8 @@
 					"$StructureElements": "Structure Elements",
 					"$HorizontalLine": "Horizontal Line",
 					"$Table": "Table",
-					"$TextBox": "Text Box"
+					"$TextBox": "Text Box",
+					"$SpecialElements": "Special Elements"
 				}
 			}
 		}

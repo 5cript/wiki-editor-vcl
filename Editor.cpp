@@ -64,6 +64,15 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 {
 	try
 	{
+		Translator::getInstance().loadLanguageFile("locale.json");
+		TranslateWindow();
+	}
+	catch (std::exception const&)
+	{
+		ShowMessage("The language file contains an error.\r\nDie Sprachendatei enthält einen Fehler.");
+    }
+	try
+	{
 		// Settings
 		setupSettings();
 		settings_ = loadSettings();
@@ -78,7 +87,6 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 
 		// Persistence
 		PersistenceControl::setupBackupStructure();
-		persistence_.setFile("unsaved");
 		persistence_.setAutoBackupInterval(settings_.backupOptions.intervalSec);
 		persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
 
@@ -97,9 +105,6 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 		// Translation
 		//if (!FileExists(L"locale.json"))
 		SaveResourceToFile(L"locale", L"locale.json");
-
-		Translator::getInstance().loadLanguageFile("locale.json");
-		TranslateWindow();
 
 		// Fresh Article
         NewArticle1Click(nullptr);
@@ -275,7 +280,12 @@ void __fastcall TMainEditor::PropertyTabsChanging(TObject *Sender, bool &AllowCh
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::SaveArticle1Click(TObject *Sender)
 {
-	//...
+	persistence_.stopAutoBackup();
+	if (!persistence_.save())
+	{
+	    SaveAsDialog(persistence_);
+    }
+	persistence_.startAutoBackup();
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormClose(TObject *Sender, TCloseAction &Action)
@@ -370,13 +380,27 @@ void __fastcall TMainEditor::OpenArticle1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 
 
-void __fastcall TMainEditor::Image2EndDrag(TObject *Sender, TObject *Target, int X,
+void __fastcall TMainEditor::HorizontalLineEndDrag(TObject *Sender, TObject *Target, int X,
           int Y)
 {
 	try
 	{
 		auto dropTarget = controller_.endDragDrop();
 		controller_.addElement <WikiElements::HorizontalLine> (dropTarget);
+	}
+	catch (std::exception const& exc)
+	{
+		DisplayException(exc, EXCEPTION_META);
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::TableEndDrag(TObject *Sender, TObject *Target, int X,
+		  int Y)
+{
+	try
+	{
+		auto dropTarget = controller_.endDragDrop();
+		controller_.addElement <WikiElements::Table> (dropTarget);
 	}
 	catch (std::exception const& exc)
 	{

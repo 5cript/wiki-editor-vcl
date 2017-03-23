@@ -30,12 +30,64 @@ object MainEditor: TMainEditor
     HeaderFont.Style = []
     TabOrder = 0
     OnMouseUp = WikiElementCategoryGroupMouseUp
+    object CategoryPanel3: TCategoryPanel
+      Top = 250
+      Caption = '$SpecialElements'
+      TabOrder = 0
+      object Panel5: TPanel
+        Left = 3
+        Top = 3
+        Width = 190
+        Height = 60
+        Color = 13548930
+        ParentBackground = False
+        TabOrder = 0
+        OnEndDrag = TextEndDrag
+        OnStartDrag = GenericStartDrag
+        object Image1: TImage
+          Left = 8
+          Top = 5
+          Width = 50
+          Height = 50
+          DragMode = dmAutomatic
+          Picture.Data = {
+            0954506E67496D61676589504E470D0A1A0A0000000D49484452000000320000
+            003208060000001E3F88B10000000467414D410000B18F0BFC61050000000970
+            48597300000EC200000EC20115284A80000000EA4944415478DAEDD73D0AC230
+            18C6F1376770717092E221F4045AC11B38DA3193A770B1631DBD81A0F604BD44
+            2B4E0E2E9EA18A22282AC910CC93F2FCE797925F13FAA1EA5BD2801421601182
+            162168BD419452BED763ECD77DFF80D86C10E2DC57489E2819AD5EA6667BA9B3
+            617890344925CE7AB21894322F62D9A595681D20E4512EC91DA225F2B8404208
+            41853C9F5CFD6525858EAC2F080341CFF90BF1D2898C73ADD3C1FFD122841042
+            0821E4AF10F4BCFD21CAFA6C5EDDB4EDEF68114208218410E214829EF31DE96E
+            C6C6B9E3648BFFAD4508218410428853087A56909023042D42D06A0CE40A9CCC
+            D1894233000B0000000049454E44AE426082}
+          Stretch = True
+          OnEndDrag = TableEndDrag
+          OnStartDrag = GenericStartDrag
+        end
+        object Label3: TLabel
+          Left = 68
+          Top = 21
+          Width = 37
+          Height = 14
+          Caption = '$Table'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          OnEndDrag = TextEndDrag
+          OnStartDrag = GenericStartDrag
+        end
+      end
+    end
     object CategoryPanel2: TCategoryPanel
       Top = 158
       Height = 92
       Caption = '$StructureElements'
-      TabOrder = 0
-      ExplicitTop = 161
+      TabOrder = 1
       object Panel4: TPanel
         Left = 3
         Top = 3
@@ -66,7 +118,7 @@ object MainEditor: TMainEditor
             CAFF47FE108AA041113428820645D0A0081A144183226850048D3BB2EE207AFA
             97B6E50000000049454E44AE426082}
           Stretch = True
-          OnEndDrag = Image2EndDrag
+          OnEndDrag = HorizontalLineEndDrag
           OnStartDrag = GenericStartDrag
         end
         object Label4: TLabel
@@ -90,7 +142,7 @@ object MainEditor: TMainEditor
       Top = 0
       Height = 158
       Caption = '$UiTextElements'
-      TabOrder = 1
+      TabOrder = 2
       object Panel2: TPanel
         Left = 3
         Top = 3
