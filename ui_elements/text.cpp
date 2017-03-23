@@ -72,6 +72,7 @@ namespace WikiElements
 			parentSection_->causePageRealign();
 		}
 
+        parentSection_->makeDirty();
         data_.data = UTF8String(control_->Text).c_str();
 	}
 //---------------------------------------------------------------------------

@@ -375,4 +375,9 @@ bool Section::empty() const
 	return children_.empty();
 }
 //---------------------------------------------------------------------------
+void Section::makeDirty() const
+{
+    parent_->makeDirty();
+}
+//---------------------------------------------------------------------------
 #pragma package(smart_init)

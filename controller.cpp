@@ -28,6 +28,7 @@ PageController::PageController(ViewportContainer* viewport)
 	, selectionCallback_{}
 	, autoSelect_{false}
 	, sectionGuard_{}
+	, dirty_{false}
 {
 	viewport_->OnClick = onViewportClick;
 }
@@ -302,6 +303,7 @@ void PageController::save(std::string const& fileName) const
 		<< TapeOperations::AddString("page.mu", markup)
 		<< TapeOperations::AddString("page.json", json)
 	).apply(&archive(bundle));
+	clearDirtyFlag();
 }
 //---------------------------------------------------------------------------
 void PageController::load(std::string const& fileName)
@@ -325,12 +327,15 @@ void PageController::loadFromMarkup(std::string const& markup)
 
 	auto components = page.getComponents();
 
+    sections_.clear();
+
     std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	for (auto component = std::begin(components), end = std::end(components); component != end;)
 	{
 		addSection();
 		component = sections_.back().loadComponents(component, end);
 	}
+	clearDirtyFlag();
 }
 //---------------------------------------------------------------------------
 void PageController::reset()
@@ -348,5 +353,20 @@ bool PageController::empty() const
 			return false;
 
 	return true;
+}
+//---------------------------------------------------------------------------
+void PageController::makeDirty()
+{
+	dirty_.store(true);
+}
+//---------------------------------------------------------------------------
+bool PageController::isDirty() const
+{
+    return dirty_.load();
+}
+//---------------------------------------------------------------------------
+void PageController::clearDirtyFlag() const
+{
+	dirty_.store(false);
 }
 //---------------------------------------------------------------------------

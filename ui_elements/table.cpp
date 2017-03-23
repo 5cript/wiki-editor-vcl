@@ -246,6 +246,8 @@ namespace WikiElements
 			control_->Canvas->TextHeight("ABCDEFGHIJKLMNOPQRSTUVWXYZ") +
 			10
 		;
+
+        parentSection_->makeDirty();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onMouseUp(TObject *Sender, TMouseButton Button, TShiftState Shift, int X, int Y)

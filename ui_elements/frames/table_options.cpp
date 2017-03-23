@@ -17,6 +17,12 @@ __fastcall TTableOptionsFrame::TTableOptionsFrame(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+__fastcall TTableOptionsFrame::~TTableOptionsFrame()
+{
+	if (selfReference_)
+		*selfReference_ = nullptr;
+}
+//---------------------------------------------------------------------------
 void TTableOptionsFrame::populate()
 {
 	auto* handle = owner_->getDataHandle();
@@ -50,7 +56,11 @@ void TTableOptionsFrame::setOwner(WikiElements::BasicElement* owner)
 		throw std::invalid_argument("passed owner is not of table element type");
 }
 //---------------------------------------------------------------------------
-
+void TTableOptionsFrame::setSelfReference(TFrame** selfReference)
+{
+	selfReference_ = selfReference;
+}
+//---------------------------------------------------------------------------
 void __fastcall TTableOptionsFrame::TableAttributesValidate(TObject *Sender, int ACol,
           int ARow, const UnicodeString KeyName, const UnicodeString KeyValue)
 {

@@ -7,5 +7,6 @@ class UserHome
 {
 public:
 	static std::string getAppDataPath();
+	static std::string getHomePath();
 };
 //---------------------------------------------------------------------------

@@ -67,6 +67,10 @@ __published:	// Von der IDE verwaltete Komponenten
 	TImage *TextImge;
 	TLabel *Label2;
 	TMenuItem *NewArticle1;
+	TCategoryPanel *CategoryPanel2;
+	TPanel *Panel4;
+	TImage *Image2;
+	TLabel *Label4;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -83,7 +87,6 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall PropertyControlPaneResize(TObject *Sender);
 	void __fastcall PageContainerResize(TObject *Sender);
 	void __fastcall PropertyTabsChanging(TObject *Sender, bool &AllowChange);
-	void __fastcall SaveArticleAs1Click(TObject *Sender);
 	void __fastcall SaveArticle1Click(TObject *Sender);
 	void __fastcall FormClose(TObject *Sender, TCloseAction &Action);
 	void __fastcall AllSettings2Click(TObject *Sender);
@@ -92,11 +95,15 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall CaptionSettings1Click(TObject *Sender);
 	void __fastcall TextEndDrag(TObject *Sender, TObject *Target, int X, int Y);
 	void __fastcall NewArticle1Click(TObject *Sender);
+	void __fastcall SaveArticleAs1Click(TObject *Sender);
+	void __fastcall OpenArticle1Click(TObject *Sender);
+	void __fastcall Image2EndDrag(TObject *Sender, TObject *Target, int X, int Y);
 
 
 private:	// Benutzer-Deklarationen
 	void LoadPage();
 	void TranslateWindow();
+
 	void __fastcall SelectCallback(WikiElements::BasicElement* element, bool autoSelect = false);
 
 	PageController controller_;

@@ -77,6 +77,11 @@ public:
 	 */
 	void stopAutoBackup();
 
+	/**
+	 * 	Returns the parent directory of the lastly saved file.
+	 */
+	std::string getParentDirectory() const;
+
 private:
 	std::vector <std::string> enlistBackups(std::string const& backupRoot);
 

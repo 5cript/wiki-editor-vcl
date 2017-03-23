@@ -5,6 +5,7 @@
 #include "mini_timer.h"
 #include "finally.h"
 #include "debug.h"
+#pragma package(smart_init)
 //---------------------------------------------------------------------------
 const std::chrono::high_resolution_clock::duration Timer::sleepTime = std::chrono::milliseconds{100};
 //---------------------------------------------------------------------------
@@ -63,4 +64,3 @@ void Timer::stop()
 		timerThread_.join();
 }
 //---------------------------------------------------------------------------
-#pragma package(smart_init)

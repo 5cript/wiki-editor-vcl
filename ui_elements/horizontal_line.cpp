@@ -5,6 +5,8 @@
 #include "horizontal_line.h"
 
 #include "style_applicator.h"
+#include "frames/horizontal_line_options.h"
+#include "frames/style_options.h"
 
 #include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
@@ -26,6 +28,18 @@ namespace WikiElements
 		//control_->Left = leftSectionPadding;
 		control_->Height = 1;
 		//control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
+	}
+//---------------------------------------------------------------------------
+	void HorizontalLine::initializeOptionsFrame()
+	{
+		optionsFrame_.reset(new THorizontalLineOptionsFrame(nullptr));
+		static_cast <THorizontalLineOptionsFrame*> (&*optionsFrame_)->setOwner(this);
+	}
+//---------------------------------------------------------------------------
+	void HorizontalLine::initializeStyleOptionsFrame()
+	{
+		styleOptionsFrame_.reset(new TStyleOptionsFrame(nullptr));
+		static_cast <TStyleOptionsFrame*> (&*styleOptionsFrame_)->setOwner(this);
 	}
 //---------------------------------------------------------------------------
 	void HorizontalLine::styleChanged(WretchedCss::StyleSheet const& style)

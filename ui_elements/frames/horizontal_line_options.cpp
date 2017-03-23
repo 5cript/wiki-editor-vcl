@@ -3,27 +3,32 @@
 #include <vcl.h>
 #pragma hdrstop
 
-#include "../text.h"
-
+#include "horizontal_line_options.h"
 #include "localization.h"
-#include "text_options.h"
+#include "common_dialogs.h"
+#include "../horizontal_line.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
-TTextOptionsFrame *TextOptionsFrame;
+THorizontalLineOptionsFrame *HorizontalLineOptionsFrame;
 //---------------------------------------------------------------------------
-__fastcall TTextOptionsFrame::TTextOptionsFrame(TComponent* Owner)
+__fastcall THorizontalLineOptionsFrame::THorizontalLineOptionsFrame(TComponent* Owner)
 	: TFrame(Owner)
 {
 }
 //---------------------------------------------------------------------------
-__fastcall TTextOptionsFrame::~TTextOptionsFrame()
+__fastcall THorizontalLineOptionsFrame::~THorizontalLineOptionsFrame()
 {
-	if (selfReference_)
-	    *selfReference_ = nullptr;
+	*selfReference_ = nullptr;
 }
 //---------------------------------------------------------------------------
-void TTextOptionsFrame::translate()
+void __fastcall THorizontalLineOptionsFrame::Button1Click(TObject *Sender)
+{
+	if (ElementDeletionWarning() == AbortContinueCase::Continue)
+		owner_->remove();
+}
+//---------------------------------------------------------------------------
+void THorizontalLineOptionsFrame::translate()
 {
 	if (translated_)
 		return;
@@ -38,28 +43,20 @@ void TTextOptionsFrame::translate()
 	translated_ = true;
 }
 //---------------------------------------------------------------------------
-void TTextOptionsFrame::setOwner(WikiElements::BasicElement* owner)
+void THorizontalLineOptionsFrame::populate()
 {
-	owner_ = dynamic_cast <WikiElements::Text*> (owner);
-	if (!owner_)
-		throw std::invalid_argument("passed owner is not of text element type");
+
 }
 //---------------------------------------------------------------------------
-void TTextOptionsFrame::setSelfReference(TFrame** selfReference)
+void THorizontalLineOptionsFrame::setOwner(WikiElements::BasicElement* owner)
+{
+	owner_ = dynamic_cast <WikiElements::HorizontalLine*> (owner);
+	if (!owner_)
+		throw std::invalid_argument("passed owner is not of horizontal line element type");
+}
+//---------------------------------------------------------------------------
+void THorizontalLineOptionsFrame::setSelfReference(TFrame** selfReference)
 {
 	selfReference_ = selfReference;
 }
 //---------------------------------------------------------------------------
-void __fastcall TTextOptionsFrame::Button1Click(TObject *Sender)
-{
-	auto res = MessageBox(
-		nullptr,
-		::translate("$ReallyWantRemove").c_str(),
-		::translate("$LossWarningCaption").c_str(),
-		MB_YESNO | MB_ICONWARNING
-	);
-	if (res == IDYES)
-		owner_->remove();
-}
-//---------------------------------------------------------------------------
-

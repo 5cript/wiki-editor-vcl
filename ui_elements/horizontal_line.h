@@ -21,11 +21,13 @@ namespace WikiElements
 		HorizontalLine(Section* parentSection);
 
 	protected:
+		void initializeOptionsFrame() override;
+		void initializeStyleOptionsFrame() override;
+
+	protected:
 		void styleChanged(WretchedCss::StyleSheet const& style) override;
 
-	private:
-		//void __fastcall onTextChange(TObject* Sender);
-		//void __fastcall onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
+	private: // VCL Events
     };
 
 }

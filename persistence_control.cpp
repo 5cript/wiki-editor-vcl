@@ -160,4 +160,16 @@ void PersistenceControl::stopAutoBackup()
     backupTimer_.stop();
 }
 //---------------------------------------------------------------------------
+std::string PersistenceControl::getParentDirectory() const
+{
+	if (fileName_.empty())
+	{
+		return UserHome::getHomePath();
+	}
+	else
+	{
+        return fs::path{fileName_}.parent_path().string();
+    }
+}
+//---------------------------------------------------------------------------
 #pragma package(smart_init)

@@ -5,6 +5,7 @@
 
 #include "header_options.h"
 #include "localization.h"
+#include "common_dialogs.h"
 #include "../header.h"
 
 #include <stdexcept>
@@ -20,6 +21,12 @@ __fastcall THeaderOptionsFrame::THeaderOptionsFrame(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+__fastcall THeaderOptionsFrame::~THeaderOptionsFrame()
+{
+	if (selfReference_)
+	    *selfReference_ = nullptr;
+}
+//---------------------------------------------------------------------------
 void THeaderOptionsFrame::setOwner(WikiElements::BasicElement* owner)
 {
 	owner_ = dynamic_cast <WikiElements::Header*> (owner);
@@ -27,9 +34,9 @@ void THeaderOptionsFrame::setOwner(WikiElements::BasicElement* owner)
 		throw std::invalid_argument("passed owner is not of header element type");
 }
 //---------------------------------------------------------------------------
-void __fastcall THeaderOptionsFrame::Label1Click(TObject *Sender)
+void THeaderOptionsFrame::setSelfReference(TFrame** selfReference)
 {
-    ShowMessage("Hello");
+	selfReference_ = selfReference;
 }
 //---------------------------------------------------------------------------
 void THeaderOptionsFrame::populate()
@@ -65,13 +72,7 @@ void __fastcall THeaderOptionsFrame::HeaderLayerChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall THeaderOptionsFrame::Button1Click(TObject *Sender)
 {
-	auto res = MessageBox(
-		nullptr,
-		::translate("$ReallyWantRemove").c_str(),
-		::translate("$LossWarningCaption").c_str(),
-		MB_YESNO | MB_ICONWARNING
-	);
-	if (res == IDYES)
+	if (ElementDeletionWarning() == AbortContinueCase::Continue)
 		owner_->remove();
 }
 //---------------------------------------------------------------------------

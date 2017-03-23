@@ -7,6 +7,7 @@
 #include "text_options.h"
 #include "style_options.h"
 #include "table_options.h"
+#include "horizontal_line_options.h"
 
 #include <utility>
 #include <type_traits>
@@ -24,16 +25,18 @@ struct __declspec(uuid("{5898CCAF-1EE4-4EB4-A785-48920E5E97A5}")) IOptionsFrame
 	virtual void translate() = 0;
 	virtual void setOwner(WikiElements::BasicElement* element) = 0;
 	virtual void populate() = 0;
+    virtual void setSelfReference(TFrame**) = 0;
 };
 //---------------------------------------------------------------------------
 #define FI_OPTION_FRAMES THeaderOptionsFrame, TTextOptionsFrame, TStyleOptionsFrame, \
-					  TTableOptionsFrame
+					  TTableOptionsFrame, THorizontalLineOptionsFrame
 
-#define FI_INTERFACE_FUNCTIONS (translate)(setOwner)(populate)
+#define FI_INTERFACE_FUNCTIONS (translate)(setOwner)(populate)(setSelfReference)
 
 #define interfaceFunctionType_translate void()
 #define interfaceFunctionType_setOwner void(WikiElements::BasicElement*)
 #define interfaceFunctionType_populate void()
+#define interfaceFunctionType_setSelfReference void(TFrame**)
 
 //############################################################################
 // END OF USER DECLARATIONS!
@@ -211,6 +214,12 @@ public:
 	OptionsFrameAdapter& populate()
 	{
 		FI_IOPTIONS_FRAME_CALL(populate, frame_);
+		return *this;
+	}
+
+	OptionsFrameAdapter& setSelfReference(TFrame** selfReference)
+	{
+		FI_IOPTIONS_FRAME_CALL(setSelfReference, frame_, selfReference);
 		return *this;
     }
 

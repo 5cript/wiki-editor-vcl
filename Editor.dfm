@@ -30,11 +30,67 @@ object MainEditor: TMainEditor
     HeaderFont.Style = []
     TabOrder = 0
     OnMouseUp = WikiElementCategoryGroupMouseUp
+    object CategoryPanel2: TCategoryPanel
+      Top = 158
+      Height = 92
+      Caption = '$StructureElements'
+      TabOrder = 0
+      ExplicitTop = 161
+      object Panel4: TPanel
+        Left = 3
+        Top = 3
+        Width = 190
+        Height = 60
+        Color = 13548930
+        ParentBackground = False
+        TabOrder = 0
+        OnEndDrag = TextEndDrag
+        OnStartDrag = GenericStartDrag
+        object Image2: TImage
+          Left = 8
+          Top = 5
+          Width = 50
+          Height = 50
+          DragMode = dmAutomatic
+          Picture.Data = {
+            0954506E67496D61676589504E470D0A1A0A0000000D49484452000000320000
+            003208060000001E3F88B10000000467414D410000B18F0BFC61050000000970
+            48597300000EC200000EC20115284A80000001074944415478DAED97C10D8240
+            1045677B014F56801508774A80A394824728813B588154E049E845C7801702EA
+            1A93FD92FF12B2CB8490FFB2B36C3037455680A10818144183226850040D8AA0
+            41113428820645D09817E98F22DEC175B67916B2CD8AEC8C9133E8422D659B15
+            31FA306AC72D657B21D2E86CEF3AF78493660BED44121D8B2ED77E8CC6AAE728
+            7C3F0EB5A47E26A54EAD441E047AC5C150DB6CDD685C2FC358B522ED58B31641
+            8522687C21A21B24885DE71E682B79EE124B9144F2AE90E8C71FAB4F5FD74FEE
+            6B2D647EAAB3D24EA4D132DE292212DA1F88AB39D9572092EA1A16687DF526DB
+            CAFF47FE108AA041113428820645D0A0081A144183226850048D3BB2EE207AFA
+            97B6E50000000049454E44AE426082}
+          Stretch = True
+          OnEndDrag = Image2EndDrag
+          OnStartDrag = GenericStartDrag
+        end
+        object Label4: TLabel
+          Left = 68
+          Top = 21
+          Width = 82
+          Height = 14
+          Caption = '$HorizontalLine'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
+          OnEndDrag = TextEndDrag
+          OnStartDrag = GenericStartDrag
+        end
+      end
+    end
     object CategoryPanel1: TCategoryPanel
       Top = 0
-      Height = 161
+      Height = 158
       Caption = '$UiTextElements'
-      TabOrder = 0
+      TabOrder = 1
       object Panel2: TPanel
         Left = 3
         Top = 3
@@ -69,9 +125,15 @@ object MainEditor: TMainEditor
         object Label1: TLabel
           Left = 68
           Top = 21
-          Width = 79
-          Height = 13
-          Caption = '$HeaderElement'
+          Width = 46
+          Height = 14
+          Caption = '$Header'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           OnEndDrag = HeaderEndDrag
           OnStartDrag = GenericStartDrag
         end
@@ -110,9 +172,15 @@ object MainEditor: TMainEditor
         object Label2: TLabel
           Left = 68
           Top = 21
-          Width = 66
-          Height = 13
-          Caption = '$TextElement'
+          Width = 53
+          Height = 14
+          Caption = '$TextBox'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = []
+          ParentFont = False
           OnEndDrag = TextEndDrag
           OnStartDrag = GenericStartDrag
         end
@@ -365,6 +433,7 @@ object MainEditor: TMainEditor
       object OpenArticle1: TMenuItem
         Caption = '$OpenArticle'
         ShortCut = 16463
+        OnClick = OpenArticle1Click
       end
       object SaveArticleAs1: TMenuItem
         Caption = '$SaveArticleAs'

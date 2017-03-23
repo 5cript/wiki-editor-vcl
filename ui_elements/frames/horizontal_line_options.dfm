@@ -1,17 +1,17 @@
-object TextOptionsFrame: TTextOptionsFrame
+object HorizontalLineOptionsFrame: THorizontalLineOptionsFrame
   Left = 0
   Top = 0
   Width = 249
   Height = 422
   TabOrder = 0
-  object Label2: TLabel
+  object Label1: TLabel
     Left = 0
     Top = 3
     Width = 249
     Height = 16
     Alignment = taCenter
     AutoSize = False
-    Caption = '$TextBox'
+    Caption = '$HorizontalLine'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13

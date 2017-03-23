@@ -14,6 +14,7 @@
 #include "frame_interface.h"
 #include "query_delphi_interface.hpp"
 #include "resources.h"
+#include "common_dialogs.h"
 
 #include <functional>
 
@@ -105,14 +106,21 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 	}
 	catch (std::exception const& exc)
 	{
-        ShowMessage(exc.what());
+		DisplayException(exc, EXCEPTION_META);
     }
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::HeaderEndDrag(TObject *Sender, TObject *Target, int X, int Y)
 {
-	auto dropTarget = controller_.endDragDrop();
-	controller_.addElement <WikiElements::Header> (dropTarget);
+	try
+	{
+		auto dropTarget = controller_.endDragDrop();
+		controller_.addElement <WikiElements::Header> (dropTarget);
+	}
+    catch (std::exception const& exc)
+	{
+		DisplayException(exc, EXCEPTION_META);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::GenericStartDrag(TObject *Sender, TDragObject *&DragObject)
@@ -154,18 +162,16 @@ void __fastcall TMainEditor::SelectCallback(WikiElements::BasicElement* element,
 		auto* frame = element->getOptionsFrame();
 		if (frame)
 		{
-			OptionsFrameAdapter{frame}.translate().populate();
-			/*
-			auto* iface = interface_query_cast <IOptionsFrame*> (frame);
-			if (iface)
-				iface->translate();
-			else
-				ShowMessage("Options frame misses IOptionsFrame interface");
-			*/
-
-			//frameTranslate(frame);
-			frame->Parent = ElementSpecificOptions;
-			frame->Show();
+			try
+			{
+				OptionsFrameAdapter{frame}.translate().populate().setSelfReference(&lastFrame_);
+				frame->Parent = ElementSpecificOptions;
+				frame->Show();
+			}
+			catch (std::exception const& exc)
+			{
+				DisplayException(exc, EXCEPTION_META);
+			}
 		}
 		lastFrame_ = frame;
 	}
@@ -177,10 +183,17 @@ void __fastcall TMainEditor::StartComponentSelectClick(TObject *Sender)
 {
 	if (!controller_.isInSelectionMode())
 	{
-		Screen->Cursor = static_cast <TCursor> (WikiEditorConstants::crosshairCursor);
-		controller_.startSelectionMode([this](WikiElements::BasicElement* element){
-            SelectCallback(element);
-		});
+		try
+		{
+			Screen->Cursor = static_cast <TCursor> (WikiEditorConstants::crosshairCursor);
+			controller_.startSelectionMode([this](WikiElements::BasicElement* element){
+				SelectCallback(element);
+			});
+		}
+		catch (std::exception const& exc)
+		{
+			DisplayException(exc, EXCEPTION_META);
+		}
 	}
 	else
 	{
@@ -260,11 +273,6 @@ void __fastcall TMainEditor::PropertyTabsChanging(TObject *Sender, bool &AllowCh
 	}
 }
 //---------------------------------------------------------------------------
-void __fastcall TMainEditor::SaveArticleAs1Click(TObject *Sender)
-{
-	// ...
-}
-//---------------------------------------------------------------------------
 void __fastcall TMainEditor::SaveArticle1Click(TObject *Sender)
 {
 	//...
@@ -289,24 +297,38 @@ void __fastcall TMainEditor::WikiElementCategoryGroupMouseUp(TObject *Sender, TM
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::CaptionSettings1Click(TObject *Sender)
 {
-	BackupSettingsDialog->LoadOptions(settings_.backupOptions);
-	BackupSettingsDialog->ShowModal();
-	if (BackupSettingsDialog->Accepted())
+	try
 	{
-		settings_.backupOptions = BackupSettingsDialog->GetOptions();
-		saveSettings(settings_);
-		persistence_.stopAutoBackup();
-		persistence_.setAutoBackupInterval(settings_.backupOptions.intervalSec);
-		persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
-		persistence_.startAutoBackup();
+		BackupSettingsDialog->LoadOptions(settings_.backupOptions);
+		BackupSettingsDialog->ShowModal();
+		if (BackupSettingsDialog->Accepted())
+		{
+			settings_.backupOptions = BackupSettingsDialog->GetOptions();
+			saveSettings(settings_);
+			persistence_.stopAutoBackup();
+			persistence_.setAutoBackupInterval(settings_.backupOptions.intervalSec);
+			persistence_.setMaxBackups(settings_.backupOptions.maxBackups);
+			persistence_.startAutoBackup();
+		}
 	}
+	catch (std::exception const& exc)
+	{
+        DisplayException(exc, EXCEPTION_META);
+    }
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::TextEndDrag(TObject *Sender, TObject *Target, int X,
 		  int Y)
 {
-	auto dropTarget = controller_.endDragDrop();
-	controller_.addElement <WikiElements::Text> (dropTarget);
+	try
+	{
+		auto dropTarget = controller_.endDragDrop();
+		controller_.addElement <WikiElements::Text> (dropTarget);
+	}
+	catch (std::exception const& exc)
+	{
+		DisplayException(exc, EXCEPTION_META);
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::NewArticle1Click(TObject *Sender)
@@ -317,26 +339,49 @@ void __fastcall TMainEditor::NewArticle1Click(TObject *Sender)
 		persistence_.startAutoBackup();
 	};
 
-	if (!controller_.empty())
+	if (controller_.isDirty())
 	{
-		auto res = MessageBox(
-			nullptr,
-			translate("$WantSave?").c_str(),
-			translate("$LossWarningCaption").c_str(),
-			MB_YESNOCANCEL | MB_ICONWARNING
-		);
-		if (res == IDCANCEL || res == IDABORT)
-			return;
-		if (res == IDYES)
-			SaveArticleAs1Click(Sender);
+		auto cont = WarnAndSave(persistence_);
 
-		if (res == IDNO || res == IDYES)
-		{
+		if (cont == AbortContinueCase::Continue)
 			reset();
-		}
 	}
 	else
 		reset();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::SaveArticleAs1Click(TObject *Sender)
+{
+    SaveAsDialog(persistence_);
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::OpenArticle1Click(TObject *Sender)
+{
+	if (controller_.isDirty())
+	{
+		auto cont = WarnAndSave(persistence_);
+
+		if (cont == AbortContinueCase::Continue)
+			OpenArticle(persistence_);
+	}
+	else
+		OpenArticle(persistence_);
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TMainEditor::Image2EndDrag(TObject *Sender, TObject *Target, int X,
+          int Y)
+{
+	try
+	{
+		auto dropTarget = controller_.endDragDrop();
+		controller_.addElement <WikiElements::HorizontalLine> (dropTarget);
+	}
+	catch (std::exception const& exc)
+	{
+		DisplayException(exc, EXCEPTION_META);
+	}
 }
 //---------------------------------------------------------------------------
 

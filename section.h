@@ -224,7 +224,13 @@ public:
 	/**
 	 * 	Returns wether the section is empty or not.
 	 */
-    bool empty() const;
+	bool empty() const;
+
+	/**
+	 *  There were changes within this section! A save is recommended.
+	 *	(This goes upwards to the controller. The controller does not call this)
+	 */
+	void makeDirty() const;
 
 public:
 	void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);

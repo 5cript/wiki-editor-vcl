@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 
-#ifndef style_optionsH
-#define style_optionsH
+#ifndef horizontal_line_optionsH
+#define horizontal_line_optionsH
 //---------------------------------------------------------------------------
 #include "../element_fwd.h"
 
@@ -9,25 +9,26 @@
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
 #include <Vcl.Forms.hpp>
-#include <Vcl.Samples.Spin.hpp>
 //---------------------------------------------------------------------------
-class TStyleOptionsFrame : public TFrame
+class THorizontalLineOptionsFrame : public TFrame
 {
-__published:	// IDE-managed Components
-	TGroupBox *FontSettings;
-	TSpinEdit *SpinEdit1;
+__published:	// Von der IDE verwaltete Komponenten
+	TButton *Button1;
 	TLabel *Label1;
+	void __fastcall Button1Click(TObject *Sender);
 private:	// Benutzer-Deklarationen
 	bool translated_;
-	WikiElements::BasicElement* owner_;
+	WikiElements::HorizontalLine* owner_;
+	TFrame** selfReference_;
 public:		// Benutzer-Deklarationen
 	void translate();
+	void populate();
 	void setOwner(WikiElements::BasicElement* owner);
-	void setSelfReference(TFrame**);
-	__fastcall TStyleOptionsFrame(TComponent* Owner);
-	__fastcall ~TStyleOptionsFrame();
+	void setSelfReference(TFrame** selfReference);
+	__fastcall THorizontalLineOptionsFrame(TComponent* Owner);
+	__fastcall ~THorizontalLineOptionsFrame();
 };
 //---------------------------------------------------------------------------
-extern PACKAGE TStyleOptionsFrame *StyleOptionsFrame;
+extern PACKAGE THorizontalLineOptionsFrame *HorizontalLineOptionsFrame;
 //---------------------------------------------------------------------------
 #endif

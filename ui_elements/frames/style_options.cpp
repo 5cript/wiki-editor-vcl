@@ -14,6 +14,11 @@ __fastcall TStyleOptionsFrame::TStyleOptionsFrame(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+__fastcall TStyleOptionsFrame::~TStyleOptionsFrame()
+{
+
+}
+//---------------------------------------------------------------------------
 void TStyleOptionsFrame::translate()
 {
 	if (translated_)
@@ -24,6 +29,11 @@ void TStyleOptionsFrame::translate()
 //---------------------------------------------------------------------------
 void TStyleOptionsFrame::setOwner(WikiElements::BasicElement* owner)
 {
-    owner_ = owner;
+	owner_ = owner;
+}
+//---------------------------------------------------------------------------
+void TStyleOptionsFrame::setSelfReference(TFrame**)
+{
+
 }
 //---------------------------------------------------------------------------

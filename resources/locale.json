@@ -16,6 +16,7 @@
 					"$Select": "Element Auswählen",
 					"$UiElements": "Wiki Elemente",
 					"$UiTextElements": "Wiki Text Elemente",
+					"$Header": "Überschrift",
 					"$HeaderType": "Überschrift Art",
 					"$HeaderLayer2": "Überschrift 2",
 					"$HeaderLayer3": "Überschrift 3",
@@ -38,12 +39,19 @@
 					"$OldestBackup": "Durch die Einstellungen reichen die Sicherungen %m Minuten zurück.",
 					"$Ok": "Ok",
 					"$Cancel": "Abbrechen",
-					"$HeaderElement": "Überschrift",
-					"$TextElement": "Text",
 					"$WantSave?": "Wollen sie die vorherige Arbeit abspeichern? Sie ist sonst verloren.",
 					"$LossWarningCaption": "Warnung!",
 					"$RemoveElement": "Element Entfernen",
-					"$ReallyWantRemove": "Wollen sie wirklich das ausgewählte Element löschen?"
+					"$ReallyWantRemove": "Wollen sie wirklich das ausgewählte Element löschen?",
+					"$SaveAsDialogTitle": "Artikel Abspeichern Unter",
+					"$WikiArticleFilter": "Wiki Artikel Dateien",
+					"$AllFilesFilter": "Alle Dateien",
+					"$OpenDialogTitle": "Artikel von Festplatte lesen.",
+					"$ExceptionOccurred": "Ein Fehler ist aufgetreten, bitte speichern Sie ab und starten sie neu!",
+					"$StructureElements": "Strukturelemente",
+					"$HorizontalLine": "Trennlinie",
+					"$Table": "Tabelle",
+					"$TextBox": "Textfeld"
 				}
 			},
 			"en_US": {
@@ -61,6 +69,7 @@
 					"$Select": "Select Element",
 					"$UiElements": "Wiki Elements",
 					"$UiTextElements": "Wiki Text Elements",
+					"$Header": "Header",
 					"$HeaderType": "Header Type",
 					"$HeaderLayer2": "Header 2",
 					"$HeaderLayer3": "Header 3",
@@ -83,12 +92,19 @@
 					"$OldestBackup": "By chosen settings, the oldest backup will be %m minutes old.",
 					"$Ok": "Ok",
 					"$Cancel": "Cancel",
-					"$HeaderElement": "Header",
-					"$TextElement": "Text",
 					"$WantSave?": "Want to save current article? Unsaved changes will be lost.",
 					"$LossWarningCaption": "Warning!",
 					"$RemoveElement": "Remove Element",
-					"$ReallyWantRemove": "Do you really want to DELETE this?"
+					"$ReallyWantRemove": "Do you really want to DELETE this?",
+					"$SaveAsDialogTitle": "Save Article As",
+					"$WikiArticleFilter": "Wiki Article Files",
+					"$AllFilesFilter": "All Files",
+					"$OpenDialogTitle": "Open Wiki Article From Disk",
+					"$ExceptionOccurred": "An exception occurred. Please save and restart.",
+					"$StructureElements": "Structure Elements",
+					"$HorizontalLine": "Horizontal Line",
+					"$Table": "Table",
+					"$TextBox": "Text Box"
 				}
 			}
 		}

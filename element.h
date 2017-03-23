@@ -9,6 +9,8 @@
 
 #include "wretched-css/style_sheet.hpp"
 
+#include <Vcl.Dialogs.hpp>
+
 #include <memory>
 #include <typeinfo>
 //---------------------------------------------------------------------------
@@ -37,6 +39,10 @@ namespace WikiElements
 			control_->OnDragOver = onDragOver;
             control_->OnClick = onClick;
 		}
+
+		~Element()
+		{
+        }
 
 		void setStyle(WretchedCss::StyleSheet const& style)
 		{

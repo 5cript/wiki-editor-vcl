@@ -65,6 +65,7 @@ namespace WikiElements
 	void __fastcall Header::onTextChange(TObject* Sender)
 	{
 		data_.data = UTF8String(textbox_->Text).c_str();
+		parentSection_->makeDirty();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Header::onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)

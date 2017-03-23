@@ -18,6 +18,7 @@
 #include <vector>
 #include <functional>
 #include <mutex>
+#include <atomic>
 
 #include <boost/filesystem.hpp>
 //---------------------------------------------------------------------------
@@ -78,6 +79,7 @@ public:
 			return nullptr;
 
 		auto* elem = section->addElement <ElementT> (pos);
+		makeDirty();
 		if (!parsedStyle_.empty())
 			elem->setStyle(parsedStyle_);
 		realign();
@@ -178,6 +180,20 @@ public:
 	 */
 	bool empty() const;
 
+    /**
+	 *  There were changes within any section! A save is recommended.
+	 *	(A call to save resets the dirty flag)
+	 */
+	void makeDirty();
+
+	/**
+	 *  Returns whether the state has changed since last save.
+	 */
+	bool isDirty() const;
+
+private: // private methods
+	void clearDirtyFlag() const;
+
 private: // vcl events
 	void __fastcall dropIndicatorDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept);
 	void __fastcall onViewportClick(TObject* Sender);
@@ -190,5 +206,6 @@ private:
 	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
 	bool autoSelect_;
 	mutable std::recursive_mutex sectionGuard_;
+	mutable std::atomic_bool dirty_;
 };
 //---------------------------------------------------------------------------

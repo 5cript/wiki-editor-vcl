@@ -5,16 +5,31 @@ object HeaderOptionsFrame: THeaderOptionsFrame
   Height = 422
   TabOrder = 0
   object Label1: TLabel
-    Left = 16
-    Top = 34
+    Left = 3
+    Top = 58
     Width = 65
     Height = 13
     Caption = '$HeaderType'
   end
+  object Label2: TLabel
+    Left = 0
+    Top = 3
+    Width = 249
+    Height = 16
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '$Header'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold, fsUnderline]
+    ParentFont = False
+  end
   object HeaderLayer: TComboBox
-    Left = 11
-    Top = 53
-    Width = 225
+    Left = 3
+    Top = 75
+    Width = 243
     Height = 21
     Style = csDropDownList
     ItemIndex = 0
@@ -30,7 +45,7 @@ object HeaderOptionsFrame: THeaderOptionsFrame
   end
   object Button1: TButton
     Left = 3
-    Top = 3
+    Top = 25
     Width = 243
     Height = 25
     Caption = '$RemoveElement'
