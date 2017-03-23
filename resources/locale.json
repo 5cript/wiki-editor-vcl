@@ -52,6 +52,9 @@
 					"$HorizontalLine": "Trennlinie",
 					"$Table": "Tabelle",
 					"$TextBox": "Textfeld",
+					"$List": "Liste",
+					"$Graphic": "Grafik",
+					"$Image": "Bild",
 					"$SpecialElements": "Spezialelemente"
 				}
 			},
@@ -106,6 +109,9 @@
 					"$HorizontalLine": "Horizontal Line",
 					"$Table": "Table",
 					"$TextBox": "Text Box",
+					"$List": "List",
+					"$Graphic": "Graphic",
+					"$Image": "Image",
 					"$SpecialElements": "Special Elements"
 				}
 			}

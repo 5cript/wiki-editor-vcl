@@ -257,19 +257,4 @@ object TestForm: TTestForm
     WantTabs = True
     Zoom = 100
   end
-  object StringGrid1: TStringGrid
-    Left = 20
-    Top = 264
-    Width = 429
-    Height = 209
-    BevelInner = bvNone
-    BevelOuter = bvNone
-    BorderStyle = bsNone
-    DrawingStyle = gdsClassic
-    GradientEndColor = clAqua
-    GradientStartColor = clMaroon
-    Options = [goRangeSelect]
-    TabOrder = 4
-    OnColumnMoved = StringGrid1ColumnMoved
-  end
 end

@@ -408,4 +408,32 @@ void __fastcall TMainEditor::TableEndDrag(TObject *Sender, TObject *Target, int 
 	}
 }
 //---------------------------------------------------------------------------
+void __fastcall TMainEditor::ListEndDrag(TObject *Sender, TObject *Target, int X,
+		  int Y)
+{
+	try
+	{
+		auto dropTarget = controller_.endDragDrop();
+		controller_.addElement <WikiElements::Text> (dropTarget);
+	}
+	catch (std::exception const& exc)
+	{
+		DisplayException(exc, EXCEPTION_META);
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::GraphicEndDrag(TObject *Sender, TObject *Target, int X,
+		  int Y)
+{
+	try
+	{
+		auto dropTarget = controller_.endDragDrop();
+		controller_.addElement <WikiElements::Text> (dropTarget);
+	}
+	catch (std::exception const& exc)
+	{
+		DisplayException(exc, EXCEPTION_META);
+	}
+}
+//---------------------------------------------------------------------------
 
