@@ -703,6 +703,10 @@
             <DependentOn>ui_elements\horizontal_line.h</DependentOn>
             <BuildOrder>164</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\list.cpp">
+            <DependentOn>ui_elements\list.h</DependentOn>
+            <BuildOrder>246</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\spacer.cpp">
             <DependentOn>ui_elements\spacer.h</DependentOn>
             <BuildOrder>167</BuildOrder>

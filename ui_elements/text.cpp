@@ -7,8 +7,6 @@
 #include "style_applicator.h"
 #include "frames/text_options.h"
 #include "frames/style_options.h"
-
-#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
