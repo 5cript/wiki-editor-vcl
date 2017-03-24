@@ -55,7 +55,13 @@
 					"$List": "Liste",
 					"$Graphic": "Grafik",
 					"$Image": "Bild",
-					"$SpecialElements": "Spezialelemente"
+					"$SpecialElements": "Spezialelemente",
+					"$ToggleRenderMu": "Ansicht Wechseln",
+					"$MarkupError": "Das Markup kann nich übernommen werden, es enthält Fehler oder nicht unterstützte Elemente.",
+					"$ContinueEditing": "Editieren fortfahren? (Oder Änderungen verwerfen!)",
+					"$View": "Ansicht",
+					"$PleaseWaitBlock": "Bitte Warten",
+					"$MarkupEditingWarning": "Hierbei können strukturelle Informationen verloren gehen, wollen sie fortfahren?"
 				}
 			},
 			"en_US": {
@@ -112,7 +118,13 @@
 					"$List": "List",
 					"$Graphic": "Graphic",
 					"$Image": "Image",
-					"$SpecialElements": "Special Elements"
+					"$SpecialElements": "Special Elements",
+					"$ToggleRenderMu": "Toggle Views",
+					"$MarkupError": "The markup cannot be adopted, it contains errors or unsupported elements.",
+					"$ContinueEditing": "Continue editing? (Or discard changes!)",
+					"$View": "View",
+					"$PleaseWaitBlock": "Please Wait",
+					"$MarkupEditingWarning": "You may loose structural information in the process, do you want to continue?"
 				}
 			}
 		}

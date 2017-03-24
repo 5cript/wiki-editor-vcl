@@ -3,6 +3,11 @@
 #ifndef EditorH
 #define EditorH
 //---------------------------------------------------------------------------
+#include "controller.h"
+#include "persistence_control.h"
+#include "options.h"
+#include "syntax_highlight.h"
+//---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
@@ -19,10 +24,6 @@
 #include <Vcl.Buttons.hpp>
 #include <Vcl.Imaging.jpeg.hpp>
 #include <Vcl.AppEvnts.hpp>
-//---------------------------------------------------------------------------
-#include "controller.h"
-#include "persistence_control.h"
-#include "options.h"
 #include <Vcl.Imaging.pngimage.hpp>
 //---------------------------------------------------------------------------
 class TMainEditor : public TForm
@@ -81,6 +82,10 @@ __published:	// Von der IDE verwaltete Komponenten
 	TPanel *Panel7;
 	TImage *Image4;
 	TLabel *Label6;
+	TMenuItem *View1;
+	TMenuItem *oggleRenderMd1;
+	TRichEdit *MarkupView;
+	TPanel *PleaseWaitBlock;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -111,6 +116,8 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall TableEndDrag(TObject *Sender, TObject *Target, int X, int Y);
 	void __fastcall ListEndDrag(TObject *Sender, TObject *Target, int X, int Y);
 	void __fastcall GraphicEndDrag(TObject *Sender, TObject *Target, int X, int Y);
+	void __fastcall oggleRenderMd1Click(TObject *Sender);
+	void __fastcall MarkupViewChange(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen
@@ -122,7 +129,8 @@ private:	// Benutzer-Deklarationen
 	PageController controller_;
 	PersistenceControl persistence_;
 	SettingsHolder settings_;
-    TFrame* lastFrame_;
+	TFrame* lastFrame_;
+	SyntaxHighlighter highlighter_;
 public:		// Benutzer-Deklarationen
 	__fastcall TMainEditor(TComponent* Owner);
 };

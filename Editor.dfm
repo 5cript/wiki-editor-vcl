@@ -458,6 +458,31 @@ object MainEditor: TMainEditor
       TabOrder = 0
       OnDragOver = ViewportDragOver
       OnResize = PageContainerResize
+      DesignSize = (
+        555
+        660)
+      object PleaseWaitBlock: TPanel
+        Left = 0
+        Top = 0
+        Width = 555
+        Height = 660
+        Align = alClient
+        Caption = '$PleaseWaitBlock'
+        Color = 13548930
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -21
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        ParentBackground = False
+        ParentFont = False
+        TabOrder = 2
+        Visible = False
+        ExplicitLeft = 202
+        ExplicitTop = 220
+        ExplicitWidth = 353
+        ExplicitHeight = 176
+      end
       object Viewport: TGridPanel
         Left = 0
         Top = 0
@@ -477,6 +502,30 @@ object MainEditor: TMainEditor
         TabOrder = 0
         VerticalAlignment = taAlignTop
         OnDragOver = ViewportDragOver
+      end
+      object MarkupView: TRichEdit
+        Left = 2
+        Top = 2
+        Width = 519
+        Height = 287
+        Anchors = []
+        BevelInner = bvNone
+        BevelOuter = bvNone
+        BorderStyle = bsNone
+        Color = 4210752
+        Font.Charset = ANSI_CHARSET
+        Font.Color = clWhite
+        Font.Height = -13
+        Font.Name = 'Consolas'
+        Font.Style = []
+        Lines.Strings = (
+          'MarkupView')
+        ParentFont = False
+        PlainText = True
+        TabOrder = 1
+        Visible = False
+        Zoom = 100
+        OnChange = MarkupViewChange
       end
     end
     object PropertyControlPane: TPanel
@@ -696,11 +745,11 @@ object MainEditor: TMainEditor
         OnClick = Exit1Click
       end
     end
-    object Help1: TMenuItem
-      Caption = '$Help'
-      object About1: TMenuItem
-        Caption = '$Licensing'
-        OnClick = About1Click
+    object View1: TMenuItem
+      Caption = '$View'
+      object oggleRenderMd1: TMenuItem
+        Caption = '$ToggleRenderMu'
+        OnClick = oggleRenderMd1Click
       end
     end
     object AllSettings1: TMenuItem
@@ -712,6 +761,13 @@ object MainEditor: TMainEditor
       object CaptionSettings1: TMenuItem
         Caption = '$BackupSettings'
         OnClick = CaptionSettings1Click
+      end
+    end
+    object Help1: TMenuItem
+      Caption = '$Help'
+      object About1: TMenuItem
+        Caption = '$Licensing'
+        OnClick = About1Click
       end
     end
     object Debug1: TMenuItem

@@ -10,6 +10,8 @@
 #include "frames/table_options.h"
 #include "style_parser.h"
 
+#include "debug.h"
+
 // VCL
 #include <Vcl.Dialogs.hpp>
 
@@ -80,13 +82,18 @@ namespace WikiElements
 				return {iter->second};
 			else
 				return boost::none;
-        };
+		};
 
 		auto cellStyle = getOptional(data_.rows[row].cells[column].attributes, "style");
 		auto rowStyle = getOptional(data_.rows[row].attributes, "style");
 		auto tableStyle = getOptional(data_.attributes, "style");
-
 		auto tableClass = getOptional(data_.attributes, "class");
+
+		DebugOut(cellStyle);
+		DebugOut(rowStyle);
+		DebugOut(tableStyle);
+		DebugOut(tableClass);
+		DebugOut(data_.attributes);
 
 		using namespace WretchedCss;
 

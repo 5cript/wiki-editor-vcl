@@ -98,9 +98,14 @@ void OpenArticle(PersistenceControl& persistence)
 	}
 }
 //---------------------------------------------------------------------------
-void DisplayException(std::exception const& exc, std::string metaInfo)
+void DisplayException(std::exception const& exc, std::string const& metaInfo,
+					  std::string const& replacementMessage)
 {
-	auto msg = translate("$ExceptionOccurred") + "\r\n" + exc.what() + "\r\n" + metaInfo.c_str();
+	String msg;
+	if (replacementMessage.empty())
+		msg = translate("$ExceptionOccurred") + "\r\n" + exc.what() + "\r\n" + metaInfo.c_str();
+	else
+		msg = translate(replacementMessage.c_str()) + "\r\n" + exc.what() + "\r\n" + metaInfo.c_str();
 	ShowMessage(msg);
 }
 //---------------------------------------------------------------------------

@@ -10,7 +10,7 @@
 #include <iomanip>
 #include <cstdint>
 //---------------------------------------------------------------------------
-extern TRichEdit* Log = nullptr;
+TRichEdit* Log = nullptr;
 //---------------------------------------------------------------------------
 template <unsigned S>
 struct IntFromSize
@@ -92,7 +92,19 @@ void DebugOut(const char* cstr)
 //---------------------------------------------------------------------------
 void DebugOut(const wchar_t* wcstr)
 {
-    DebugOut(std::string{AnsiString(String(wcstr)).c_str()});
+    DebugOut(std::string{UTF8String(String(wcstr)).c_str()});
+}
+//---------------------------------------------------------------------------
+void DebugOut(std::unordered_map <std::string, std::string> const& associative)
+{
+	for (auto const& i : associative)
+		DebugOut(i.first + ": " + i.second);
+}
+//---------------------------------------------------------------------------
+void DebugOut(std::map <std::string, std::string> const& associative)
+{
+	for (auto const& i : associative)
+		DebugOut(i.first + ": " + i.second);
 }
 //---------------------------------------------------------------------------
 #pragma package(smart_init)

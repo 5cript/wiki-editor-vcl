@@ -51,7 +51,8 @@ void OpenArticle(PersistenceControl& persistence);
 /**
  *  Show a MessageBox with the exception message and line + file.
  */
-void DisplayException(std::exception const& exc, std::string metaInfo);
+void DisplayException(std::exception const& exc, std::string const& metaInfo,
+					  std::string const& replacementMessage = "");
 
 AbortContinueCase ElementDeletionWarning();
 //---------------------------------------------------------------------------

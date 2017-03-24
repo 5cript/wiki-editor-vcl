@@ -167,8 +167,14 @@ public:
 
 	/**
 	 *	Loads a page from a markup string.
+	 *	(ensures, that if parsing fails, the markup will not be accepted. -> throws)
 	 **/
 	void loadFromMarkup(std::string const& markup);
+
+	/**
+	 *  Convert to markup.
+	 */
+	std::string toMarkup() const;
 
 	/**
 	 *  Empties everything and adds a blank section.

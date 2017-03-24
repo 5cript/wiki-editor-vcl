@@ -338,6 +338,18 @@ void PageController::loadFromMarkup(std::string const& markup)
 	clearDirtyFlag();
 }
 //---------------------------------------------------------------------------
+std::string PageController::toMarkup() const
+{
+	WikiPage page;
+	{
+		std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
+		for (auto const& i : sections_)
+			page.addComponents(i.saveComponents());
+	}
+
+    return page.toMarkup();
+}
+//---------------------------------------------------------------------------
 void PageController::reset()
 {
 	std::lock_guard <std::recursive_mutex> guard {sectionGuard_};

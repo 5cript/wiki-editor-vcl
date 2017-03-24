@@ -26,6 +26,7 @@ __fastcall TMainEditor::TMainEditor(TComponent* Owner)
 	: TForm(Owner)
 	, controller_{Viewport}
 	, persistence_{&controller_}
+	, highlighter_{MarkupView, getDefaultStyle()}
 {
 	//srand(time(0));
 }
@@ -57,6 +58,14 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 		!!(Viewport->BevelOuter != bvNone) * Viewport->BevelWidth * 2 -
 		18 /* scrollbar height */;
 
+	MarkupView->Width =
+		PageContainer->Width -
+		!!(PageContainer->BevelOuter != bvNone) * PageContainer->BevelWidth * 2 -
+		!!(Viewport->BevelOuter != bvNone) * Viewport->BevelWidth * 2 -
+		0 /*18*/ /* scrollbar height */;
+
+	MarkupView->Height = PageContainer->Height;
+
     PropertyTabs->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
 }
 //---------------------------------------------------------------------------
@@ -80,6 +89,7 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 		// Fix Ui Alignment
 		PageContainerResize(this);
 		PropertyControlPaneResize(this);
+        PleaseWaitBlock->BringToFront();
 
 		// Controller
 		controller_.setStyle();
@@ -234,6 +244,7 @@ void TMainEditor::TranslateWindow()
 	{
 		TRANSLATE_OF_TYPE_I(i, this, TBitBtn, Caption);
 		TRANSLATE_OF_TYPE_I(i, this, TLabel, Caption);
+		TRANSLATE_OF_TYPE_I(i, this, TPanel, Caption);
 		TRANSLATE_OF_TYPE_I(i, this, TCategoryPanel, Caption);
 	}
 
@@ -290,6 +301,12 @@ void __fastcall TMainEditor::SaveArticle1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormClose(TObject *Sender, TCloseAction &Action)
 {
+	if (controller_.isDirty())
+	{
+		auto cont = WarnAndSave(persistence_);
+		if (cont == AbortContinueCase::Abort)
+			Action = caNone;
+	}
 	persistence_.stopAutoBackup();
 }
 //---------------------------------------------------------------------------
@@ -434,6 +451,66 @@ void __fastcall TMainEditor::GraphicEndDrag(TObject *Sender, TObject *Target, in
 	{
 		DisplayException(exc, EXCEPTION_META);
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TMainEditor::oggleRenderMd1Click(TObject *Sender)
+{
+	bool toggle = false;
+	if (!MarkupView->Visible)
+	{
+		// MarkupView -> Viewport
+		auto res = MessageBox(
+			nullptr,
+			translate("$MarkupEditingWarning").c_str(),
+			translate("$LossWarningCaption").c_str(),
+			MB_YESNO | MB_ICONWARNING
+		);
+		if (res == IDYES)
+		{
+			MarkupView->Text = controller_.toMarkup().c_str();
+            highlighter_.apply();
+			toggle = true;
+		}
+	}
+	else
+	{
+		// Viewport -> MarkupView
+		try
+		{
+			PleaseWaitBlock->Show();
+			Application->ProcessMessages();
+			controller_.loadFromMarkup(UTF8String(MarkupView->Text).c_str());
+			toggle = true;
+		}
+		catch (std::exception const& exc)
+		{
+			DisplayException(exc, EXCEPTION_META, "$MarkupError");
+            auto res = MessageBox(
+				nullptr,
+				translate("$ContinueEditing").c_str(),
+				translate("$LossWarningCaption").c_str(),
+				MB_YESNOCANCEL | MB_ICONWARNING
+			);
+			if (res == IDYES || res == IDCANCEL)
+				toggle = false;
+			else
+				toggle = true;
+        }
+    }
+	PleaseWaitBlock->Hide();
+
+	if (toggle)
+	{
+		MarkupView->Visible = !MarkupView->Visible;
+		Viewport->Visible = !MarkupView->Visible;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::MarkupViewChange(TObject *Sender)
+{
+	highlighter_.apply();
+	controller_.makeDirty();
 }
 //---------------------------------------------------------------------------
 
