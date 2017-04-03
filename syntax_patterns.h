@@ -15,10 +15,13 @@ class SyntaxPattern
 public:
 	SyntaxPattern(std::string const& pattern, TColor color, bool bold);
 
+	bool matchesBreak() const;
+
 private:
-	std::regex pattern;
-	TColor color;
-	bool bold;
+	std::regex pattern_;
+	TColor color_;
+	bool bold_;
+	bool lineBreakMatcher_;
 };
 
 using SyntaxPatterns = std::vector <SyntaxPattern>;

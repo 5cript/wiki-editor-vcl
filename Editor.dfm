@@ -478,10 +478,6 @@ object MainEditor: TMainEditor
         ParentFont = False
         TabOrder = 2
         Visible = False
-        ExplicitLeft = 202
-        ExplicitTop = 220
-        ExplicitWidth = 353
-        ExplicitHeight = 176
       end
       object Viewport: TGridPanel
         Left = 0

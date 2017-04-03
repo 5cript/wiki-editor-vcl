@@ -3,8 +3,13 @@
 #pragma hdrstop
 
 #include "syntax_highlight.h"
+#define INTERVAL_TREE_SAFE_INTERVALS
+#include "interval-tree/interval_tree.hpp"
+#include "debug.h"
 
 #include <boost/algorithm/string/replace.hpp>
+
+#include <sstream>
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 
@@ -48,13 +53,18 @@ void SyntaxHighlighter::apply()
 	}
 
 	// merge overlapping highlights:
-	for (auto const& replacement : replacements)
+	lib_interval_tree::interval_tree <std::size_t> tree;
+	for (auto const& rep : replacements)
+		tree.insert({rep.first, rep.second});
+
+	GETTEXTLENGTHEX lenop = {GTL_DEFAULT, CP_ACP};
+	std::size_t len = edit_->Perform(EM_GETTEXTLENGTHEX, (LPARAM)&lenop, 0);
+	auto gaps = tree.deoverlap().punch({static_cast <std::size_t> (0u), len});
+	for (auto const& gap : gaps)
 	{
-		for (auto const& replacementSearch : replacements)
-		{
-            if (replacement.
-        }
-    }
+		select(gap.low(), gap.high() - gap.low());
+		stylize(defaultPattern_);
+	}
 
 	// Reset RichEdit.
 	edit_->Perform(EM_SETSEL, start, start);
@@ -73,12 +83,12 @@ void SyntaxHighlighter::stylize(SyntaxPattern const& pattern)
 	::CHARFORMAT format{0};
 	format.cbSize = sizeof(format);
 	format.dwMask = CFM_COLOR;
-	if (pattern.bold)
+	if (pattern.bold_)
 	{
 		format.dwMask |= CFM_BOLD;
 		format.dwEffects |= CFE_BOLD;
 	}
-	format.crTextColor = pattern.color;
+	format.crTextColor = pattern.color_;
 	edit_->Perform(EM_SETCHARFORMAT, SCF_SELECTION, (LPARAM)&format);
 }
 //---------------------------------------------------------------------------
@@ -101,20 +111,22 @@ std::vector <std::pair <std::size_t, std::size_t>> SyntaxHighlighter::applySingl
 	{
 		select(pos, len);
 		stylize(pattern);
-		select(pos + len, 0);
-		stylize(defaultPattern_);
-		return std::pair <std::size_t, std::size_t>{pos, len}
+		return std::pair <std::size_t, std::size_t>{pos, pos + len};
 	};
 
 	std::vector <std::pair <std::size_t, std::size_t>> replacements;
 
 	auto accumulativeCut = 0;
 	std::smatch match;
-	while (std::regex_search(text, match, pattern.pattern))
+	while (std::regex_search(text, match, pattern.pattern_))
 	{
 		auto cut = text.length() - match.suffix().str().length();
+		//auto cut = match.length();
 		text = match.suffix().str();
-		replacements.push_back(highlight(fixPosition(match.position() + accumulativeCut), match.length()));
+		auto len = match.length();
+		if (pattern.matchesBreak())
+        	len--;
+		replacements.push_back(highlight(fixPosition(match.position() + accumulativeCut), len));
 		accumulativeCut += cut;
 	}
 	return replacements;

@@ -460,13 +460,15 @@ void __fastcall TMainEditor::oggleRenderMd1Click(TObject *Sender)
 	if (!MarkupView->Visible)
 	{
 		// MarkupView -> Viewport
+		/*
 		auto res = MessageBox(
 			nullptr,
 			translate("$MarkupEditingWarning").c_str(),
 			translate("$LossWarningCaption").c_str(),
 			MB_YESNO | MB_ICONWARNING
 		);
-		if (res == IDYES)
+		*/
+		//if (res == IDYES)
 		{
 			MarkupView->Text = controller_.toMarkup().c_str();
             highlighter_.apply();
