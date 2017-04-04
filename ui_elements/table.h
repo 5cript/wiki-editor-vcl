@@ -24,13 +24,10 @@ namespace WikiElements
 		Table(Section* parentSection);
 
 		/**
-		 *  Makes a style sheet out of all styles that are given by the overall
-		 *	style sheet and the attributes of the table, the rows and the cell.
-		 *
-		 *  All given styles will then have to cascade for a proper cell style.
-		 *	The cascade order is the same as the style order in the style sheet.
+		 *  Calls gatherStyle for each cell.
+		 *  Very costly.
 		 */
-		WretchedCss::StyleSheet gatherStyles(std::size_t row, std::size_t column);
+		void populateStyleGrid();
 
 		/**
 		 *  Sets the size of the table.
@@ -42,6 +39,8 @@ namespace WikiElements
 		 *  @return Will only return false, if shrinking fails due to safe mode.
 		 */
 		bool resize(std::size_t height, std::size_t width, bool safeMode = false);
+
+		void writeModelToUserInterface() override;
 
 	protected: // wimu events
 		void styleChanged(WretchedCss::StyleSheet const& style) override;
@@ -58,6 +57,15 @@ namespace WikiElements
 		void initializeStyleOptionsFrame() override;
 
 	private: // private methods
+		/**
+		 *  Makes a style sheet out of all styles that are given by the overall
+		 *	style sheet and the attributes of the table, the rows and the cell.
+		 *
+		 *  All given styles will then have to cascade for a proper cell style.
+		 *	The cascade order is the same as the style order in the style sheet.
+		 */
+		WretchedCss::StyleSheet gatherStyles(std::size_t row, std::size_t column);
+
 		/**
 		 *	Will resize a wiki table row to the given width.
 		 *	This function is internal and does not need to do safety checkings.
@@ -76,12 +84,19 @@ namespace WikiElements
 		 */
 		std::pair <std::size_t, std::size_t> getTableWidth() const;
 
+		/**
+		 *  Set text in a cell in the view.
+		 *
+		 *	@param if updateModel is set to true, the model gets updated with `test`.
+		 */
+		void setViewCellText(std::size_t row, std::size_t column, std::string const& text, bool updateModel = false);
+
 		void updateRowHeights();
 		void updateColumnWidths();
 		void updateSizes();
 
 	private: // members
-
+    	std::vector <std::vector <WretchedCss::StyleSheet> > styleGrid_;
     };
 
 }

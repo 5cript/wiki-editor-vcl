@@ -66,6 +66,56 @@ namespace WikiElements
 		control_->RowHeights[0] = 8;
 	}
 //---------------------------------------------------------------------------
+	void Table::writeModelToUserInterface()
+	{
+		if (data_.rows.empty())
+		{
+			resize(0, 0, false);
+			return;
+		}
+
+		resize(data_.rows.size(), data_.rows[0].cells.size(), false);
+
+		std::size_t rowc = 0u;
+		for (auto const& row : data_.rows)
+		{
+			std::size_t colc = 0u;
+			for (auto const& cell : row.cells)
+			{
+				setViewCellText(rowc, colc, cell.data, false);
+				++colc;
+			}
+			++rowc;
+        }
+	}
+//---------------------------------------------------------------------------
+	void Table::setViewCellText(std::size_t row, std::size_t column, std::string const& text, bool updateModel)
+	{
+		if (updateModel)
+		{
+			if (data_.rows.size() <= row)
+				throw std::invalid_argument("model table is smaler than given row index");
+			if (data_.rows[row].cells.size() <= column)
+				throw std::invalid_argument("model table is smaler than given column index");
+
+			data_.rows[row].cells[column].data = text;
+		}
+
+		if (control_->RowCount - 1 <= row)
+			throw std::invalid_argument("view table is smaler than given row index");
+		if (control_->ColCount - 1 <= column)
+			throw std::invalid_argument("view table is smaler than given row index");
+
+		control_->Cells[row + 1][column + 1] = text.c_str();
+	}
+//---------------------------------------------------------------------------
+	void Table::populateStyleGrid()
+	{
+		for (std::size_t row = 0u; row != data_.rows.size(); ++row)
+			for (std::size_t col = 0u; col != data_.rows[row].cells.size() ++ col)
+				gatherStyles(column, row);
+    }
+//---------------------------------------------------------------------------
 	WretchedCss::StyleSheet Table::gatherStyles(std::size_t column, std::size_t row)
 	{
 		if (data_.rows.size() <= row)
@@ -108,7 +158,8 @@ namespace WikiElements
 
 		auto& cssParser = WretchedCssLibrary::getInstance();
 
-		if (tableClass) {
+		if (tableClass)
+		{
 			auto tableClass2 = sheet.select(cssParser.selectorToJson(std::string(".") + tableClass.get()));
 			if (tableClass2)
 				filteredSheet.addStyle(tableClass2.get());
@@ -182,9 +233,19 @@ namespace WikiElements
 		if (safeMode && !safetyCheck(true))
 			return false;
 
+		// resize model
 		data_.rows.resize(height);
 		for (auto& row : data_.rows)
 			resizeRow(row, width);
+
+		// resize view
+		control_->RowCount = data_.rows.size() + 1;
+		control_->ColCount = data_.rows[0].cells.size() + 2;
+
+        // resize style grid
+		styleGrid_.resize(height);
+		for (auto& row : styleGrid_)
+			styleGrid_.resize(width);
 
 		return true;
 	}
@@ -264,8 +325,6 @@ namespace WikiElements
 				//readBackgroundStyles <control_type>
 			}
 		);
-
-		gatherStyles(0, 0);
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State)

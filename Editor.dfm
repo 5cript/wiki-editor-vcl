@@ -441,6 +441,7 @@ object MainEditor: TMainEditor
       Align = alRight
       Color = clSilver
       ParentColor = False
+      OnMoved = Splitter1Moved
       ExplicitLeft = 491
       ExplicitHeight = 655
     end

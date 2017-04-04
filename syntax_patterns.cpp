@@ -14,9 +14,12 @@ SyntaxPattern::SyntaxPattern(std::string const& pattern, TColor color, bool bold
 	, bold_{bold}
 	, lineBreakMatcher_{false}
 {
-    std::string str = pattern.substr(pattern.length() - 3, 2);
-	if (!pattern.empty() && pattern.substr(pattern.length() - 3, 2) == "\n")
-		lineBreakMatcher_ = true;
+	if (pattern.size() > 2)
+	{
+		std::string str = pattern.substr(pattern.length() - 2, 2);
+		if (str == "\\n")
+			lineBreakMatcher_ = true;
+	}
 }
 //---------------------------------------------------------------------------
 bool SyntaxPattern::matchesBreak() const

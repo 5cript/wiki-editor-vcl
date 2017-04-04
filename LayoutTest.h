@@ -27,6 +27,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	TEdit *Edit6;
 	TEdit *Edit7;
 	TRichEdit *RichEdit3;
+	TStringGrid *StringGrid1;
 	void __fastcall StringGrid1ColumnMoved(TObject *Sender, int FromIndex, int ToIndex);
 
 

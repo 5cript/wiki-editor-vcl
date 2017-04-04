@@ -118,6 +118,7 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall GraphicEndDrag(TObject *Sender, TObject *Target, int X, int Y);
 	void __fastcall oggleRenderMd1Click(TObject *Sender);
 	void __fastcall MarkupViewChange(TObject *Sender);
+	void __fastcall Splitter1Moved(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen

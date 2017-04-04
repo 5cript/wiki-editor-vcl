@@ -257,4 +257,11 @@ object TestForm: TTestForm
     WantTabs = True
     Zoom = 100
   end
+  object StringGrid1: TStringGrid
+    Left = 152
+    Top = 296
+    Width = 425
+    Height = 169
+    TabOrder = 4
+  end
 end

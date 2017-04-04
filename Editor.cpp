@@ -64,6 +64,9 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 		!!(Viewport->BevelOuter != bvNone) * Viewport->BevelWidth * 2 -
 		0 /*18*/ /* scrollbar height */;
 
+	MarkupView->Top = 0;
+	MarkupView->Left = 0;
+
 	MarkupView->Height = PageContainer->Height;
 
     PropertyTabs->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
@@ -513,6 +516,11 @@ void __fastcall TMainEditor::MarkupViewChange(TObject *Sender)
 {
 	highlighter_.apply();
 	controller_.makeDirty();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::Splitter1Moved(TObject *Sender)
+{
+    FormResize(Sender);
 }
 //---------------------------------------------------------------------------
 
