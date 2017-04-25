@@ -9,6 +9,7 @@
 #include "style_applicator.h"
 #include "frames/table_options.h"
 #include "style_parser.h"
+#include "controller.h"
 
 #include "debug.h"
 
@@ -19,12 +20,18 @@
 #include <algorithm>
 #include <limits>
 #include <tuple>
+
+#define RPP_COLOR(INDEX) INDEX, WretchedCss::ValueTypes::Color, std::decay <decltype(tup)>::type
+#define RPP_STRING(INDEX) INDEX, WretchedCss::ValueTypes::StringValue, std::decay <decltype(tup)>::type
+#define RPP_SIZE(INDEX) INDEX, WretchedCss::ValueTypes::NumericValue, std::decay <decltype(tup)>::type
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
 //---------------------------------------------------------------------------
 	Table::Table(Section* parentSection)
 		: Element{parentSection}
+		, styleGrid_{}
+		, borderColor_{clBlack}
 	{
     	auto* parent = parentSection->getLayout()->getControl();
 
@@ -40,7 +47,7 @@ namespace WikiElements
 		// control_->Height = 10;
 
 		// Style
-		// control_->Color = clWhite;
+		//control_->SelectedColor = clRed;
 		control_->DrawingStyle = gdsClassic;
 		//control_->GridLineWidth = 0;
 
@@ -58,6 +65,7 @@ namespace WikiElements
 			<< goColSizing
 			<< goEditing
 			<< goAlwaysShowEditor
+            // << goDrawFocusSelected
 		;
 
 		resize(4, 4, false);
@@ -86,7 +94,7 @@ namespace WikiElements
 				++colc;
 			}
 			++rowc;
-        }
+		}
 	}
 //---------------------------------------------------------------------------
 	void Table::setViewCellText(std::size_t row, std::size_t column, std::string const& text, bool updateModel)
@@ -106,14 +114,14 @@ namespace WikiElements
 		if (control_->ColCount - 1 <= column)
 			throw std::invalid_argument("view table is smaler than given row index");
 
-		control_->Cells[row + 1][column + 1] = text.c_str();
+		control_->Cells[column + 1][row + 1] = text.c_str();
 	}
 //---------------------------------------------------------------------------
 	void Table::populateStyleGrid()
 	{
 		for (std::size_t row = 0u; row != data_.rows.size(); ++row)
-			for (std::size_t col = 0u; col != data_.rows[row].cells.size() ++ col)
-				gatherStyles(column, row);
+			for (std::size_t col = 0u; col != data_.rows[row].cells.size(); ++col)
+				gatherStyles(col, row);
     }
 //---------------------------------------------------------------------------
 	WretchedCss::StyleSheet Table::gatherStyles(std::size_t column, std::size_t row)
@@ -158,6 +166,15 @@ namespace WikiElements
 
 		auto& cssParser = WretchedCssLibrary::getInstance();
 
+		// body
+		{
+			auto optBody = parsedStyle_.select(cssParser.selectorToJson("body"));
+			if (optBody)
+			{
+				filteredSheet.addStyle(optBody.get());
+			}
+		}
+
 		if (tableClass)
 		{
 			auto tableClass2 = sheet.select(cssParser.selectorToJson(std::string(".") + tableClass.get()));
@@ -186,7 +203,60 @@ namespace WikiElements
 				).select(cssParser.selectorToJson(".cellStyle")).get()
 			);
 
-		ShowMessage(filteredSheet.toString().c_str());
+		TColor brushColor = clWhite;
+		TColor fontColor = clBlack;
+
+
+		auto readCellStyle = [&](){
+			auto hierarchy = StyleHierarchy{};
+			hierarchy
+				<< "body"
+				<< ".table"
+				<< ".tableStyle"
+				<< ".rowStyle"
+				<< ".cellStyle"
+			;
+
+			//ShowMessage(styleGrid_[ARow - 1][ACol - 1].toString().c_str());
+
+			std::tuple <TColor, TColor, TColor, TColor, std::string, std::string, int, int> tup;
+
+			ShowMessage(filteredSheet.toString().c_str());
+
+			readStyles(
+				&tup,
+                filteredSheet,
+				hierarchy,
+				{
+					readColorProperty <RPP_COLOR(0)> ("background-color"),
+					readColorProperty <RPP_COLOR(1)> ("header-background"),
+					readColorProperty <RPP_COLOR(2)> ("font-color"),
+					readColorProperty <RPP_COLOR(3)> ("header-font-color"),
+					readStringProperty <RPP_STRING(4)> ("font-weight"),
+					readStringProperty <RPP_STRING(5)> ("header-font-weight"),
+					readSizeProperty <RPP_SIZE(6)> ("font-size"),
+					readSizeProperty <RPP_SIZE(7)> ("header-font-size")
+				}
+			);
+
+			auto& style = styleGrid_[row][column];
+
+			style = {};
+			style.background = std::get <0> (tup);
+			style.highlightBackground = std::get <1> (tup);
+			style.fontColor = std::get <2> (tup);
+			style.highlightFontColor = std::get <3> (tup);
+			if (std::get <4> (tup) == "bold")
+				style.fontWeight = TableStyling::FontWeight::Bold;
+			if (std::get <5> (tup) == "bold")
+				style.highlightFontWeight = TableStyling::FontWeight::Bold;
+			style.fontSize = std::get <6> (tup);
+			style.highlightFontSize = std::get <7> (tup);
+
+		};
+		readCellStyle();
+
+		// styleGrid_[row][column] = filteredSheet;
 
 		return filteredSheet;
 	}
@@ -230,6 +300,9 @@ namespace WikiElements
 			return true;
 		};
 
+		//auto oldHeight = data_.rows.size();
+		//auto oldWidth = data_
+
 		if (safeMode && !safetyCheck(true))
 			return false;
 
@@ -240,12 +313,17 @@ namespace WikiElements
 
 		// resize view
 		control_->RowCount = data_.rows.size() + 1;
-		control_->ColCount = data_.rows[0].cells.size() + 2;
+		control_->ColCount = data_.rows[0].cells.size() + 1;
 
         // resize style grid
 		styleGrid_.resize(height);
 		for (auto& row : styleGrid_)
-			styleGrid_.resize(width);
+			row.resize(width);
+
+		updateRowHeights();
+		updateColumnWidths();
+
+        populateStyleGrid();
 
 		return true;
 	}
@@ -271,10 +349,12 @@ namespace WikiElements
 			control_->RowHeights[y] = maxHeight + 10;
 		}
 		control_->Height = 15;
-		for (int y = control_->FixedRows; y != control_->RowCount; ++y)
+		for (int y = 1; y != control_->RowCount; ++y)
 		{
+			int a = control_->RowHeights[y];
 			control_->Height += control_->RowHeights[y];
-        }
+		}
+		int h = control_->Height;
 	}
 //---------------------------------------------------------------------------
 	void Table::updateColumnWidths()
@@ -286,7 +366,7 @@ namespace WikiElements
 	{
 		updateRowHeights();
 		updateColumnWidths();
-        parentSection_->realign();
+		parentSection_->causePageRealign();
     }
 //---------------------------------------------------------------------------
 	void Table::resizeRow(WikiMarkup::Components::TableRow& row, std::size_t width)
@@ -309,22 +389,37 @@ namespace WikiElements
 		return {widthMin, widthMax};
     }
 //---------------------------------------------------------------------------
-	void Table::styleChanged(WretchedCss::StyleSheet const& style)
+	void Table::styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign)
 	{
     	auto hierarchy = StyleHierarchy{};
 		hierarchy << "body"
 				  << ".table"
 		;
 
+        std::tuple <TColor> tup;
+
+		readStyles(
+			&tup,
+			style,
+			hierarchy,
+			{
+				readColorProperty <RPP_COLOR(0)> ("border-color")
+			}
+		);
+
+		std::tie (borderColor_) = tup;
+
 		readStyles(
 			&*control_,
 			style,
 			hierarchy,
 			{
-				//readFontStyles <control_type>,
-				//readBackgroundStyles <control_type>
+				readFontStyles <control_type>
 			}
 		);
+
+		if (!delayRealign)
+			parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall Table::onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State)
@@ -336,11 +431,33 @@ namespace WikiElements
 		cellRect.Left -= 5;
 		cellRect.Bottom += 1;
 
-		control_->Canvas->Brush->Color = clGray;
+		auto* cell_ = &data_.rows[ARow - 1].cells[ACol - 1];
+
+		auto& style = styleGrid_[ARow - 1][ACol - 1];
+
+		control_->Canvas->Font->Style = TFontStyles();
+		if (cell_->isHeaderCell)
+		{
+			control_->Canvas->Brush->Color = style.highlightBackground;
+			control_->Canvas->Font->Color = style.highlightFontColor;
+			control_->Canvas->Font->Size = style.highlightFontSize;
+			if (style.highlightFontWeight == TableStyling::FontWeight::Bold)
+				control_->Canvas->Font->Style = TFontStyles() << fsBold;
+		}
+		else
+		{
+			control_->Canvas->Brush->Color = style.background;
+			control_->Canvas->Font->Color = style.fontColor;
+			control_->Canvas->Font->Size = style.fontSize;
+			if (style.fontWeight == TableStyling::FontWeight::Bold)
+				control_->Canvas->Font->Style = TFontStyles() << fsBold;
+		}
+
+		//control_->Canvas->Brush->Color = brushColor;
 		control_->Canvas->FillRect(cellRect);
 
 		// Grid Lines
-		control_->Canvas->Pen->Color = clBlack;
+		control_->Canvas->Pen->Color = borderColor_;
 
 		// Grid Lines - Horizontal
 		control_->Canvas->MoveTo(cellRect.Left, cellRect.Top);
@@ -379,7 +496,7 @@ namespace WikiElements
 				lineCountMax = lineCount;
 		}
 
-		updateRowHeights();
+		updateSizes();
 
 
 		/*
@@ -406,13 +523,16 @@ namespace WikiElements
 	void __fastcall Table::onSelectCell(TObject *Sender, int ACol, int ARow, bool &CanSelect)
 	{
 		updateRowHeights();
-        CanSelect = true;
+		CanSelect = true;
+
+		// Update Options Frame:
+		static_cast <TTableOptionsFrame*> (getOptionsFrame())->setCell(&data_.rows[ARow - 1].cells[ACol - 1]);
     }
 //---------------------------------------------------------------------------
 	void Table::initializeOptionsFrame()
 	{
 		optionsFrame_.reset(new TTableOptionsFrame(nullptr));
-        static_cast <TTableOptionsFrame*> (&*optionsFrame_)->setOwner(this);
+        static_cast <TTableOptionsFrame*> (getOptionsFrame())->setOwner(this);
 	}
 //---------------------------------------------------------------------------
 	void Table::initializeStyleOptionsFrame()
@@ -422,4 +542,5 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 }
 //---------------------------------------------------------------------------
+#undef RPP_COLOR
 #pragma package(smart_init)

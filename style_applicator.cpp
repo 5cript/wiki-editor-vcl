@@ -37,15 +37,15 @@ StyleHierarchy::~StyleHierarchy()
 //###########################################################################
 boost::optional <unsigned int> extractSize(
 	WretchedCss::StyleSheet const& style,
-	WretchedCss::Property const* property
+	boost::optional <WretchedCss::Property> const& property
 )
 {
-    if (property != nullptr && !property->values.empty())
+	if (property && !property.get().values.empty())
 	{
 		// 1em default
 		unsigned int size = /* style.getPxPerEm() */ 2;
 
-		auto* value = static_cast <WretchedCss::ValueTypes::NumericValue*> (property->values[0].get());
+		auto* value = static_cast <WretchedCss::ValueTypes::NumericValue*> (property.get().values[0].get());
 		if (value->unit == WretchedCss::ValueTypes::Unit::em)
 			size = style.getPxPerEm() * value->value;
 		else if (value->unit == WretchedCss::ValueTypes::Unit::px)
@@ -59,12 +59,12 @@ boost::optional <unsigned int> extractSize(
 //---------------------------------------------------------------------------
 boost::optional <WretchedCss::ValueTypes::Color> extractColor(
 	WretchedCss::StyleSheet const& style,
-	WretchedCss::Property const* property
+	boost::optional <WretchedCss::Property> const& property
 )
 {
-	if (property != nullptr && !property->values.empty())
+	if (property && !property.get().values.empty())
 	{
-		auto* value = static_cast <WretchedCss::ValueTypes::Color*> (property->values[0].get());
+		auto* value = static_cast <WretchedCss::ValueTypes::Color*> (property.get().values[0].get());
 		return {*value};
 	}
 	return boost::none;
@@ -72,12 +72,12 @@ boost::optional <WretchedCss::ValueTypes::Color> extractColor(
 //---------------------------------------------------------------------------
 boost::optional <std::string> extractString(
 	WretchedCss::StyleSheet const& style,
-	WretchedCss::Property const* property
+	boost::optional <WretchedCss::Property> const& property
 )
 {
-	if (property != nullptr && !property->values.empty())
+	if (property && !property.get().values.empty())
 	{
-		auto* value = static_cast <WretchedCss::ValueTypes::StringValue*> (property->values[0].get());
+		auto* value = static_cast <WretchedCss::ValueTypes::StringValue*> (property.get().values[0].get());
 		return {value->value};
 	}
 	return boost::none;

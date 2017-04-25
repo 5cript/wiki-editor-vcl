@@ -21,7 +21,7 @@ namespace WikiElements
 		DropTarget(Section* parentSection);
 
 	protected:
-		void styleChanged(WretchedCss::StyleSheet const& style) override;
+		void styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign) override;
     };
 }
 //---------------------------------------------------------------------------

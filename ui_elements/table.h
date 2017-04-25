@@ -4,6 +4,8 @@
 #include "../element.h"
 #include "../section.h"
 
+#include "table/style_container.h"
+
 #include "wretched-css/style_sheet.hpp"
 
 // Model / Data
@@ -43,7 +45,7 @@ namespace WikiElements
 		void writeModelToUserInterface() override;
 
 	protected: // wimu events
-		void styleChanged(WretchedCss::StyleSheet const& style) override;
+		void styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign) override;
 
 	private: // vcl events
 		void __fastcall onDrawCell(TObject *Sender, int ACol, int ARow, TRect const &Rect, TGridDrawState State);
@@ -91,13 +93,33 @@ namespace WikiElements
 		 */
 		void setViewCellText(std::size_t row, std::size_t column, std::string const& text, bool updateModel = false);
 
+		/**
+		 *  Update the table row heights.
+		 *	This should be done after text, table size or style changes.
+		 */
 		void updateRowHeights();
+
+		/**
+		 *  Update the table column widths.
+		 *	This should be done after text, table size or style changes.
+		 */
 		void updateColumnWidths();
+
+		/**
+		 *  Updates both height and width and realigns the table withing the section.
+		 *	This should be done after text, table size or style changes.
+		 */
 		void updateSizes();
 
+		/**
+		 *
+		 */
+		void TransformCellStyle(TColor* background, TColor* textColor);
+
 	private: // members
-    	std::vector <std::vector <WretchedCss::StyleSheet> > styleGrid_;
-    };
+		std::vector <std::vector <TableStyling::Style> > styleGrid_; // row major
+		TColor borderColor_;
+	};
 
 }
 //---------------------------------------------------------------------------

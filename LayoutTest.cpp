@@ -21,3 +21,20 @@ void __fastcall TTestForm::StringGrid1ColumnMoved(TObject *Sender, int FromIndex
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TTestForm::StringGrid1RowMoved(TObject *Sender, int FromIndex, int ToIndex)
+
+{
+	ShowMessage("Move2");
+}
+//---------------------------------------------------------------------------
+
+
+void __fastcall TTestForm::StringGrid1SelectCell(TObject *Sender, int ACol, int ARow,
+          bool &CanSelect)
+{
+	ShowMessage("Select");
+}
+//---------------------------------------------------------------------------
+
+
+

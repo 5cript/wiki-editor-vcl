@@ -211,6 +211,7 @@ private:
     WretchedCss::StyleSheet parsedStyle_;
 	std::function <void(WikiElements::BasicElement*)> selectionCallback_;
 	bool autoSelect_;
+	bool disableRealigns_;
 	mutable std::recursive_mutex sectionGuard_;
 	mutable std::atomic_bool dirty_;
 };

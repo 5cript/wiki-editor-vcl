@@ -13,7 +13,10 @@
 TTableOptionsFrame *TableOptionsFrame;
 //---------------------------------------------------------------------------
 __fastcall TTableOptionsFrame::TTableOptionsFrame(TComponent* Owner)
-	: TFrame(Owner)
+	: TFrame{Owner}
+	, owner_{nullptr}
+	, cell_{nullptr}
+	, selfReference_{nullptr}
 {
 }
 //---------------------------------------------------------------------------
@@ -40,13 +43,26 @@ void TTableOptionsFrame::translate()
 		return;
 	translated_ = true;
 
+	std::function <void(TMenuItem*)> translateMenuItem;
+	translateMenuItem = [this, &translateMenuItem](TMenuItem* item){
+		for (int i = 0; i < item->Count; ++i)
+		{
+			item->operator[](i)->Caption = ::translate(item->operator[](i)->Caption);
+			translateMenuItem(item->operator[](i));
+        }
+	};
+	translateMenuItem(ChangeStyleMenu->Items);
+
 	for (int i = 0; i != ControlCount; ++i)
 	{
 		TRANSLATE_OF_TYPE_I(i, this, TLabel, Caption);
 		TRANSLATE_OF_TYPE_I(i, this, TCheckBox, Caption);
+		TRANSLATE_OF_TYPE_I(i, this, TButton, Caption);
 	}
 
     translateStringList(TableAttributes->TitleCaptions);
+    translateStringList(CellAttributes->TitleCaptions);
+    translateStringList(RowAttributes->TitleCaptions);
 }
 //---------------------------------------------------------------------------
 void TTableOptionsFrame::setOwner(WikiElements::BasicElement* owner)
@@ -59,6 +75,15 @@ void TTableOptionsFrame::setOwner(WikiElements::BasicElement* owner)
 void TTableOptionsFrame::setSelfReference(TFrame** selfReference)
 {
 	selfReference_ = selfReference;
+}
+//---------------------------------------------------------------------------
+void TTableOptionsFrame::setCell(WikiMarkup::Components::TableCell* cell)
+{
+	cell_ = cell;
+	if (cell_)
+	{
+		HeaderCellChecker->Checked = cell_->isHeaderCell;
+    }
 }
 //---------------------------------------------------------------------------
 void __fastcall TTableOptionsFrame::TableAttributesValidate(TObject *Sender, int ACol,
@@ -78,10 +103,59 @@ void __fastcall TTableOptionsFrame::TableAttributesValidate(TObject *Sender, int
 			auto iter = attr.find(key);
 			if (iter != std::end(attr))
 				attr.erase(iter);
-        }
+		}
 		else
 			owner_->getDataHandle()->attributes[key] = value;
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TTableOptionsFrame::CellAttributesValidate(TObject *Sender, int ACol,
+		  int ARow, const UnicodeString KeyName, const UnicodeString KeyValue)
+{
+	if (!cell_)
+		return;
+
+	for (int i = 1; i != CellAttributes->RowCount; ++i)
+	{
+		std::string key = AnsiString(CellAttributes->Keys[i]).c_str();
+		std::string value = AnsiString(CellAttributes->Values[key.c_str()]).c_str();
+
+		if (key.empty())
+			continue;
+
+		if (value.empty())
+		{
+			auto& attr = cell_->attributes;
+			auto iter = attr.find(key);
+			if (iter != std::end(attr))
+				attr.erase(iter);
+		}
+	}
+}
+//---------------------------------------------------------------------------
+void __fastcall TTableOptionsFrame::HeaderCellCheckerClick(TObject *Sender)
+{
+	if (cell_)
+	{
+		cell_->isHeaderCell = HeaderCellChecker->Checked;
     }
+}
+//---------------------------------------------------------------------------
+void __fastcall TTableOptionsFrame::Button1Click(TObject *Sender)
+{
+	// ...
+}
+//---------------------------------------------------------------------------
+void __fastcall TTableOptionsFrame::Change1Click(TObject *Sender)
+{
+    // ...
+	ShowMessage("style");
+}
+//---------------------------------------------------------------------------
+void __fastcall TTableOptionsFrame::ChangeClass1Click(TObject *Sender)
+{
+	// ...
+	ShowMessage("class");
 }
 //---------------------------------------------------------------------------
 

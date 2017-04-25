@@ -4,15 +4,15 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
+USEFORM("ui_elements\frames\style_options.cpp", StyleOptionsFrame); /* TFrame: File Type */
+USEFORM("ui_elements\frames\horizontal_line_options.cpp", HorizontalLineOptionsFrame); /* TFrame: File Type */
 USEFORM("ui_elements\frames\header_options.cpp", HeaderOptionsFrame); /* TFrame: File Type */
 USEFORM("Settings.cpp", SettingsDialog);
-USEFORM("ui_elements\frames\horizontal_line_options.cpp", HorizontalLineOptionsFrame); /* TFrame: File Type */
-USEFORM("ui_elements\frames\text_options.cpp", TextOptionsFrame); /* TFrame: File Type */
 USEFORM("ui_elements\frames\table_options.cpp", TableOptionsFrame); /* TFrame: File Type */
-USEFORM("ui_elements\frames\style_options.cpp", StyleOptionsFrame); /* TFrame: File Type */
+USEFORM("ui_elements\frames\text_options.cpp", TextOptionsFrame); /* TFrame: File Type */
 USEFORM("Editor.cpp", MainEditor);
-USEFORM("BackupSettings.cpp", BackupSettingsDialog);
 USEFORM("About.cpp", AboutForm);
+USEFORM("BackupSettings.cpp", BackupSettingsDialog);
 USEFORM("LayoutTest.cpp", TestForm);
 //---------------------------------------------------------------------------
 int WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)

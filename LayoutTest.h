@@ -29,6 +29,12 @@ __published:	// Von der IDE verwaltete Komponenten
 	TRichEdit *RichEdit3;
 	TStringGrid *StringGrid1;
 	void __fastcall StringGrid1ColumnMoved(TObject *Sender, int FromIndex, int ToIndex);
+	void __fastcall StringGrid1RowMoved(TObject *Sender, int FromIndex, int ToIndex);
+	void __fastcall StringGrid1SelectCell(TObject *Sender, int ACol, int ARow, bool &CanSelect);
+
+
+
+
 
 
 

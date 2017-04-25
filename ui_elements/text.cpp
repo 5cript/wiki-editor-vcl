@@ -32,7 +32,7 @@ namespace WikiElements
         control_->WantTabs = true;
 	}
 //---------------------------------------------------------------------------
-	void Text::styleChanged(WretchedCss::StyleSheet const& style)
+	void Text::styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign)
 	{
         parsedStyle_ = style;
 
@@ -52,7 +52,9 @@ namespace WikiElements
 		);
 
 		control_->Height = (control_->Lines->Count + 1) * (control_->Font->Size + 5);
-		parentSection_->causePageRealign();
+
+		if (!delayRealign)
+			parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 	void Text::writeModelToUserInterface()

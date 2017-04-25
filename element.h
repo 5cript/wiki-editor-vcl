@@ -7,6 +7,9 @@
 #include "layout.h"
 #include "basic_element.h"
 
+// delete me
+#include "debug.h"
+
 #include "wretched-css/style_sheet.hpp"
 
 #include <Vcl.Dialogs.hpp>
@@ -44,13 +47,13 @@ namespace WikiElements
 		{
         }
 
-		void setStyle(WretchedCss::StyleSheet const& style)
+		void setStyle(WretchedCss::StyleSheet const& style, bool delayRealign = false)
 		{
 			parsedStyle_ = style;
-            styleChanged(parsedStyle_);
+            styleChanged(parsedStyle_, delayRealign);
         }
 
-		virtual bool redraw()
+		virtual bool redraw(bool delayRealign = false)
 		{
 			static bool entered = false;
 
@@ -76,7 +79,7 @@ namespace WikiElements
 
 			if (!parsedStyle_.empty())
 			{
-				styleChanged(parsedStyle_);
+				styleChanged(parsedStyle_, delayRealign);
 				return false;
 			}
 			return true;
@@ -94,6 +97,7 @@ namespace WikiElements
 
 		long getHeight() const
 		{
+			//DebugOut(std::string{typeid(*this).name()} + "->Height = " + std::to_string(control_->Height));
 			return control_->Height;
 		}
 
@@ -165,10 +169,10 @@ namespace WikiElements
 			return &data_;
 		}
 
-		virtual void setData(DataElement const& data)
+		virtual void setData(DataElement const& data, bool delayRealign = false)
 		{
 			data_ = data;
-			redraw();
+			redraw(delayRealign);
 		}
 
 		BoundingBox getRenderedBox() const
@@ -190,7 +194,7 @@ namespace WikiElements
 
 	protected:
 
-		virtual void styleChanged(WretchedCss::StyleSheet const& style) = 0;
+		virtual void styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign = false) = 0;
 
 		void __fastcall onDragOver(TObject *Sender, TObject *Source, int X, int Y, TDragState State, bool &Accept)
 		{

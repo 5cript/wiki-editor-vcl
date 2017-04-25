@@ -262,6 +262,22 @@ object TestForm: TTestForm
     Top = 296
     Width = 425
     Height = 169
+    Options = [goFixedVertLine, goFixedHorzLine, goHorzLine, goRangeSelect, goRowSizing, goColSizing]
     TabOrder = 4
+    OnColumnMoved = StringGrid1ColumnMoved
+    OnRowMoved = StringGrid1RowMoved
+    OnSelectCell = StringGrid1SelectCell
+    ColWidths = (
+      64
+      64
+      64
+      64
+      64)
+    RowHeights = (
+      24
+      24
+      24
+      24
+      24)
   end
 end

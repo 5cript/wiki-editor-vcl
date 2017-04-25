@@ -19,6 +19,7 @@
 #include <vector>
 #include <string>
 #include <functional>
+#include <tuple>
 //---------------------------------------------------------------------------
 class StyleHierarchy
 {
@@ -43,17 +44,17 @@ private:
 //---------------------------------------------------------------------------
 boost::optional <unsigned int> extractSize(
 	WretchedCss::StyleSheet const& style,
-	WretchedCss::Property const* property
+	boost::optional <WretchedCss::Property> const& property
 );
 //---------------------------------------------------------------------------
 boost::optional <std::string> extractString(
 	WretchedCss::StyleSheet const& style,
-	WretchedCss::Property const* property
+	boost::optional <WretchedCss::Property> const& property
 );
 //---------------------------------------------------------------------------
 boost::optional <WretchedCss::ValueTypes::Color> extractColor(
 	WretchedCss::StyleSheet const& style,
-	WretchedCss::Property const* property
+	boost::optional <WretchedCss::Property> const& property
 );
 //---------------------------------------------------------------------------
 WretchedCss::Style constructCascade(
@@ -67,21 +68,35 @@ void readStyles(T* control,
 				StyleHierarchy const& hierarchy,
 				std::vector <std::function <void (T*,
 												  WretchedCss::StyleSheet const&,
-												  StyleHierarchy const&)>> const& functions
+												  WretchedCss::Rule const&)>> const& functions
 )
 {
+	auto rule = constructCascade(sheet, hierarchy).getCombined();
 	for (auto const& f : functions)
 	{
-        f(control, sheet, hierarchy);
+		f(control, sheet, rule);
+    }
+}
+//---------------------------------------------------------------------------
+template <typename... List>
+void readStyles(std::tuple <List...>* properties,
+				WretchedCss::StyleSheet const& sheet,
+				StyleHierarchy const& hierarchy,
+				std::vector <std::function <void (std::tuple <List...>*,
+												  WretchedCss::StyleSheet const&,
+												  WretchedCss::Rule const&)>> const& functions
+)
+{
+	auto rule = constructCascade(sheet, hierarchy).getCombined();
+	for (auto const& f : functions)
+	{
+		f(properties, sheet, rule);
     }
 }
 //---------------------------------------------------------------------------
 template <typename T>
-void readFontStyles(T* control, WretchedCss::StyleSheet const& sheet, StyleHierarchy const& hierarchy)
+void readFontStyles(T* control, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule)
 {
-	// build style cascade from style hierarchy.
-	auto rule = constructCascade(sheet, hierarchy).getCombined();
-
 	auto fontFamily = extractString(sheet, rule["font-family"]);
 	if (fontFamily)
 	{
@@ -113,20 +128,16 @@ void readFontStyles(T* control, WretchedCss::StyleSheet const& sheet, StyleHiera
 }
 //---------------------------------------------------------------------------
 template <typename T>
-void readBackgroundStyles(T* control, WretchedCss::StyleSheet const& sheet, StyleHierarchy const& hierarchy)
+void readBackgroundStyles(T* control, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule)
 {
-	auto rule = constructCascade(sheet, hierarchy).getCombined();
-
 	auto backgroundColor = extractColor(sheet, rule["background-color"]);
 	if (backgroundColor)
 		control->Color = TColor(backgroundColor.get().toInt());
 }
 //---------------------------------------------------------------------------
 template <typename T>
-void readSizes(T* control, WretchedCss::StyleSheet const& sheet, StyleHierarchy const& hierarchy)
+void readSizes(T* control, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule)
 {
-	auto rule = constructCascade(sheet, hierarchy).getCombined();
-
 	auto height = extractSize(sheet, rule["height"]);
 	if (height)
 		control->Height = height.get();
@@ -134,5 +145,62 @@ void readSizes(T* control, WretchedCss::StyleSheet const& sheet, StyleHierarchy 
 	auto width = extractSize(sheet, rule["width"]);
 	if (width)
 		control->Width = width.get();
+}
+//---------------------------------------------------------------------------
+TColor colorCast(WretchedCss::ValueTypes::Color const& color)
+{
+    return (TColor)color.toInt();
+}
+//---------------------------------------------------------------------------
+std::string stringCast(WretchedCss::ValueTypes::StringValue const& str)
+{
+	return str.value;
+}
+//---------------------------------------------------------------------------
+double dimensionlessCast(WretchedCss::ValueTypes::DimensionlessValue const& dim)
+{
+    return dim.value;
+}
+//---------------------------------------------------------------------------
+template <int V, typename CssValueType, typename TupT>
+std::function <void (TupT*, WretchedCss::StyleSheet const&, WretchedCss::Rule const&)>
+	readColorProperty(std::string const& propertyName)
+{
+	return [=](TupT* properties, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule) {
+		auto prop = extractColor(sheet, rule[propertyName]);
+		if (prop)
+			std::get <V> (*properties) = colorCast(prop.get());
+	};
+}
+//---------------------------------------------------------------------------
+template <int V, typename CssValueType, typename TupT>
+std::function <void (TupT*, WretchedCss::StyleSheet const&, WretchedCss::Rule const&)>
+	readStringProperty(std::string const& propertyName)
+{
+	return [=](TupT* properties, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule) {
+		auto prop = extractString(sheet, rule[propertyName]);
+		if (prop)
+			std::get <V> (*properties) = prop.get();
+	};
+}
+//---------------------------------------------------------------------------
+template <int V, typename CssValueType, typename TupT>
+std::function <void (TupT*, WretchedCss::StyleSheet const&, WretchedCss::Rule const&)>
+	readSizeProperty(std::string const& propertyName)
+{
+	return [=](TupT* properties, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule) {
+		auto prop = extractSize(sheet, rule[propertyName]);
+		if (prop)
+			std::get <V> (*properties) = prop.get();
+	};
+}
+//---------------------------------------------------------------------------
+template <typename T>
+void readBorderColor(T* borderColor, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule)
+{
+	auto&& t = std::tie(borderColor);
+	readColorProperty <0, WretchedCss::ValueTypes::Color, typename std::decay <decltype(t)>::type> (
+		"border-color"
+	) (&t, sheet, rule);
 }
 //---------------------------------------------------------------------------

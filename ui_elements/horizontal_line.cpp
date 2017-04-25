@@ -42,7 +42,7 @@ namespace WikiElements
 		static_cast <TStyleOptionsFrame*> (&*styleOptionsFrame_)->setOwner(this);
 	}
 //---------------------------------------------------------------------------
-	void HorizontalLine::styleChanged(WretchedCss::StyleSheet const& style)
+	void HorizontalLine::styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign)
 	{
 		auto hierarchy = StyleHierarchy{};
 		hierarchy << "body"
@@ -58,6 +58,9 @@ namespace WikiElements
                 readSizes <control_type>
 			}
 		);
+
+		if (!delayRealign)
+			parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 }

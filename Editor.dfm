@@ -485,7 +485,6 @@ object MainEditor: TMainEditor
         Top = 0
         Width = 300
         Height = 529
-        BevelOuter = bvNone
         ColumnCollection = <
           item
             Value = 100.000000000000000000

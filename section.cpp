@@ -269,9 +269,9 @@ Section::children_list_type::iterator Section::findChild(WikiElements::BasicElem
 	return child;
 }
 //---------------------------------------------------------------------------
-void Section::adoptStyle(WikiElements::BasicElement* element)
+void Section::adoptStyle(WikiElements::BasicElement* element, bool delayRealign)
 {
-    element->setStyle(parent_->getStyle());
+    element->setStyle(parent_->getStyle(), delayRealign);
 }
 //---------------------------------------------------------------------------
 void Section::causePageRealign()

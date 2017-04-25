@@ -29,7 +29,7 @@ namespace WikiElements
 		virtual TFrame* getOptionsFrame() = 0;
 		virtual TFrame* getStyleOptionsFrame() = 0;
 		virtual void remove() = 0;
-		virtual void setStyle(WretchedCss::StyleSheet const& style) = 0;
+		virtual void setStyle(WretchedCss::StyleSheet const& style, bool delayRealign = false) = 0;
 	};
 }
 //---------------------------------------------------------------------------

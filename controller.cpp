@@ -12,6 +12,8 @@
 
 #include <Vcl.Dialogs.hpp>
 
+#include <boost/scope_exit.hpp>
+
 #include <string>
 #include <fstream>
 #include <cstdlib>
@@ -177,26 +179,33 @@ WikiElements::BasicElement* PageController::getElementUnderCursor()
 //---------------------------------------------------------------------------
 void PageController::realign()
 {
+	if (disableRealigns_)
+		return;
+
+	DebugOut("Controller Realign");
+
     std::lock_guard <std::recursive_mutex> guard {sectionGuard_};
 	int totalHeight = 0;
 
+	// first section size fix
 	for (auto& i : sections_)
-    	i.realign();
+		i.realign();
 
 	if (!sections_.empty())
-	{
 		sections_.front().realign(generalTopPadding);
-		totalHeight += sections_.front().getAccumulativeHeight();
-	}
 
+	// correct section tops
 	for (auto i = std::begin(sections_) + 1; i < std::end(sections_); ++i)
-	{
 		i->realign((i-1)->getBoundingBox().bottom);
-		totalHeight += i->getAccumulativeHeight();
-	}
 
-	viewport_->Height = totalHeight + 10;
-	viewport_->Realign();
+	// resize the viewport
+	{
+		for (auto i = std::begin(sections_); i < std::end(sections_); ++i)
+			totalHeight += i->getAccumulativeHeight();
+
+		viewport_->Height = totalHeight + 10;
+		viewport_->Realign();
+	}
 }
 //---------------------------------------------------------------------------
 ViewportContainer* PageController::getViewport() const
@@ -310,6 +319,12 @@ void PageController::load(std::string const& fileName)
 {
 	using namespace StarTape;
 
+	disableRealigns_ = true;
+
+	BOOST_SCOPE_EXIT(&disableRealigns_) {
+        disableRealigns_ = false;
+    } BOOST_SCOPE_EXIT_END
+
 	WikiPage page;
 	auto bundle = openInputFile <CompressionType::None> (fileName);
 	auto decompressed = loadArchive <InputTapeArchive> (archive(bundle));
@@ -336,6 +351,9 @@ void PageController::loadFromMarkup(std::string const& markup)
 		component = sections_.back().loadComponents(component, end);
 	}
 	clearDirtyFlag();
+
+	disableRealigns_ = false;
+	realign();
 }
 //---------------------------------------------------------------------------
 std::string PageController::toMarkup() const

@@ -25,7 +25,7 @@ namespace WikiElements
 		//control_->Width = parent->Width - leftSectionPadding - rightSectionPadding;
 	}
 //---------------------------------------------------------------------------
-	void DropTarget::styleChanged(WretchedCss::StyleSheet const& style)
+	void DropTarget::styleChanged(WretchedCss::StyleSheet const&, bool)
 	{
 	}
 //---------------------------------------------------------------------------

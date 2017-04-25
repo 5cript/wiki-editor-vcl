@@ -45,7 +45,7 @@ namespace WikiElements
 
 	}
 //---------------------------------------------------------------------------
-	void List::styleChanged(WretchedCss::StyleSheet const& style)
+	void List::styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign)
 	{
         parsedStyle_ = style;
 
@@ -65,7 +65,9 @@ namespace WikiElements
 		);
 
 		control_->Height = (control_->Lines->Count + 1) * (control_->Font->Size + 5);
-		parentSection_->causePageRealign();
+
+		if (!delayRealign)
+			parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall List::onTextChange(TObject* Sender)

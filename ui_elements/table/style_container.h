@@ -1,36 +1,32 @@
 //---------------------------------------------------------------------------
 #pragma once
 
+#include <Vcl.Graphics.hpp>
+
+#include <boost/optional.hpp>
+
 #include <cstdint>
 #include <string>
 #include <vector>
 //---------------------------------------------------------------------------
 namespace TableStyling
 {
-	using Color = uint32_t;
-
-	struct Font
+	enum class FontWeight : int
 	{
-		Color color;
-		int size;
-		std::string family;
+		Normal,
+		Bold
 	};
 
-	struct CellStyle
+	struct Style
 	{
-		Color background;
-		Font font;
-	};
-
-	class StyleGrid
-	{
-	private:
-		std::vector <std::vector <CellStyle>> data_;
-	};
-
-	struct TableStyleContainer
-	{
-
+		TColor background = clWhite;
+		TColor highlightBackground = clGray;
+		TColor fontColor = clBlack;
+		TColor highlightFontColor = clBlack;
+		FontWeight fontWeight = FontWeight::Normal;
+		FontWeight highlightFontWeight = FontWeight::Bold;
+		int fontSize = 9;
+		int highlightFontSize = 9;
 	};
 }
 //---------------------------------------------------------------------------

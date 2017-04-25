@@ -39,11 +39,12 @@ namespace WikiElements
 		void initializeOptionsFrame() override;
 
 	protected: // events
-		void styleChanged(WretchedCss::StyleSheet const& style) override;
+		void styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign) override;
 
 	private: // vcl events
 		void __fastcall onTextChange(TObject* Sender);
 		void __fastcall onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift);
+		void __fastcall onResize(TObject* Sender);
 
 	private:
 		std::unique_ptr <TEdit> textbox_;

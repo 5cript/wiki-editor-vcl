@@ -68,7 +68,8 @@ public:
 	long getMostBottom() const;
 
 	/**
-	 * 	Realigns all elements in this section
+	 * 	Realigns all elements in this section.
+	 *	Do NOT call from element, call causePageRealing() instead.
 	 */
 	void realign(long previousSectionEnd = 0);
 
@@ -79,9 +80,13 @@ public:
 
 	/**
 	 * 	Add an element to the section. It will be created in place and initialized.
+	 *
+	 *	@position The position to insert the element at. -1 = @end.
+	 *  @ignoreStyle Does the element adopt the style from the controller? (false = adopt)
+	 *  @delayRealign Do not realign page when adding element. Not necessary when loading pages.
 	 */
 	template <typename T>
-	T* addElement(int position = -1, bool ignoreStyle = false)
+	T* addElement(int position = -1, bool ignoreStyle = false, bool delayRealign = false)
 	{
 		auto* elem = new T(this);
 		try
@@ -92,7 +97,7 @@ public:
 				children_.insert(children_.begin() + position, std::unique_ptr <T> {elem});
 
 			if (!ignoreStyle)
-				adoptStyle(elem);
+				adoptStyle(elem, delayRealign);
 			synchronizeLayout();
 		}
 		catch (std::bad_alloc const& exc)
@@ -104,9 +109,9 @@ public:
 	}
 
 	template <typename T>
-	T* addElement(bool ignoreStyle)
+	T* addElement(bool ignoreStyle, bool delayRealign)
 	{
-        return addElement <T>(-1, ignoreStyle);
+        return addElement <T>(-1, ignoreStyle, delayRealign);
     }
 
 	/**
@@ -238,7 +243,7 @@ public:
 private:
 	children_list_type::iterator findChild(WikiElements::BasicElement* element);
 	void synchronizeLayout();
-    void adoptStyle(WikiElements::BasicElement* element);
+    void adoptStyle(WikiElements::BasicElement* element, bool delayRealign = false);
 
 private:
 	PageController* parent_;

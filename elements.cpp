@@ -47,13 +47,14 @@ WikiMarkup::Components::IExportableComponent* extractData(WikiElements::BasicEle
 void elementFactory(Section* section, WikiMarkup::Components::IExportableComponent* component)
 {
 	bool ignoreStyle = false;
+	bool delayRealign = true;
 
 #	define IDENTIFY(T, RES) \
 	{ \
 		auto* optData = tryIdentify <T> (component); \
 		if (optData != nullptr) \
 		{ \
-			section->addElement <RES>(ignoreStyle)->setData(*optData); \
+			section->addElement <RES>(ignoreStyle, delayRealign)->setData(*optData, delayRealign); \
 			return; \
 		} \
 	}

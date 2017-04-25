@@ -46,10 +46,11 @@ namespace WikiElements
 		//underline_->Hide();
 
 		// Events
-		textbox_->OnChange = this->onTextChange;
-		textbox_->OnKeyUp = this->onKeyUp;
+		textbox_->OnChange = onTextChange;
+		textbox_->OnKeyUp = onKeyUp;
 		textbox_->OnClick = onClick;
-        underline_->OnClick = onClick;
+		underline_->OnClick = onClick;
+        control_->OnResize = onResize;
 
 		// Positioning
 		textbox_->Left = 0;
@@ -61,6 +62,12 @@ namespace WikiElements
 		underline_->Width = textbox_->Width; // FIXME: get this dynamic.
 		underline_->Height = 1;
 	}
+//---------------------------------------------------------------------------
+	void __fastcall Header::onResize(TObject* Sender)
+	{
+		underline_->Width = control_->Width;
+		textbox_->Width = control_->Width - rightSectionPadding - leftSectionPadding;
+    }
 //---------------------------------------------------------------------------
 	void __fastcall Header::onTextChange(TObject* Sender)
 	{
@@ -116,7 +123,7 @@ namespace WikiElements
 		return data_.data;
     }
 //---------------------------------------------------------------------------
-	void Header::styleChanged(WretchedCss::StyleSheet const& style)
+	void Header::styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign)
 	{
 		auto hierarchy = StyleHierarchy{};
 		hierarchy << "body"
@@ -147,7 +154,8 @@ namespace WikiElements
 		else
 			underline_->Hide();
 
-		parentSection_->causePageRealign();
+		if (!delayRealign)
+			parentSection_->causePageRealign();
 	}
 //---------------------------------------------------------------------------
 	BoundingBox Header::getBoundingBox() const
