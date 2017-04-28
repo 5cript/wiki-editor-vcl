@@ -118,13 +118,28 @@ void readFontStyles(T* control, WretchedCss::StyleSheet const& sheet, WretchedCs
 	auto fontStyle = extractString(sheet, rule["font-style"]);
 	if (fontStyle)
 	{
-		if (fontWeight.get() == "italic")
+		if (fontStyle.get() == "italic")
 			control->Font->Style = control->Font->Style << fsItalic;
 	}
 
 	auto fontColor = extractColor(sheet, rule["color"]);
 	if (fontColor)
 		control->Font->Color = TColor(fontColor.get().toInt());
+}
+//---------------------------------------------------------------------------
+template <typename T>
+void readTextAlignment(T* control, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule)
+{
+	auto textAlign = extractString(sheet, rule["text-align"]);
+	if (textAlign)
+	{
+		if (textAlign.get() == "left")
+			control->Alignment = taLeftJustify;
+		if (textAlign.get() == "right")
+			control->Alignment = taRightJustify;
+		if (textAlign.get() == "center")
+			control->Alignment = taCenter;
+	}
 }
 //---------------------------------------------------------------------------
 template <typename T>
@@ -168,6 +183,7 @@ std::function <void (TupT*, WretchedCss::StyleSheet const&, WretchedCss::Rule co
 {
 	return [=](TupT* properties, WretchedCss::StyleSheet const& sheet, WretchedCss::Rule const& rule) {
 		auto prop = extractColor(sheet, rule[propertyName]);
+		const char* c = propertyName.c_str();
 		if (prop)
 			std::get <V> (*properties) = colorCast(prop.get());
 	};

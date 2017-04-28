@@ -431,7 +431,7 @@ object MainEditor: TMainEditor
     Width = 857
     Height = 666
     Align = alClient
-    Caption = 'Panel1'
+    Caption = 'Splittable'
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 560
@@ -532,23 +532,6 @@ object MainEditor: TMainEditor
       Align = alRight
       TabOrder = 1
       OnResize = PropertyControlPaneResize
-      object Log: TRichEdit
-        Left = 8
-        Top = 446
-        Width = 305
-        Height = 179
-        Font.Charset = ANSI_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        Lines.Strings = (
-          'Log')
-        ParentFont = False
-        ScrollBars = ssVertical
-        TabOrder = 0
-        Zoom = 100
-      end
       object StartComponentSelect: TBitBtn
         Left = 6
         Top = 8
@@ -663,15 +646,15 @@ object MainEditor: TMainEditor
         ParentBiDiMode = False
         ParentFont = False
         Spacing = 10
-        TabOrder = 1
+        TabOrder = 0
         OnClick = StartComponentSelectClick
       end
       object PropertyTabs: TTabControl
         Left = 6
         Top = 59
         Width = 307
-        Height = 381
-        TabOrder = 2
+        Height = 600
+        TabOrder = 1
         Tabs.Strings = (
           '$PTabsSpecific'
           '$PTabsStyleOpts')
@@ -681,7 +664,7 @@ object MainEditor: TMainEditor
           Left = 4
           Top = 24
           Width = 299
-          Height = 353
+          Height = 572
           Align = alClient
           TabOrder = 0
         end
@@ -689,7 +672,7 @@ object MainEditor: TMainEditor
           Left = 4
           Top = 24
           Width = 299
-          Height = 353
+          Height = 572
           Align = alClient
           TabOrder = 1
           Visible = False
@@ -746,6 +729,13 @@ object MainEditor: TMainEditor
       object oggleRenderMd1: TMenuItem
         Caption = '$ToggleRenderMu'
         OnClick = oggleRenderMd1Click
+      end
+      object N2: TMenuItem
+        Caption = '-'
+      end
+      object ShowLog1: TMenuItem
+        Caption = '$ShowLog'
+        OnClick = ShowLog1Click
       end
     end
     object AllSettings1: TMenuItem

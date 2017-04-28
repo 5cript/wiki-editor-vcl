@@ -29,7 +29,7 @@ Coordinates=259,221,48,36
 Coordinates=397,111,102,36
 
 []
-Coordinates=0,435,91,36
+Coordinates=16,77,40,36
 Visible=True
 
 [initLocals1]
@@ -52,9 +52,6 @@ Coordinates=65,77,57,58
 
 [Splitter1]
 Coordinates=0,233,62,36
-
-[Log]
-Coordinates=16,77,40,36
 
 [Panel7]
 Coordinates=284,365,54,58

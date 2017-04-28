@@ -43,9 +43,9 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <ILINK_AdditionalOptions>-lwiki-client-static -ldbghelp</ILINK_AdditionalOptions>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <IncludePath>..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
+        <IncludePath>ui_elements\styling\;..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1031</VerInfo_Locale>
-        <ILINK_LibraryPath>..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>ui_elements\styling\;..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
         <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib;VclSmp.lib</AllPackageLibs>
@@ -591,6 +591,12 @@
             <DependentOn>localization.h</DependentOn>
             <BuildOrder>174</BuildOrder>
         </CppCompile>
+        <CppCompile Include="Log.cpp">
+            <Form>LogWindow</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>Log.h</DependentOn>
+            <BuildOrder>255</BuildOrder>
+        </CppCompile>
         <PCHCompile Include="main.h">
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
@@ -650,6 +656,12 @@
             <DependentOn>singleton.h</DependentOn>
             <BuildOrder>203</BuildOrder>
         </CppCompile>
+        <CppCompile Include="StylePicker.cpp">
+            <Form>FrameStylePicker</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>StylePicker.h</DependentOn>
+            <BuildOrder>257</BuildOrder>
+        </CppCompile>
         <CppCompile Include="style_applicator.cpp">
             <DependentOn>style_applicator.h</DependentOn>
             <BuildOrder>163</BuildOrder>
@@ -665,6 +677,12 @@
         <CppCompile Include="syntax_patterns.cpp">
             <DependentOn>syntax_patterns.h</DependentOn>
             <BuildOrder>248</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TableResizeDialog.cpp">
+            <Form>ResizeDialog</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>TableResizeDialog.h</DependentOn>
+            <BuildOrder>256</BuildOrder>
         </CppCompile>
         <CppCompile Include="ui_elements\drop_target.cpp">
             <DependentOn>ui_elements\drop_target.h</DependentOn>
@@ -728,13 +746,15 @@
             <DependentOn>ui_elements\spacer.h</DependentOn>
             <BuildOrder>167</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\styling\style_container.cpp">
+            <BuildOrder>257</BuildOrder>
+        </CppCompile>
+        <None Include="ui_elements\styling\style_container.h">
+            <BuildOrder>258</BuildOrder>
+        </None>
         <CppCompile Include="ui_elements\table.cpp">
             <DependentOn>ui_elements\table.h</DependentOn>
             <BuildOrder>165</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="ui_elements\table\style_container.cpp">
-            <DependentOn>ui_elements\table\style_container.h</DependentOn>
-            <BuildOrder>245</BuildOrder>
         </CppCompile>
         <CppCompile Include="ui_elements\text.cpp">
             <DependentOn>ui_elements\text.h</DependentOn>
@@ -954,16 +974,19 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="ui_elements\frames\style_options.dfm"/>
-        <FormResources Include="ui_elements\frames\horizontal_line_options.dfm"/>
+        <FormResources Include="TableResizeDialog.dfm"/>
         <FormResources Include="ui_elements\frames\header_options.dfm"/>
+        <FormResources Include="ui_elements\frames\horizontal_line_options.dfm"/>
         <FormResources Include="Settings.dfm"/>
-        <FormResources Include="ui_elements\frames\table_options.dfm"/>
+        <FormResources Include="StylePicker.dfm"/>
         <FormResources Include="ui_elements\frames\text_options.dfm"/>
+        <FormResources Include="ui_elements\frames\style_options.dfm"/>
+        <FormResources Include="ui_elements\frames\table_options.dfm"/>
         <FormResources Include="Editor.dfm"/>
         <FormResources Include="About.dfm"/>
         <FormResources Include="BackupSettings.dfm"/>
         <FormResources Include="LayoutTest.dfm"/>
+        <FormResources Include="Log.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -1120,27 +1143,12 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -1491,12 +1499,27 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

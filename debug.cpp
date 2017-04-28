@@ -52,8 +52,8 @@ void DebugOut(std::string const& str)
 	std::cout << str;
 	if (Log)
 		Log->Lines->Add(str.c_str());
-	else
-		ShowMessage(str.c_str());
+	//else
+	//	ShowMessage(str.c_str());
 }
 //---------------------------------------------------------------------------
 void DebugOut(void* ptr)
@@ -63,8 +63,8 @@ void DebugOut(void* ptr)
 	std::cout << sstr.str();
 	if (Log)
 		Log->Lines->Add(sstr.str().c_str());
-	else
-		ShowMessage(sstr.str().c_str());
+	//else
+	//	ShowMessage(sstr.str().c_str());
 }
 //---------------------------------------------------------------------------
 void DebugOut(int integer)
@@ -72,16 +72,16 @@ void DebugOut(int integer)
 	std::cout << integer;
 	if (Log)
 		Log->Lines->Add(IntToStr(integer));
-	else
-		ShowMessage(IntToStr(integer));
+	//else
+	//	ShowMessage(IntToStr(integer));
 }
 //---------------------------------------------------------------------------
 void DebugOut(std::exception const& exc)
 {
 	if (Log)
 		Log->Lines->Add(std::string{exc.what()}.c_str());
-	else
-		ShowMessage(std::string{exc.what()}.c_str());
+	//else
+	//	ShowMessage(std::string{exc.what()}.c_str());
 	std::cout << exc.what();
 }
 //---------------------------------------------------------------------------

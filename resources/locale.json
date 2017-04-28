@@ -66,7 +66,20 @@
 					"$ContinueEditing": "Editieren fortfahren? (Oder Änderungen verwerfen!)",
 					"$View": "Ansicht",
 					"$PleaseWaitBlock": "Bitte Warten",
-					"$MarkupEditingWarning": "Hierbei können strukturelle Informationen verloren gehen, wollen sie fortfahren?"
+					"$MarkupEditingWarning": "Hierbei können strukturelle Informationen verloren gehen, wollen sie fortfahren?",
+					"$ShowLog": "Log Fenster Anzeigen",
+					"$SaveLog": "Log Datei Speichern",
+					"$ClearLog": "Log Löschen",
+					"$TableResizeLossWarning": "Diese Veränderung würde gefüllte Felder löschen - Fortfahren?",
+					"$FontColor": "Schriftfarbe",
+					"$Change": "Ändern",
+					"$Example": "Beispiel",
+					"$BoldFont": "Fett",
+					"$ItalicFont": "Kursiv",
+					"$BackgroundColor": "Hintergrundfarbe",
+					"$AlignLeft": "Links ausrichten",
+					"$AlignRight": "Rechts ausrichten",
+					"$AlignCenter": "Mittig ausrichten"
 				}
 			},
 			"en_US": {
@@ -134,7 +147,20 @@
 					"$ContinueEditing": "Continue editing? (Or discard changes!)",
 					"$View": "View",
 					"$PleaseWaitBlock": "Please Wait",
-					"$MarkupEditingWarning": "You may loose structural information in the process, do you want to continue?"
+					"$MarkupEditingWarning": "You may loose structural information in the process, do you want to continue?",
+					"$ShowLog": "Show Log Window",
+					"$SaveLog": "Save Log File",
+					"$ClearLog": "Clear Log",
+					"$TableResizeLossWarning": "This size change will delete non-empty cells - Continue?",
+					"$FontColor": "Font Color",
+					"$Change": "Change",
+					"$Example": "Example",
+					"$BoldFont": "Bold",
+					"$ItalicFont": "Italic",
+					"$BackgroundColor": "Background Color",
+					"$AlignLeft": "Align Left",
+					"$AlignRight": "Align Right",
+					"$AlignCenter": "Align Center"
 				}
 			}
 		}

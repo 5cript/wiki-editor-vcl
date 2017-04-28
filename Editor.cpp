@@ -7,6 +7,7 @@
 #include "About.h"
 #include "LayoutTest.h"
 #include "BackupSettings.h"
+#include "Log.h"
 
 #include "localization.h"
 #include "debug.h"
@@ -69,7 +70,21 @@ void __fastcall TMainEditor::FormResize(TObject *Sender)
 
 	MarkupView->Height = PageContainer->Height;
 
-    PropertyTabs->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
+	Panel1->Height = Height;
+	PropertyTabs->Top = StartComponentSelect->Top + StartComponentSelect->Height + 8;
+	PropertyTabs->Height = Panel1->Height - PropertyTabs->Top - 5;
+
+
+	CorrectFrameSize();
+}
+//---------------------------------------------------------------------------
+void TMainEditor::CorrectFrameSize()
+{
+	if (lastFrame_)
+	{
+		lastFrame_->Width = ElementSpecificOptions->Width;
+		lastFrame_->Height = ElementSpecificOptions->Height;
+	}
 }
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::FormCreate(TObject *Sender)
@@ -108,9 +123,6 @@ void __fastcall TMainEditor::FormCreate(TObject *Sender)
 		controller_.startSelectionMode([this](WikiElements::BasicElement* element){
 			SelectCallback(element);
 		});
-
-		// Logging
-		SetLog(Log);
 
 		// Cursor
 		Screen->Cursors[WikiEditorConstants::crosshairCursor] = LoadCursor(HInstance, L"Crosshair");
@@ -192,6 +204,7 @@ void __fastcall TMainEditor::SelectCallback(WikiElements::BasicElement* element,
 			}
 		}
 		lastFrame_ = frame;
+		CorrectFrameSize();
 	}
 	if (!autoSelect)
 		Screen->Cursor = crDefault;
@@ -268,7 +281,6 @@ void __fastcall TMainEditor::AppEventsMessage(tagMSG &Msg, bool &Handled)
 void __fastcall TMainEditor::PropertyControlPaneResize(TObject *Sender)
 {
 	PropertyTabs->Width = PropertyControlPane->Width - PropertyTabs->Left * 2;
-	Log->Width = PropertyControlPane->Width - Log->Left * 2;
 	StartComponentSelect->Width = PropertyControlPane->Width - StartComponentSelect->Left * 2;
 }
 //---------------------------------------------------------------------------
@@ -520,7 +532,13 @@ void __fastcall TMainEditor::MarkupViewChange(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TMainEditor::Splitter1Moved(TObject *Sender)
 {
-    FormResize(Sender);
+	CorrectFrameSize();
+}
+//---------------------------------------------------------------------------
+void __fastcall TMainEditor::ShowLog1Click(TObject *Sender)
+{
+	LogWindow->translate();
+    LogWindow->Show();
 }
 //---------------------------------------------------------------------------
 

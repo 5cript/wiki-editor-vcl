@@ -19,7 +19,7 @@ namespace StyleContainment
 
 	enum class TextAlign
 	{
-		Invalid,
+    	Invalid,
 		Left,
 		Center,
 		Right

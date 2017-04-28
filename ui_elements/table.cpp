@@ -74,6 +74,19 @@ namespace WikiElements
 		control_->RowHeights[0] = 8;
 	}
 //---------------------------------------------------------------------------
+	std::size_t Table::getRowCount() const
+	{
+		return data_.rows.size();
+	}
+//---------------------------------------------------------------------------
+	std::size_t Table::getColumnCount() const
+	{
+		if (data_.rows.empty())
+			return 0u;
+		else
+			return data_.rows[0].cells.size();
+    }
+//---------------------------------------------------------------------------
 	void Table::writeModelToUserInterface()
 	{
 		if (data_.rows.empty())
@@ -142,21 +155,15 @@ namespace WikiElements
 				return boost::none;
 		};
 
+		bool isHeaderCell = data_.rows[row].cells[column].isHeaderCell;
 		auto cellStyle = getOptional(data_.rows[row].cells[column].attributes, "style");
 		auto rowStyle = getOptional(data_.rows[row].attributes, "style");
 		auto tableStyle = getOptional(data_.attributes, "style");
 		auto tableClass = getOptional(data_.attributes, "class");
 
-		DebugOut(cellStyle);
-		DebugOut(rowStyle);
-		DebugOut(tableStyle);
-		DebugOut(tableClass);
-		DebugOut(data_.attributes);
-
 		using namespace WretchedCss;
 
         StyleParser extractor;
-		auto sheet = parsedStyle_;
 		StyleSheet filteredSheet;
 
 		auto augmentStyle = [](std::string const& selector, std::string const& content)
@@ -165,6 +172,8 @@ namespace WikiElements
 		};
 
 		auto& cssParser = WretchedCssLibrary::getInstance();
+
+		//ShowMessage(parsedStyle_.toString().c_str());
 
 		// body
 		{
@@ -177,7 +186,9 @@ namespace WikiElements
 
 		if (tableClass)
 		{
-			auto tableClass2 = sheet.select(cssParser.selectorToJson(std::string(".") + tableClass.get()));
+			auto s = std::string(".") + tableClass.get();
+			auto c = s.c_str();
+			auto tableClass2 = parsedStyle_.select(cssParser.selectorToJson(std::string(".") + tableClass.get()));
 			if (tableClass2)
 				filteredSheet.addStyle(tableClass2.get());
 		}
@@ -203,15 +214,17 @@ namespace WikiElements
 				).select(cssParser.selectorToJson(".cellStyle")).get()
 			);
 
-		TColor brushColor = clWhite;
-		TColor fontColor = clBlack;
-
-
 		auto readCellStyle = [&](){
 			auto hierarchy = StyleHierarchy{};
 			hierarchy
 				<< "body"
 				<< ".table"
+			;
+
+			if (tableClass)
+				hierarchy << (std::string{"."} + tableClass.get());
+
+			hierarchy
 				<< ".tableStyle"
 				<< ".rowStyle"
 				<< ".cellStyle"
@@ -219,9 +232,22 @@ namespace WikiElements
 
 			//ShowMessage(styleGrid_[ARow - 1][ACol - 1].toString().c_str());
 
-			std::tuple <TColor, TColor, TColor, TColor, std::string, std::string, int, int> tup;
+			std::tuple <TColor,
+						TColor,
+						TColor,
+						TColor,
+						std::string,
+						std::string,
+						std::string,
+						std::string,
+						int,
+						int,
+						std::string> tup;
 
-			ShowMessage(filteredSheet.toString().c_str());
+			std::get <0> (tup) = clWhite;
+			std::get <1> (tup) = clBlack;
+
+			//ShowMessage(filteredSheet.toString().c_str());
 
 			readStyles(
 				&tup,
@@ -229,13 +255,16 @@ namespace WikiElements
 				hierarchy,
 				{
 					readColorProperty <RPP_COLOR(0)> ("background-color"),
-					readColorProperty <RPP_COLOR(1)> ("header-background"),
-					readColorProperty <RPP_COLOR(2)> ("font-color"),
-					readColorProperty <RPP_COLOR(3)> ("header-font-color"),
+					readColorProperty <RPP_COLOR(1)> ("header-background-color"),
+					readColorProperty <RPP_COLOR(2)> ("color"),
+					readColorProperty <RPP_COLOR(3)> ("header-color"),
 					readStringProperty <RPP_STRING(4)> ("font-weight"),
 					readStringProperty <RPP_STRING(5)> ("header-font-weight"),
-					readSizeProperty <RPP_SIZE(6)> ("font-size"),
-					readSizeProperty <RPP_SIZE(7)> ("header-font-size")
+					readStringProperty <RPP_STRING(6)> ("font-style"),
+					readStringProperty <RPP_STRING(7)> ("header-font-style"),
+					readSizeProperty <RPP_SIZE(8)> ("font-size"),
+					readSizeProperty <RPP_SIZE(9)> ("header-font-size"),
+					readStringProperty <RPP_STRING(10)> ("text-align")
 				}
 			);
 
@@ -247,12 +276,22 @@ namespace WikiElements
 			style.fontColor = std::get <2> (tup);
 			style.highlightFontColor = std::get <3> (tup);
 			if (std::get <4> (tup) == "bold")
-				style.fontWeight = TableStyling::FontWeight::Bold;
+				style.fontWeight = StyleContainment::FontWeight::Bold;
 			if (std::get <5> (tup) == "bold")
-				style.highlightFontWeight = TableStyling::FontWeight::Bold;
-			style.fontSize = std::get <6> (tup);
-			style.highlightFontSize = std::get <7> (tup);
+				style.highlightFontWeight = StyleContainment::FontWeight::Bold;
+			if (std::get <6> (tup) == "italic")
+				style.fontStyle = StyleContainment::FontStyle::Italic;
+			if (std::get <7> (tup) == "italic")
+				style.highlightFontStyle = StyleContainment::FontStyle::Italic;
+			style.fontSize = std::get <8> (tup);
+			style.highlightFontSize = std::get <9> (tup);
 
+			if (std::get <10> (tup) == "left")
+				style.alignment = StyleContainment::TextAlign::Left;
+			else if (std::get <10> (tup) == "right")
+				style.alignment = StyleContainment::TextAlign::Right;
+			else if (std::get <10> (tup) == "center")
+				style.alignment = StyleContainment::TextAlign::Center;
 		};
 		readCellStyle();
 
@@ -441,16 +480,20 @@ namespace WikiElements
 			control_->Canvas->Brush->Color = style.highlightBackground;
 			control_->Canvas->Font->Color = style.highlightFontColor;
 			control_->Canvas->Font->Size = style.highlightFontSize;
-			if (style.highlightFontWeight == TableStyling::FontWeight::Bold)
+			if (style.highlightFontWeight == StyleContainment::FontWeight::Bold)
 				control_->Canvas->Font->Style = TFontStyles() << fsBold;
+			if (style.highlightFontStyle == StyleContainment::FontStyle::Italic)
+				control_->Canvas->Font->Style = TFontStyles() << fsItalic;
 		}
 		else
 		{
 			control_->Canvas->Brush->Color = style.background;
 			control_->Canvas->Font->Color = style.fontColor;
 			control_->Canvas->Font->Size = style.fontSize;
-			if (style.fontWeight == TableStyling::FontWeight::Bold)
+			if (style.fontWeight == StyleContainment::FontWeight::Bold)
 				control_->Canvas->Font->Style = TFontStyles() << fsBold;
+			if (style.fontStyle == StyleContainment::FontStyle::Italic)
+				control_->Canvas->Font->Style = TFontStyles() << fsItalic;
 		}
 
 		//control_->Canvas->Brush->Color = brushColor;
@@ -463,18 +506,35 @@ namespace WikiElements
 		control_->Canvas->MoveTo(cellRect.Left, cellRect.Top);
 		control_->Canvas->LineTo(cellRect.Right, cellRect.Top);
 
+		// the bottom needs to be drawn too, for the table to have borders.
+		control_->Canvas->MoveTo(cellRect.Left, cellRect.Bottom);
+		control_->Canvas->LineTo(cellRect.Right, cellRect.Bottom);
+
 		// Grid Lines - Vertical
 		control_->Canvas->MoveTo(cellRect.Left, cellRect.Top);
 		control_->Canvas->LineTo(cellRect.Left, cellRect.Bottom);
 
+		// the right one needs to be drawn too, for the table to have borders.
+		control_->Canvas->MoveTo(cellRect.Right, cellRect.Top);
+		control_->Canvas->LineTo(cellRect.Right, cellRect.Bottom);
+
 		auto textRect = Rect;
 		textRect.Top += 2;
+
+		unsigned long flags = 0;
+		if (style.alignment == StyleContainment::TextAlign::Left)
+			flags |= DT_LEFT;
+		else if (style.alignment == StyleContainment::TextAlign::Right)
+			flags |= DT_RIGHT;
+		else if (style.alignment == StyleContainment::TextAlign::Center)
+			flags |= DT_VCENTER;
+
 		DrawText(
 			control_->Canvas->Handle,
 			control_->Cells[ACol][ARow].c_str(),
 			-1,
 			&textRect,
-			DT_NOPREFIX | DT_WORDBREAK
+			DT_NOPREFIX | DT_WORDBREAK | flags
 		);
 	}
 //---------------------------------------------------------------------------
@@ -527,6 +587,10 @@ namespace WikiElements
 
 		// Update Options Frame:
 		static_cast <TTableOptionsFrame*> (getOptionsFrame())->setCell(&data_.rows[ARow - 1].cells[ACol - 1]);
+		static_cast <TTableOptionsFrame*> (getOptionsFrame())->setRow(&data_.rows[ARow - 1]);
+		static_cast <TTableOptionsFrame*> (getOptionsFrame())->setStyleContainer(
+			styleGrid_[ARow - 1][ACol - 1]
+		);
     }
 //---------------------------------------------------------------------------
 	void Table::initializeOptionsFrame()

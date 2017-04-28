@@ -51,7 +51,6 @@ __published:	// Von der IDE verwaltete Komponenten
 	TScrollBox *PageContainer;
 	TGridPanel *Viewport;
 	TPanel *PropertyControlPane;
-	TRichEdit *Log;
 	TBitBtn *StartComponentSelect;
 	TTabControl *PropertyTabs;
 	TSplitter *Splitter1;
@@ -86,6 +85,8 @@ __published:	// Von der IDE verwaltete Komponenten
 	TMenuItem *oggleRenderMd1;
 	TRichEdit *MarkupView;
 	TPanel *PleaseWaitBlock;
+	TMenuItem *N2;
+	TMenuItem *ShowLog1;
 	void __fastcall Exit1Click(TObject *Sender);
 	void __fastcall About1Click(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
@@ -119,11 +120,13 @@ __published:	// Von der IDE verwaltete Komponenten
 	void __fastcall oggleRenderMd1Click(TObject *Sender);
 	void __fastcall MarkupViewChange(TObject *Sender);
 	void __fastcall Splitter1Moved(TObject *Sender);
+	void __fastcall ShowLog1Click(TObject *Sender);
 
 
 private:	// Benutzer-Deklarationen
 	void LoadPage();
 	void TranslateWindow();
+    void CorrectFrameSize();
 
 	void __fastcall SelectCallback(WikiElements::BasicElement* element, bool autoSelect = false);
 

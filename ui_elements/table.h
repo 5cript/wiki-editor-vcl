@@ -4,7 +4,7 @@
 #include "../element.h"
 #include "../section.h"
 
-#include "table/style_container.h"
+#include "styling/style_container.h"
 
 #include "wretched-css/style_sheet.hpp"
 
@@ -42,6 +42,19 @@ namespace WikiElements
 		 */
 		bool resize(std::size_t height, std::size_t width, bool safeMode = false);
 
+		/**
+		 *  get table row count.
+		 */
+		std::size_t getRowCount() const;
+
+		/**
+		 * 	get table column count.
+		 */
+		std::size_t getColumnCount() const;
+
+		/**
+		 * 	Write table model to user interface.
+		 */
 		void writeModelToUserInterface() override;
 
 	protected: // wimu events
@@ -117,7 +130,7 @@ namespace WikiElements
 		void TransformCellStyle(TColor* background, TColor* textColor);
 
 	private: // members
-		std::vector <std::vector <TableStyling::Style> > styleGrid_; // row major
+		std::vector <std::vector <StyleContainment::Style> > styleGrid_; // row major
 		TColor borderColor_;
 	};
 
