@@ -257,27 +257,19 @@ object TestForm: TTestForm
     WantTabs = True
     Zoom = 100
   end
-  object StringGrid1: TStringGrid
-    Left = 152
-    Top = 296
-    Width = 425
-    Height = 169
-    Options = [goFixedVertLine, goFixedHorzLine, goHorzLine, goRangeSelect, goRowSizing, goColSizing]
+  object JvRichEdit1: TJvRichEdit
+    Left = 20
+    Top = 232
+    Width = 501
+    Height = 257
+    Font.Charset = ANSI_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    SelText = ''
     TabOrder = 4
-    OnColumnMoved = StringGrid1ColumnMoved
-    OnRowMoved = StringGrid1RowMoved
-    OnSelectCell = StringGrid1SelectCell
-    ColWidths = (
-      64
-      64
-      64
-      64
-      64)
-    RowHeights = (
-      24
-      24
-      24
-      24
-      24)
+    OnDragDrop = JvRichEdit1DragDrop
   end
 end

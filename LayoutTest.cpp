@@ -6,6 +6,11 @@
 #include "LayoutTest.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+#pragma link "JvEditor"
+#pragma link "JvEditorCommon"
+#pragma link "JvExControls"
+#pragma link "JvExStdCtrls"
+#pragma link "JvRichEdit"
 #pragma resource "*.dfm"
 TTestForm *TestForm;
 //---------------------------------------------------------------------------
@@ -27,14 +32,16 @@ void __fastcall TTestForm::StringGrid1RowMoved(TObject *Sender, int FromIndex, i
 	ShowMessage("Move2");
 }
 //---------------------------------------------------------------------------
-
-
 void __fastcall TTestForm::StringGrid1SelectCell(TObject *Sender, int ACol, int ARow,
-          bool &CanSelect)
+		  bool &CanSelect)
 {
 	ShowMessage("Select");
 }
 //---------------------------------------------------------------------------
-
-
+void __fastcall TTestForm::JvRichEdit1DragDrop(TObject *Sender, TObject *Source, int X,
+		  int Y)
+{
+	ShowMessage("Drop");
+}
+//---------------------------------------------------------------------------
 

@@ -43,12 +43,12 @@
     <PropertyGroup Condition="'$(Base)'!=''">
         <ILINK_AdditionalOptions>-lwiki-client-static -ldbghelp</ILINK_AdditionalOptions>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
-        <IncludePath>ui_elements\styling\;..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
+        <IncludePath>D:\JEDI\jvcl\include\D24\win32\;ui_elements\image\;ui_elements\styling\;..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\rest\;..\wiki-client\;../;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1031</VerInfo_Locale>
-        <ILINK_LibraryPath>ui_elements\styling\;..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_LibraryPath>D:\JEDI\jvcl\include\D24\win32\;ui_elements\image\;ui_elements\styling\;..\wiki-markup\components\table\;..\cairo-wrap\;..\interval-tree\;ui_elements\table\;..\star-tape\;..\star-tape\tape_io\;..\wiki-markup\components\list\;..\wiki-markup\components\;ui_elements\frames\;..\SimpleJSON\utility\tmp_util\;..\wretched-css\rule_set\rule\property\value\;..\wretched-css\rule_set\rule\property\;..\wretched-css\rule_set\rule\;ui_elements\;..\SimpleUtil\value_ptr\;stub\;..\dll\dll\;..\wiki-markup\;..\wiki-markup\components\exportable_components\;..\SimpleJSON\utility\;..\SimpleJSON\stringify\;..\SimpleJSON\parse\;..\wretched-css\;..\wretched-css\rule_set\;..\wretched-css\parser\;..\wiki-client\;..\wiki-client\rest\;D:\Development_IWS\wiki-project\wiki-client\bin\Debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <_TCHARMapping>wchar_t</_TCHARMapping>
-        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib;VclSmp.lib</AllPackageLibs>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclribbon.lib;vclimg.lib;vclx.lib;vclactnband.lib;xmlrtl.lib;VclSmp.lib;JvCore.lib;dbrtl.lib;JclVcl.lib;Jcl.lib;JvCustom.lib;JvSystem.lib;JvStdCtrls.lib</AllPackageLibs>
         <ProjectType>CppVCLApplication</ProjectType>
         <SanitizedProjectName>wiki-editor-vcl</SanitizedProjectName>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
@@ -96,13 +96,13 @@
         <ILINK_TranslatedLibraryPath>$(BDSLIB)\$(PLATFORM)\debug\$(LANGDIR);$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <LinkPackageStatics>vclribbon.lib</LinkPackageStatics>
+        <LinkPackageStatics>vclribbon.lib;JvCore.lib;JclVcl.lib;Jcl.lib;JvCustom.lib;JvSystem.lib;JvStdCtrls.lib</LinkPackageStatics>
         <BCC_UseClassicCompiler>false</BCC_UseClassicCompiler>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
-        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;VclSmp.bpi</LinkPackageImports>
+        <LinkPackageImports>rtl.bpi;vcl.bpi;vclimg.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;VclSmp.bpi;dbrtl.bpi</LinkPackageImports>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
@@ -738,6 +738,14 @@
             <DependentOn>ui_elements\horizontal_line.h</DependentOn>
             <BuildOrder>164</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\image.cpp">
+            <DependentOn>ui_elements\image.h</DependentOn>
+            <BuildOrder>259</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="ui_elements\image\image_attributes.cpp">
+            <DependentOn>ui_elements\image\image_attributes.h</DependentOn>
+            <BuildOrder>260</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\list.cpp">
             <DependentOn>ui_elements\list.h</DependentOn>
             <BuildOrder>246</BuildOrder>
@@ -974,18 +982,18 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="TableResizeDialog.dfm"/>
         <FormResources Include="ui_elements\frames\header_options.dfm"/>
-        <FormResources Include="ui_elements\frames\horizontal_line_options.dfm"/>
-        <FormResources Include="Settings.dfm"/>
-        <FormResources Include="StylePicker.dfm"/>
-        <FormResources Include="ui_elements\frames\text_options.dfm"/>
-        <FormResources Include="ui_elements\frames\style_options.dfm"/>
         <FormResources Include="ui_elements\frames\table_options.dfm"/>
-        <FormResources Include="Editor.dfm"/>
+        <FormResources Include="ui_elements\frames\text_options.dfm"/>
+        <FormResources Include="ui_elements\frames\horizontal_line_options.dfm"/>
+        <FormResources Include="ui_elements\frames\style_options.dfm"/>
+        <FormResources Include="StylePicker.dfm"/>
+        <FormResources Include="Settings.dfm"/>
+        <FormResources Include="TableResizeDialog.dfm"/>
+        <FormResources Include="LayoutTest.dfm"/>
         <FormResources Include="About.dfm"/>
         <FormResources Include="BackupSettings.dfm"/>
-        <FormResources Include="LayoutTest.dfm"/>
+        <FormResources Include="Editor.dfm"/>
         <FormResources Include="Log.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
@@ -1014,6 +1022,11 @@
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\JvCore240.bpl">JVCL Core Components Runtime Package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\JvSystem240.bpl">JVCL System Components Runtime Package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\JvStdCtrls240.bpl">JVCL Standard Controls Runtime Package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\JvControls240.bpl">JVCL Visual Controls Runtime Package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\JvDlgs240.bpl">JVCL Dialog Components Runtime Package</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder-Package für Office 2000-Server</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder-Package für Office XP-Server</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k240.bpl">Microsoft Office 2000 Beispiele für gekapselte Komponenten für Automatisierungsserver</Excluded_Packages>

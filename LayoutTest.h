@@ -10,6 +10,11 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Grids.hpp>
+#include "JvEditor.hpp"
+#include "JvEditorCommon.hpp"
+#include "JvExControls.hpp"
+#include "JvExStdCtrls.hpp"
+#include "JvRichEdit.hpp"
 //---------------------------------------------------------------------------
 class TTestForm : public TForm
 {
@@ -27,15 +32,11 @@ __published:	// Von der IDE verwaltete Komponenten
 	TEdit *Edit6;
 	TEdit *Edit7;
 	TRichEdit *RichEdit3;
-	TStringGrid *StringGrid1;
+	TJvRichEdit *JvRichEdit1;
 	void __fastcall StringGrid1ColumnMoved(TObject *Sender, int FromIndex, int ToIndex);
 	void __fastcall StringGrid1RowMoved(TObject *Sender, int FromIndex, int ToIndex);
 	void __fastcall StringGrid1SelectCell(TObject *Sender, int ACol, int ARow, bool &CanSelect);
-
-
-
-
-
+	void __fastcall JvRichEdit1DragDrop(TObject *Sender, TObject *Source, int X, int Y);
 
 
 private:	// Benutzer-Deklarationen

@@ -10,6 +10,7 @@
 #include "ui_elements/spacer.h"
 #include "ui_elements/table.h"
 #include "ui_elements/text.h"
+#include "ui_elements/image.h"
 
 #include <boost/optional.hpp>
 #include <string>
