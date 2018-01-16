@@ -7,6 +7,7 @@
 #include "text_options.h"
 #include "style_options.h"
 #include "table_options.h"
+#include "list_options.h"
 #include "horizontal_line_options.h"
 
 #include <utility>
@@ -29,7 +30,7 @@ struct __declspec(uuid("{5898CCAF-1EE4-4EB4-A785-48920E5E97A5}")) IOptionsFrame
 };
 //---------------------------------------------------------------------------
 #define FI_OPTION_FRAMES THeaderOptionsFrame, TTextOptionsFrame, TStyleOptionsFrame, \
-					  TTableOptionsFrame, THorizontalLineOptionsFrame
+					  TTableOptionsFrame, THorizontalLineOptionsFrame, TListOptionsFrame
 
 #define FI_INTERFACE_FUNCTIONS (translate)(setOwner)(populate)(setSelfReference)
 

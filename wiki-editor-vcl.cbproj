@@ -709,6 +709,13 @@
             <DependentOn>ui_elements\frames\horizontal_line_options.h</DependentOn>
             <BuildOrder>244</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ui_elements\frames\list_options.cpp">
+            <Form>ListOptionsFrame</Form>
+            <FormType>dfm</FormType>
+            <DesignClass>TFrame</DesignClass>
+            <DependentOn>ui_elements\frames\list_options.h</DependentOn>
+            <BuildOrder>267</BuildOrder>
+        </CppCompile>
         <CppCompile Include="ui_elements\frames\style_options.cpp">
             <Form>StyleOptionsFrame</Form>
             <FormType>dfm</FormType>
@@ -788,58 +795,76 @@
             <BuildOrder>0</BuildOrder>
         </CppCompile>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_comment.cpp">
-            <BuildOrder>102</BuildOrder>
+            <BuildOrder>243</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_comment.hpp">
-            <BuildOrder>14</BuildOrder>
+            <BuildOrder>244</BuildOrder>
         </None>
         <None Include="..\wiki-markup\components\exportable_components\exportable_component.hpp">
-            <BuildOrder>15</BuildOrder>
+            <BuildOrder>245</BuildOrder>
         </None>
         <None Include="..\wiki-markup\components\exportable_components\exportable_components.hpp">
-            <BuildOrder>200</BuildOrder>
+            <BuildOrder>246</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_header.cpp">
-            <BuildOrder>103</BuildOrder>
+            <BuildOrder>247</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_header.hpp">
-            <BuildOrder>16</BuildOrder>
+            <BuildOrder>248</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_horizontal_line.cpp">
-            <BuildOrder>104</BuildOrder>
+            <BuildOrder>249</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_horizontal_line.hpp">
-            <BuildOrder>17</BuildOrder>
+            <BuildOrder>250</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_html.cpp">
+            <BuildOrder>251</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_html.hpp">
+            <BuildOrder>252</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_image_region.cpp">
+            <BuildOrder>253</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_image_region.hpp">
+            <BuildOrder>254</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_link.cpp">
-            <BuildOrder>105</BuildOrder>
+            <BuildOrder>255</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_link.hpp">
-            <BuildOrder>18</BuildOrder>
+            <BuildOrder>256</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_list.cpp">
-            <BuildOrder>106</BuildOrder>
+            <BuildOrder>257</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_list.hpp">
-            <BuildOrder>19</BuildOrder>
+            <BuildOrder>258</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_preformatted_text.cpp">
-            <BuildOrder>107</BuildOrder>
+            <BuildOrder>259</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_preformatted_text.hpp">
-            <BuildOrder>20</BuildOrder>
+            <BuildOrder>260</BuildOrder>
+        </None>
+        <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_rich_text.cpp">
+            <BuildOrder>261</BuildOrder>
+        </CppCompile>
+        <None Include="..\wiki-markup\components\exportable_components\exportable_rich_text.hpp">
+            <BuildOrder>262</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_table.cpp">
-            <BuildOrder>108</BuildOrder>
+            <BuildOrder>263</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_table.hpp">
-            <BuildOrder>21</BuildOrder>
+            <BuildOrder>264</BuildOrder>
         </None>
         <CppCompile Include="..\wiki-markup\components\exportable_components\exportable_text.cpp">
-            <BuildOrder>109</BuildOrder>
+            <BuildOrder>265</BuildOrder>
         </CppCompile>
         <None Include="..\wiki-markup\components\exportable_components\exportable_text.hpp">
-            <BuildOrder>22</BuildOrder>
+            <BuildOrder>266</BuildOrder>
         </None>
         <None Include="..\wiki-markup\components\list\list_atomics.hpp">
             <BuildOrder>190</BuildOrder>
@@ -982,19 +1007,20 @@
         <None Include="..\wretched-css\style_sheet.hpp">
             <BuildOrder>121</BuildOrder>
         </None>
-        <FormResources Include="ui_elements\frames\header_options.dfm"/>
-        <FormResources Include="ui_elements\frames\table_options.dfm"/>
-        <FormResources Include="ui_elements\frames\text_options.dfm"/>
-        <FormResources Include="ui_elements\frames\horizontal_line_options.dfm"/>
         <FormResources Include="ui_elements\frames\style_options.dfm"/>
+        <FormResources Include="ui_elements\frames\table_options.dfm"/>
+        <FormResources Include="ui_elements\frames\header_options.dfm"/>
+        <FormResources Include="ui_elements\frames\horizontal_line_options.dfm"/>
+        <FormResources Include="ui_elements\frames\text_options.dfm"/>
+        <FormResources Include="TableResizeDialog.dfm"/>
+        <FormResources Include="Log.dfm"/>
+        <FormResources Include="LayoutTest.dfm"/>
+        <FormResources Include="Editor.dfm"/>
         <FormResources Include="StylePicker.dfm"/>
         <FormResources Include="Settings.dfm"/>
-        <FormResources Include="TableResizeDialog.dfm"/>
-        <FormResources Include="LayoutTest.dfm"/>
         <FormResources Include="About.dfm"/>
         <FormResources Include="BackupSettings.dfm"/>
-        <FormResources Include="Editor.dfm"/>
-        <FormResources Include="Log.dfm"/>
+        <FormResources Include="ui_elements\frames\list_options.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

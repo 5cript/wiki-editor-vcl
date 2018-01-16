@@ -12,6 +12,7 @@
 #include "ui_elements/horizontal_line.h"
 #include "ui_elements/table.h"
 #include "ui_elements/drop_target.h"
+#include "ui_elements/list.h"
 
 #include "wretched-css/style_sheet.hpp"
 

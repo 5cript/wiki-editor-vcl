@@ -9,4 +9,5 @@ namespace WikiElements
 	class Table;
 	class Text;
 	class DropTarget;
+	class List;
 }

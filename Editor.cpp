@@ -446,7 +446,7 @@ void __fastcall TMainEditor::ListEndDrag(TObject *Sender, TObject *Target, int X
 	try
 	{
 		auto dropTarget = controller_.endDragDrop();
-		controller_.addElement <WikiElements::Text> (dropTarget);
+		controller_.addElement <WikiElements::List> (dropTarget);
 	}
 	catch (std::exception const& exc)
 	{

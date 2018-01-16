@@ -5,14 +5,35 @@
 #include "list.h"
 
 #include "style_applicator.h"
-#include "frames/text_options.h"
+#include "frames/list_options.h"
 #include "frames/style_options.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 //---------------------------------------------------------------------------
 namespace WikiElements
 {
+//###########################################################################
+	void writeToUi(TRichEdit* edit, PrimalList* primal)
+	{
+		if (!primal) return;
+	}
 //---------------------------------------------------------------------------
+	void writeToUi(TRichEdit* edit, ListTextLine* textLine)
+	{
+		if (!textLine) return;
+
+        control_->Text += textLine->data;
+    }
+//---------------------------------------------------------------------------
+	void decideWrite(TRichEdit* edit, ListElement* element)
+	{
+		if (element)
+		{
+			writeToUi(edit, dynamic_cast <PrimalList*> (element));
+			writeToUi(edit, dynamic_cast <ListTextLine*> (element));
+        }
+    }
+//###########################################################################
 	List::List(Section* parentSection)
 		: Element{parentSection}
 	{
@@ -32,17 +53,19 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	void List::writeModelToUserInterface()
 	{
-
+		data_.list
 	}
 //---------------------------------------------------------------------------
 	void List::initializeOptionsFrame()
 	{
-
+    	optionsFrame_.reset(new TListOptionsFrame(nullptr));
+		static_cast <TListOptionsFrame*> (&*optionsFrame_)->setOwner(this);
 	}
 //---------------------------------------------------------------------------
 	void List::initializeStyleOptionsFrame()
 	{
-
+        styleOptionsFrame_.reset(new TStyleOptionsFrame(nullptr));
+		static_cast <TStyleOptionsFrame*> (&*styleOptionsFrame_)->setOwner(this);
 	}
 //---------------------------------------------------------------------------
 	void List::styleChanged(WretchedCss::StyleSheet const& style, bool delayRealign)
@@ -72,13 +95,30 @@ namespace WikiElements
 //---------------------------------------------------------------------------
 	void __fastcall List::onTextChange(TObject* Sender)
 	{
+    	auto previousHeight = control_->Height;
+		control_->Height = (control_->Lines->Count + 1) * (control_->Font->Size + 5);
 
+		if (previousHeight != control_->Height)
+		{
+			parentSection_->causePageRealign();
+		}
+
+        parentSection_->makeDirty();
+        //data_.data = UTF8String(control_->Text).c_str();
 	}
 //---------------------------------------------------------------------------
 	void __fastcall List::onKeyUp(TObject *Sender, WORD &Key, TShiftState Shift)
 	{
+		if (Key == vkReturn)
+		{
+        	auto selBackup = control_->SelStart;
 
+			control_->SelStart = 0;
+			control_->Perform(EM_SCROLLCARET, 0, 0);
+			//control_->SelStart = control_->Text.Length();
+			control_->SelStart = selBackup;
+        }
     }
-//---------------------------------------------------------------------------
+//###########################################################################
 }
 //---------------------------------------------------------------------------

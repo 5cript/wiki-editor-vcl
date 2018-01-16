@@ -90,9 +90,12 @@ namespace WikiElements
 		}
 		if (Key == vkReturn)
 		{
+        	auto selBackup = control_->SelStart;
+
 			control_->SelStart = 0;
 			control_->Perform(EM_SCROLLCARET, 0, 0);
-			control_->SelStart = control_->Text.Length();
+			//control_->SelStart = control_->Text.Length();
+			control_->SelStart = selBackup;
         }
 	}
 //---------------------------------------------------------------------------
